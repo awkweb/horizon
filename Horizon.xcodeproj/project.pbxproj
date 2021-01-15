@@ -7,12 +7,17 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E223E40125B13BC300CB197D /* AppStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = E223E40025B13BC300CB197D /* AppStore.swift */; };
+		E223E40925B13C4900CB197D /* ComposeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E223E40825B13C4900CB197D /* ComposeView.swift */; };
+		E223E41125B13E3500CB197D /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E223E41025B13E3500CB197D /* RootView.swift */; };
 		E231EFB425AFA838000ABB43 /* HorizonApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = E231EFB325AFA838000ABB43 /* HorizonApp.swift */; };
-		E231EFB625AFA838000ABB43 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E231EFB525AFA838000ABB43 /* ContentView.swift */; };
+		E231EFB625AFA838000ABB43 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E231EFB525AFA838000ABB43 /* LoginView.swift */; };
 		E231EFB825AFA838000ABB43 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E231EFB725AFA838000ABB43 /* Assets.xcassets */; };
 		E231EFBB25AFA838000ABB43 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E231EFBA25AFA838000ABB43 /* Preview Assets.xcassets */; };
 		E231EFC725AFA838000ABB43 /* HorizonTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E231EFC625AFA838000ABB43 /* HorizonTests.swift */; };
 		E231EFD225AFA838000ABB43 /* HorizonUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E231EFD125AFA838000ABB43 /* HorizonUITests.swift */; };
+		E27B6FC225B090A0008AD600 /* AuthUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = E27B6FC125B090A0008AD600 /* AuthUser.swift */; };
+		E27B6FCA25B090BF008AD600 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = E27B6FC925B090BF008AD600 /* User.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -33,9 +38,12 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		E223E40025B13BC300CB197D /* AppStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppStore.swift; sourceTree = "<group>"; };
+		E223E40825B13C4900CB197D /* ComposeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComposeView.swift; sourceTree = "<group>"; };
+		E223E41025B13E3500CB197D /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
 		E231EFB025AFA838000ABB43 /* Horizon.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Horizon.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E231EFB325AFA838000ABB43 /* HorizonApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HorizonApp.swift; sourceTree = "<group>"; };
-		E231EFB525AFA838000ABB43 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		E231EFB525AFA838000ABB43 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		E231EFB725AFA838000ABB43 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E231EFBA25AFA838000ABB43 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		E231EFBC25AFA838000ABB43 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -49,6 +57,8 @@
 		E231EFE325AFB8DC000ABB43 /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alamofire.framework; path = Carthage/Build/Mac/Alamofire.framework; sourceTree = "<group>"; };
 		E231EFF725AFBAD2000ABB43 /* Alamofire.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = Alamofire.framework.dSYM; path = Carthage/Build/Mac/Alamofire.framework.dSYM; sourceTree = "<group>"; };
 		E231F00025AFBB7D000ABB43 /* Mac */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Mac; path = Carthage/Build/Mac; sourceTree = "<group>"; };
+		E27B6FC125B090A0008AD600 /* AuthUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthUser.swift; sourceTree = "<group>"; };
+		E27B6FC925B090BF008AD600 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -76,6 +86,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		E223E3FF25B13B9B00CB197D /* Store */ = {
+			isa = PBXGroup;
+			children = (
+				E223E40025B13BC300CB197D /* AppStore.swift */,
+			);
+			path = Store;
+			sourceTree = "<group>";
+		};
 		E231EFA725AFA838000ABB43 = {
 			isa = PBXGroup;
 			children = (
@@ -101,7 +119,9 @@
 			isa = PBXGroup;
 			children = (
 				E231EFB325AFA838000ABB43 /* HorizonApp.swift */,
-				E231EFB525AFA838000ABB43 /* ContentView.swift */,
+				E27B6FC025B09089008AD600 /* Models */,
+				E27B6FBC25B0907E008AD600 /* Views */,
+				E223E3FF25B13B9B00CB197D /* Store */,
 				E231EFB725AFA838000ABB43 /* Assets.xcassets */,
 				E231EFBC25AFA838000ABB43 /* Info.plist */,
 				E231EFBD25AFA838000ABB43 /* Horizon.entitlements */,
@@ -144,6 +164,25 @@
 				E231EFE325AFB8DC000ABB43 /* Alamofire.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		E27B6FBC25B0907E008AD600 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				E231EFB525AFA838000ABB43 /* LoginView.swift */,
+				E223E40825B13C4900CB197D /* ComposeView.swift */,
+				E223E41025B13E3500CB197D /* RootView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		E27B6FC025B09089008AD600 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				E27B6FC125B090A0008AD600 /* AuthUser.swift */,
+				E27B6FC925B090BF008AD600 /* User.swift */,
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -275,7 +314,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E231EFB625AFA838000ABB43 /* ContentView.swift in Sources */,
+				E223E40125B13BC300CB197D /* AppStore.swift in Sources */,
+				E27B6FCA25B090BF008AD600 /* User.swift in Sources */,
+				E231EFB625AFA838000ABB43 /* LoginView.swift in Sources */,
+				E223E40925B13C4900CB197D /* ComposeView.swift in Sources */,
+				E223E41125B13E3500CB197D /* RootView.swift in Sources */,
+				E27B6FC225B090A0008AD600 /* AuthUser.swift in Sources */,
 				E231EFB425AFA838000ABB43 /* HorizonApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

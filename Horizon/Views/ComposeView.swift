@@ -1,42 +1,31 @@
-// By Tom Meagher on 1/13/21 at 17:14
+// By Tom Meagher on 1/14/21 at 21:58
 
 import SwiftUI
 
-struct AuthUser: Codable {
-    var token: String
-    
-    enum CodingKeys: String, CodingKey {
-        case token
-    }
-}
-
-struct ContentView: View {
-    @State private var email = ""
-    @State private var password = ""
+struct ComposeView: View {
+    @EnvironmentObject var store: AppStore
     @State private var networkActive = false
     
-    private func onClickLogin() {
+    private func onClickLogOut() {
         print("onClickLogin")
-        guard let url = URL(string: "https://futureland.tv/api/auth/login") else {
+        guard let url = URL(string: "https://futureland.tv/api/auth/logout") else {
             print("Invalid URL")
             return
         }
         
         networkActive = true
-        let json: [String: Any] = ["email": email, "password": password]
-        let jsonData = try? JSONSerialization.data(withJSONObject: json)
         
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
-        request.httpBody = jsonData
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         request.addValue("application/json", forHTTPHeaderField: "Accept")
+        request.addValue("token=\(store.authUser!.token)", forHTTPHeaderField: "Cookie")
         
         let session = URLSession.shared
         let task = session.dataTask(with: request) { data, response, error in
             if error != nil || data == nil {
                 print("Client error")
-                self.networkActive = false
+                networkActive = false
                 return
             }
             
@@ -46,38 +35,31 @@ struct ContentView: View {
                 if let responseJSON = responseJSON as? [String: Any] {
                     print(responseJSON)
                 }
-                self.networkActive = false
+                networkActive = false
                 return
             }
             
-            guard let mime = httpResponse.mimeType, mime == "application/json" else {
-                print("Wrong MIME type")
-                self.networkActive = false
-                return
+            DispatchQueue.main.async {
+                self.store.authUser = nil
             }
-            
-            let user = try! JSONDecoder().decode(AuthUser.self, from: data!)
-            print("token \(user.token)")
-            self.networkActive = false
         }
 
         task.resume()
     }
-    
+
     var body: some View {
         VStack {
-            Form {
-                TextField("Email", text: $email)
-                SecureField("Password", text: $password)
-                Button("Login", action: self.onClickLogin)
+            if (store.authUser != nil) {
+                Text("@\(store.authUser!.user.username)")
+                Button("Log out", action: self.onClickLogOut)
                     .disabled(networkActive)
             }
         }.padding()
     }
 }
 
-struct ContentView_Previews: PreviewProvider {
+struct ComposeView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView()
+        ComposeView()
     }
 }
