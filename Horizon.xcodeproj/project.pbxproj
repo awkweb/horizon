@@ -10,6 +10,7 @@
 		E223E40125B13BC300CB197D /* AppStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = E223E40025B13BC300CB197D /* AppStore.swift */; };
 		E223E40925B13C4900CB197D /* ComposeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E223E40825B13C4900CB197D /* ComposeView.swift */; };
 		E223E41125B13E3500CB197D /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E223E41025B13E3500CB197D /* RootView.swift */; };
+		E2296B9D25B26757005A7705 /* Futureland.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2296B9C25B26757005A7705 /* Futureland.swift */; };
 		E231EFB425AFA838000ABB43 /* HorizonApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = E231EFB325AFA838000ABB43 /* HorizonApp.swift */; };
 		E231EFB625AFA838000ABB43 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E231EFB525AFA838000ABB43 /* LoginView.swift */; };
 		E231EFB825AFA838000ABB43 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E231EFB725AFA838000ABB43 /* Assets.xcassets */; };
@@ -41,6 +42,7 @@
 		E223E40025B13BC300CB197D /* AppStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppStore.swift; sourceTree = "<group>"; };
 		E223E40825B13C4900CB197D /* ComposeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComposeView.swift; sourceTree = "<group>"; };
 		E223E41025B13E3500CB197D /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
+		E2296B9C25B26757005A7705 /* Futureland.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Futureland.swift; sourceTree = "<group>"; };
 		E231EFB025AFA838000ABB43 /* Horizon.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Horizon.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E231EFB325AFA838000ABB43 /* HorizonApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HorizonApp.swift; sourceTree = "<group>"; };
 		E231EFB525AFA838000ABB43 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
@@ -94,6 +96,14 @@
 			path = Store;
 			sourceTree = "<group>";
 		};
+		E2296B9B25B26741005A7705 /* Networking */ = {
+			isa = PBXGroup;
+			children = (
+				E2296B9C25B26757005A7705 /* Futureland.swift */,
+			);
+			path = Networking;
+			sourceTree = "<group>";
+		};
 		E231EFA725AFA838000ABB43 = {
 			isa = PBXGroup;
 			children = (
@@ -119,6 +129,7 @@
 			isa = PBXGroup;
 			children = (
 				E231EFB325AFA838000ABB43 /* HorizonApp.swift */,
+				E2296B9B25B26741005A7705 /* Networking */,
 				E27B6FC025B09089008AD600 /* Models */,
 				E27B6FBC25B0907E008AD600 /* Views */,
 				E223E3FF25B13B9B00CB197D /* Store */,
@@ -319,6 +330,7 @@
 				E231EFB625AFA838000ABB43 /* LoginView.swift in Sources */,
 				E223E40925B13C4900CB197D /* ComposeView.swift in Sources */,
 				E223E41125B13E3500CB197D /* RootView.swift in Sources */,
+				E2296B9D25B26757005A7705 /* Futureland.swift in Sources */,
 				E27B6FC225B090A0008AD600 /* AuthUser.swift in Sources */,
 				E231EFB425AFA838000ABB43 /* HorizonApp.swift in Sources */,
 			);

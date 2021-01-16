@@ -6,7 +6,7 @@ struct RootView: View {
     @EnvironmentObject var store: AppStore
     
     var body: some View {
-        if (store.authUser != nil) {
+        if (store.token != nil) {
             ComposeView()
         } else {
             LoginView()

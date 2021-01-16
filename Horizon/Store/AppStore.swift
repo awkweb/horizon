@@ -4,5 +4,18 @@ import Foundation
 import Combine
 
 final class AppStore: ObservableObject {
-    @Published var authUser: AuthUser?
+    @Published var token: String? {
+        didSet {
+            UserDefaults.standard.set(token, forKey: "Token")
+        }
+    }
+    
+    @Published var user: User?
+    
+    init() {
+        guard let token = UserDefaults.standard.string(forKey: "Token") else {
+            return
+        }
+        self.token = token
+    }
 }

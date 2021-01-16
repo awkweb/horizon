@@ -8,8 +8,8 @@ struct LoginView: View {
     @State private var password = ""
     @State private var networkActive = false
     
-    private func onClickLogin() {
-        print("onClickLogin")
+    private func login() {
+        print("login")
         guard let url = URL(string: "https://futureland.tv/api/auth/login") else {
             print("Invalid URL")
             return
@@ -51,7 +51,8 @@ struct LoginView: View {
             
             let authUser = try! JSONDecoder().decode(AuthUser.self, from: data!)
             DispatchQueue.main.async {
-                self.store.authUser = authUser
+                self.store.token = authUser.token
+                self.store.user = authUser.user
             }
         }
 
@@ -62,8 +63,10 @@ struct LoginView: View {
         VStack {
             Form {
                 TextField("Email", text: $email)
+                
                 SecureField("Password", text: $password)
-                Button("Login", action: self.onClickLogin)
+                
+                Button("Login", action: self.login)
                     .disabled(networkActive)
             }
         }.padding()
