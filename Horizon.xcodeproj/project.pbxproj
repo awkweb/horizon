@@ -19,6 +19,10 @@
 		E231EFD225AFA838000ABB43 /* HorizonUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E231EFD125AFA838000ABB43 /* HorizonUITests.swift */; };
 		E27B6FC225B090A0008AD600 /* AuthUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = E27B6FC125B090A0008AD600 /* AuthUser.swift */; };
 		E27B6FCA25B090BF008AD600 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = E27B6FC925B090BF008AD600 /* User.swift */; };
+		E2FE2B1B25B3474B0057A54E /* Agent.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2FE2B1A25B3474B0057A54E /* Agent.swift */; };
+		E2FE2B4B25B4B8E70057A54E /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2FE2B4A25B4B8E70057A54E /* LoginViewModel.swift */; };
+		E2FE2B5B25B4C8610057A54E /* ComposeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2FE2B5A25B4C8610057A54E /* ComposeViewModel.swift */; };
+		E2FE2B6825B4D1150057A54E /* Journal.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2FE2B6725B4D1150057A54E /* Journal.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -61,6 +65,10 @@
 		E231F00025AFBB7D000ABB43 /* Mac */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Mac; path = Carthage/Build/Mac; sourceTree = "<group>"; };
 		E27B6FC125B090A0008AD600 /* AuthUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthUser.swift; sourceTree = "<group>"; };
 		E27B6FC925B090BF008AD600 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		E2FE2B1A25B3474B0057A54E /* Agent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Agent.swift; sourceTree = "<group>"; };
+		E2FE2B4A25B4B8E70057A54E /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
+		E2FE2B5A25B4C8610057A54E /* ComposeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComposeViewModel.swift; sourceTree = "<group>"; };
+		E2FE2B6725B4D1150057A54E /* Journal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Journal.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -100,6 +108,7 @@
 			isa = PBXGroup;
 			children = (
 				E2296B9C25B26757005A7705 /* Futureland.swift */,
+				E2FE2B1A25B3474B0057A54E /* Agent.swift */,
 			);
 			path = Networking;
 			sourceTree = "<group>";
@@ -132,6 +141,7 @@
 				E2296B9B25B26741005A7705 /* Networking */,
 				E27B6FC025B09089008AD600 /* Models */,
 				E27B6FBC25B0907E008AD600 /* Views */,
+				E2FE2B4925B4B8D50057A54E /* ViewModels */,
 				E223E3FF25B13B9B00CB197D /* Store */,
 				E231EFB725AFA838000ABB43 /* Assets.xcassets */,
 				E231EFBC25AFA838000ABB43 /* Info.plist */,
@@ -192,8 +202,18 @@
 			children = (
 				E27B6FC125B090A0008AD600 /* AuthUser.swift */,
 				E27B6FC925B090BF008AD600 /* User.swift */,
+				E2FE2B6725B4D1150057A54E /* Journal.swift */,
 			);
 			path = Models;
+			sourceTree = "<group>";
+		};
+		E2FE2B4925B4B8D50057A54E /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				E2FE2B4A25B4B8E70057A54E /* LoginViewModel.swift */,
+				E2FE2B5A25B4C8610057A54E /* ComposeViewModel.swift */,
+			);
+			path = ViewModels;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -328,11 +348,15 @@
 				E223E40125B13BC300CB197D /* AppStore.swift in Sources */,
 				E27B6FCA25B090BF008AD600 /* User.swift in Sources */,
 				E231EFB625AFA838000ABB43 /* LoginView.swift in Sources */,
+				E2FE2B1B25B3474B0057A54E /* Agent.swift in Sources */,
+				E2FE2B5B25B4C8610057A54E /* ComposeViewModel.swift in Sources */,
 				E223E40925B13C4900CB197D /* ComposeView.swift in Sources */,
 				E223E41125B13E3500CB197D /* RootView.swift in Sources */,
 				E2296B9D25B26757005A7705 /* Futureland.swift in Sources */,
 				E27B6FC225B090A0008AD600 /* AuthUser.swift in Sources */,
+				E2FE2B4B25B4B8E70057A54E /* LoginViewModel.swift in Sources */,
 				E231EFB425AFA838000ABB43 /* HorizonApp.swift in Sources */,
+				E2FE2B6825B4D1150057A54E /* Journal.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -495,10 +519,7 @@
 				DEVELOPMENT_TEAM = LCFAPK739L;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/Carthage/Build/Mac",
-				);
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = Horizon/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -523,10 +544,7 @@
 				DEVELOPMENT_TEAM = LCFAPK739L;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/Carthage/Build/Mac",
-				);
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = Horizon/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

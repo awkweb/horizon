@@ -3,65 +3,11 @@
 import SwiftUI
 
 struct ComposeView: View {
-    var journals = ["⛈", "Futureland Meta", "Horizon", "Disconnecting", "Sky"]
-    
     @EnvironmentObject var store: AppStore
-    @State private var networkActive = false
-    @State private var entry: String = ""
-    @State private var selectedJournal = 0
+    @ObservedObject var viewModel: ComposeViewModel
     
-    var wordCount: Int {
-        // TODO: Fix greedy word count
-        entry
-            .split(separator: " ")
-            .flatMap { $0.split(separator: "\n")}
-            .count
-    }
-    
-    private func logOut() {
-        print("logOut")
-        guard let url = URL(string: "https://futureland.tv/api/auth/logout") else {
-            print("Invalid URL")
-            return
-        }
-        
-        guard let token = store.token else {
-            print("No token")
-            return
-        }
-        
-        networkActive = true
-        
-        var request = URLRequest(url: url)
-        request.httpMethod = "POST"
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        request.addValue("application/json", forHTTPHeaderField: "Accept")
-        request.addValue("token=\(token)", forHTTPHeaderField: "Cookie")
-        
-        let session = URLSession.shared
-        let task = session.dataTask(with: request) { data, response, error in
-            if error != nil || data == nil {
-                print("Client error")
-                networkActive = false
-                return
-            }
-            
-            guard let httpResponse = response as? HTTPURLResponse, (200...299).contains(httpResponse.statusCode) else {
-                print("Server error")
-                let responseJSON = try? JSONSerialization.jsonObject(with: data!, options: [])
-                if let responseJSON = responseJSON as? [String: Any] {
-                    print(responseJSON)
-                }
-                networkActive = false
-                return
-            }
-            
-            DispatchQueue.main.async {
-                self.store.token = nil
-            }
-        }
-
-        task.resume()
+    init(viewModel: ComposeViewModel) {
+        self.viewModel = viewModel
     }
     
     private func publish() {}
@@ -71,32 +17,33 @@ struct ComposeView: View {
             if (store.token != nil) {
                 VStack {
                     HStack {
-                        Picker(selection: $selectedJournal, label: Text("Journal")) {
-                            ForEach(0 ..< journals.count) {
-                                Text(self.journals[$0])
+                        Picker(selection: $viewModel.selectedJournal, label: Text("Journal")) {
+                            ForEach(viewModel.journals) {
+                                Text($0.title)
                             }
                         }
+                        .onAppear(perform: viewModel.fetch)
                         
                         HStack {
                             Spacer()
-                            if (store.user != nil) {
-                                Text("@\(store.user!.username)")
+                            if let user = store.user {
+                                Text("@\(user.username)")
                             }
-                            Button("Log out", action: self.logOut)
-                                .disabled(networkActive)
+                            Button("Log out", action: viewModel.logout)
+                                .disabled(viewModel.networkActive)
                         }
                     }
                     
-                    TextEditor(text: $entry)
+                    TextEditor(text: $viewModel.entry)
                         .frame(minWidth: 0, maxWidth: .infinity, minHeight: 50, maxHeight: 50)
                     
                     HStack {
-                        if wordCount > 1 {
-                            Text("\(wordCount) words")
-                        }
-                        Spacer()
                         Button("Publish", action: self.publish)
-                            .disabled(entry.count == 0)
+                            .disabled(viewModel.entry.count == 0)
+                        Spacer()
+                        if viewModel.wordCount > 1 {
+                            Text("\(viewModel.wordCount) words")
+                        }
                     }
                 }
             }
@@ -106,7 +53,6 @@ struct ComposeView: View {
 
 struct ComposeView_Previews: PreviewProvider {
     static var previews: some View {
-        ComposeView()
-            .environmentObject(AppStore())
+        ComposeView(viewModel: ComposeViewModel(store: AppStore()))
     }
 }

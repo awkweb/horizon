@@ -7,9 +7,9 @@ struct RootView: View {
     
     var body: some View {
         if (store.token != nil) {
-            ComposeView()
+            ComposeView(viewModel: ComposeViewModel(store: store))
         } else {
-            LoginView()
+            LoginView(viewModel: LoginViewModel(store: store))
         }
     }
 }
