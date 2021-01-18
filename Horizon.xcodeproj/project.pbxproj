@@ -19,6 +19,7 @@
 		E231EFD225AFA838000ABB43 /* HorizonUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E231EFD125AFA838000ABB43 /* HorizonUITests.swift */; };
 		E27B6FC225B090A0008AD600 /* AuthUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = E27B6FC125B090A0008AD600 /* AuthUser.swift */; };
 		E27B6FCA25B090BF008AD600 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = E27B6FC925B090BF008AD600 /* User.swift */; };
+		E2EF5B2825B606FA00F850B8 /* Entry.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2EF5B2725B606FA00F850B8 /* Entry.swift */; };
 		E2FE2B1B25B3474B0057A54E /* Agent.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2FE2B1A25B3474B0057A54E /* Agent.swift */; };
 		E2FE2B4B25B4B8E70057A54E /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2FE2B4A25B4B8E70057A54E /* LoginViewModel.swift */; };
 		E2FE2B5B25B4C8610057A54E /* ComposeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2FE2B5A25B4C8610057A54E /* ComposeViewModel.swift */; };
@@ -65,6 +66,7 @@
 		E231F00025AFBB7D000ABB43 /* Mac */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Mac; path = Carthage/Build/Mac; sourceTree = "<group>"; };
 		E27B6FC125B090A0008AD600 /* AuthUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthUser.swift; sourceTree = "<group>"; };
 		E27B6FC925B090BF008AD600 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		E2EF5B2725B606FA00F850B8 /* Entry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Entry.swift; sourceTree = "<group>"; };
 		E2FE2B1A25B3474B0057A54E /* Agent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Agent.swift; sourceTree = "<group>"; };
 		E2FE2B4A25B4B8E70057A54E /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
 		E2FE2B5A25B4C8610057A54E /* ComposeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComposeViewModel.swift; sourceTree = "<group>"; };
@@ -203,6 +205,7 @@
 				E27B6FC125B090A0008AD600 /* AuthUser.swift */,
 				E27B6FC925B090BF008AD600 /* User.swift */,
 				E2FE2B6725B4D1150057A54E /* Journal.swift */,
+				E2EF5B2725B606FA00F850B8 /* Entry.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -347,6 +350,7 @@
 			files = (
 				E223E40125B13BC300CB197D /* AppStore.swift in Sources */,
 				E27B6FCA25B090BF008AD600 /* User.swift in Sources */,
+				E2EF5B2825B606FA00F850B8 /* Entry.swift in Sources */,
 				E231EFB625AFA838000ABB43 /* LoginView.swift in Sources */,
 				E2FE2B1B25B3474B0057A54E /* Agent.swift in Sources */,
 				E2FE2B5B25B4C8610057A54E /* ComposeViewModel.swift in Sources */,

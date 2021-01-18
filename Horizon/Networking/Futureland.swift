@@ -3,16 +3,9 @@
 import Foundation
 import Combine
 
-enum Endpoint: String {
-    /// Gets journals for signed in user
-    case journals = "/users/log"
-    /// Sign in and get token
-    case login = "/auth/login"
-    /// Sign out
-    case logout = "/auth/logout"
-}
-
 enum Futureland {
+    // TODO: Standardize token passing and headers
+    // https://swiftwithmajid.com/2020/01/08/building-networking-layer-using-functions/
     private static let agent = Agent()
     private static var baseURL: URL {
         guard let url = URL(string: "https://api.futureland.tv") else {
@@ -21,23 +14,54 @@ enum Futureland {
         return url
     }
     
+    /// Gets journals for signed in user
+    static func createEntry(token: String, notes: String, journalId: Int) -> AnyPublisher<Entry, Error> {
+        let url = baseURL.appendingPathComponent("/entries")
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.addValue("token=\(token)", forHTTPHeaderField: "Cookie")
+        
+        let now = Date()
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd"
+        let streakDate = formatter.string(from: now)
+        
+        let parameters = ["notes":notes, "file":"undefined", "streakDate":streakDate, "journal_id":"\(journalId)"]
+        
+        let boundary = "\(UUID().uuidString)"
+        request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
+        
+        let boundaryPrefix = "--\(boundary)\r\n"
+        var data = Data()
+        for (key, value) in parameters {
+            data.append(boundaryPrefix.data(using: .utf8, allowLossyConversion: false)!)
+            data.append("Content-Disposition: form-data; name=\"\(key)\"\r\n\r\n".data(using: .utf8, allowLossyConversion: false)!)
+            data.append("\(value)\r\n".data(using: .utf8, allowLossyConversion: false)!)
+        }
+        
+        data.append("--".appending(boundary.appending("--")).data(using: .utf8, allowLossyConversion: false)!)
+        request.httpBody = data
+        
+        return agent.run(request)
+    }
+    
+    /// Gets journals for signed in user
     static func journals(token: String) -> AnyPublisher<[Journal], Error> {
-        let url = baseURL.appendingPathComponent(Endpoint.journals.rawValue)
+        let url = baseURL.appendingPathComponent("/users/log")
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        request.addValue("application/json", forHTTPHeaderField: "Accept")
         request.addValue("token=\(token)", forHTTPHeaderField: "Cookie")
         
         return agent.run(request)
     }
     
+    /// Sign in and get token
     static func login(email: String, password: String) -> AnyPublisher<AuthUser, Error> {
-        let url = baseURL.appendingPathComponent(Endpoint.login.rawValue)
+        let url = baseURL.appendingPathComponent("/auth/login")
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        request.addValue("application/json", forHTTPHeaderField: "Accept")
         
         let json: [String: Any] = ["email": email, "password": password]
         let body = try? JSONSerialization.data(withJSONObject: json)

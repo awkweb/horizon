@@ -8,7 +8,12 @@ class ComposeViewModel: ObservableObject, Identifiable {
         
     @Published var networkActive = false
     @Published var entry = ""
-    @Published var selectedJournal: Int = 0
+    @Published var selectedJournalId: Int {
+        didSet {
+            UserDefaults.standard.set(selectedJournalId, forKey: "SelectedJournalId")
+            print("didSet", UserDefaults.standard.integer(forKey: "SelectedJournal"), selectedJournalId)
+        }
+    }
     @Published var journals = [Journal]()
     
     var wordCount: Int {
@@ -23,6 +28,8 @@ class ComposeViewModel: ObservableObject, Identifiable {
     
     init(store: AppStore) {
         self.store = store
+        self.selectedJournalId = UserDefaults.standard.integer(forKey: "SelectedJournal")
+        print("init", self.selectedJournalId)
     }
     
     func fetch() {
@@ -43,14 +50,48 @@ class ComposeViewModel: ObservableObject, Identifiable {
                 self.networkActive = false
             }, receiveValue: { journals in
                 print(journals)
-                self.selectedJournal = journals.first?.id ?? 0
                 self.journals = journals
+
+                print("fetch", UserDefaults.standard.integer(forKey: "SelectedJournal"))
+                let selectedJournal = journals.first { $0.id == self.selectedJournalId }
+                if (selectedJournal != nil) {
+                    return
+                }
+                
+                guard let journal = journals.first else {
+                    return
+                }
+                self.selectedJournalId = journal.id
             })
             .store(in: &disposables)
     }
     
     func logout() {
         self.store.token = nil
+    }
+    
+    func publish() {
+        guard let token = store.token else {
+            print("No token :(")
+            return
+        }
+        self.networkActive = true
+        Futureland
+            .createEntry(token: token, notes: entry, journalId: selectedJournalId)
+            .sink(receiveCompletion: { completion in
+                switch completion {
+                case .finished:
+                    break
+                case .failure(let error):
+                    print(error)
+                    fatalError(error.localizedDescription)
+                }
+                self.networkActive = false
+            }, receiveValue: { entry in
+                print(entry)
+                self.entry = ""
+            })
+            .store(in: &disposables)
     }
 }
 

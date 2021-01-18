@@ -9,11 +9,8 @@ final class AppStore: ObservableObject {
             UserDefaults.standard.set(token, forKey: "Token")
         }
     }
-    
     @Published var user: User?
-    
-    private var anyCancellable: AnyCancellable?
-    
+        
     init() {
         guard let token = UserDefaults.standard.string(forKey: "Token") else {
             return

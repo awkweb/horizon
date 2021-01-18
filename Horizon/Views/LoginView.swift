@@ -20,6 +20,7 @@ struct LoginView: View {
                 HStack {
                     Button("Login", action: viewModel.login)
                         .disabled(viewModel.networkActive)
+                        .keyboardShortcut(.return, modifiers: [.command])
                     Spacer()
                     if let error = viewModel.error {
                         Text(error)
