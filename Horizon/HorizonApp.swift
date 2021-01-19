@@ -5,7 +5,7 @@ import SwiftUI
 @main
 struct HorizonApp: App {
     @StateObject var store = AppStore()
-    
+
     var body: some Scene {
         WindowGroup {
             RootView()

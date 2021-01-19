@@ -10,7 +10,7 @@ final class AppStore: ObservableObject {
         }
     }
     @Published var user: User?
-        
+
     init() {
         guard let token = UserDefaults.standard.string(forKey: "Token") else {
             return

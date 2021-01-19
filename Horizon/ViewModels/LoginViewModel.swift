@@ -5,18 +5,18 @@ import Combine
 
 class LoginViewModel: ObservableObject, Identifiable {
     private(set) var store: AppStore
-    
+
     @Published var email = ""
     @Published var password = ""
     @Published var networkActive = false
     @Published var error: String?
 
     private var disposables = Set<AnyCancellable>()
-    
+
     init(store: AppStore) {
         self.store = store
     }
-    
+
     func login() {
         self.networkActive = true
         Futureland

@@ -5,14 +5,14 @@ import SwiftUI
 struct ComposeView: View {
     @EnvironmentObject var store: AppStore
     @ObservedObject var viewModel: ComposeViewModel
-    
+
     init(viewModel: ComposeViewModel) {
         self.viewModel = viewModel
     }
-    
+
     var body: some View {
         VStack {
-            if (store.token != nil) {
+            if store.token != nil {
                 VStack {
                     HStack {
                         Picker(selection: $viewModel.selectedJournalId, label: Text("Journal")) {
@@ -21,7 +21,7 @@ struct ComposeView: View {
                             }
                         }
                         .onAppear(perform: viewModel.fetch)
-                        
+
                         if let fileName = viewModel.file?.name {
                             HStack {
                                 Text(fileName)
@@ -35,17 +35,17 @@ struct ComposeView: View {
                                           onCompletion: viewModel.attachMedia)
                         }
                     }
-                    
+
                     TextEditor(text: $viewModel.entry)
                         .frame(minWidth: 0, maxWidth: .infinity, minHeight: 50, maxHeight: 50)
-                    
+
                     HStack {
                         Button("Publish (⌘ Enter)", action: viewModel.publish)
                             .disabled(viewModel.networkActive || (viewModel.entry.count == 0 && viewModel.file == nil ))
                             .keyboardShortcut(.return, modifiers: [.command])
-                        
+
                         Spacer()
-                        
+
                         if viewModel.wordCount > 1 {
                             Text("\(viewModel.wordCount) words")
                         }

@@ -6,7 +6,7 @@ struct User: Codable, Identifiable {
     var avatar: String
     var id: Int
     var username: String
-    
+
     enum CodingKeys: String, CodingKey {
         case avatar = "avatar_link"
         case id
