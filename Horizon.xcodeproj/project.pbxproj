@@ -18,6 +18,7 @@
 		E231EFC725AFA838000ABB43 /* HorizonTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E231EFC625AFA838000ABB43 /* HorizonTests.swift */; };
 		E231EFD225AFA838000ABB43 /* HorizonUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E231EFD125AFA838000ABB43 /* HorizonUITests.swift */; };
 		E24C8E4325B65BB600EB8CA4 /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24C8E4225B65BB600EB8CA4 /* File.swift */; };
+		E24C8E4925B69C2000EB8CA4 /* DateFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24C8E4825B69C2000EB8CA4 /* DateFormatter.swift */; };
 		E27B6FC225B090A0008AD600 /* AuthUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = E27B6FC125B090A0008AD600 /* AuthUser.swift */; };
 		E27B6FCA25B090BF008AD600 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = E27B6FC925B090BF008AD600 /* User.swift */; };
 		E2EF5B2825B606FA00F850B8 /* Entry.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2EF5B2725B606FA00F850B8 /* Entry.swift */; };
@@ -66,6 +67,7 @@
 		E231EFF725AFBAD2000ABB43 /* Alamofire.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = Alamofire.framework.dSYM; path = Carthage/Build/Mac/Alamofire.framework.dSYM; sourceTree = "<group>"; };
 		E231F00025AFBB7D000ABB43 /* Mac */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Mac; path = Carthage/Build/Mac; sourceTree = "<group>"; };
 		E24C8E4225B65BB600EB8CA4 /* File.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = File.swift; sourceTree = "<group>"; };
+		E24C8E4825B69C2000EB8CA4 /* DateFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateFormatter.swift; sourceTree = "<group>"; };
 		E27B6FC125B090A0008AD600 /* AuthUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthUser.swift; sourceTree = "<group>"; };
 		E27B6FC925B090BF008AD600 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		E2EF5B2725B606FA00F850B8 /* Entry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Entry.swift; sourceTree = "<group>"; };
@@ -142,6 +144,7 @@
 			isa = PBXGroup;
 			children = (
 				E231EFB325AFA838000ABB43 /* HorizonApp.swift */,
+				E24C8E4725B69C0E00EB8CA4 /* Extensions */,
 				E2296B9B25B26741005A7705 /* Networking */,
 				E27B6FC025B09089008AD600 /* Models */,
 				E27B6FBC25B0907E008AD600 /* Views */,
@@ -189,6 +192,14 @@
 				E231EFE325AFB8DC000ABB43 /* Alamofire.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		E24C8E4725B69C0E00EB8CA4 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				E24C8E4825B69C2000EB8CA4 /* DateFormatter.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 		E27B6FBC25B0907E008AD600 /* Views */ = {
@@ -360,6 +371,7 @@
 				E223E40925B13C4900CB197D /* ComposeView.swift in Sources */,
 				E223E41125B13E3500CB197D /* RootView.swift in Sources */,
 				E2296B9D25B26757005A7705 /* Futureland.swift in Sources */,
+				E24C8E4925B69C2000EB8CA4 /* DateFormatter.swift in Sources */,
 				E24C8E4325B65BB600EB8CA4 /* File.swift in Sources */,
 				E27B6FC225B090A0008AD600 /* AuthUser.swift in Sources */,
 				E2FE2B4B25B4B8E70057A54E /* LoginViewModel.swift in Sources */,

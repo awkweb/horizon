@@ -41,9 +41,11 @@ struct ComposeView: View {
                     
                     HStack {
                         Button("Publish (⌘ Enter)", action: viewModel.publish)
-                            .disabled(viewModel.entry.count == 0)
+                            .disabled(viewModel.networkActive || (viewModel.entry.count == 0 && viewModel.file == nil ))
                             .keyboardShortcut(.return, modifiers: [.command])
+                        
                         Spacer()
+                        
                         if viewModel.wordCount > 1 {
                             Text("\(viewModel.wordCount) words")
                         }
