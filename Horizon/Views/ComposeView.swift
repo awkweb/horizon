@@ -22,17 +22,30 @@ struct ComposeView: View {
                         }
                         .onAppear(perform: viewModel.fetch)
                         
-                        Button("Log out", action: viewModel.logout)
+                        if let fileName = viewModel.file?.name {
+                            HStack {
+                                Text(fileName)
+                                Button("x", action: viewModel.discardMedia)
+                            }
+                        } else {
+                        Button("Add media (⌘ ⇧ A)", action: viewModel.addMedia)
+                            .keyboardShortcut("A", modifiers: [.command, .shift])
+                            .fileImporter(isPresented: $viewModel.isFileBrowserOpen,
+                                          allowedContentTypes: [.movie, .image, .audio],
+                                          onCompletion: viewModel.attachMedia)
+                        }
                     }
                     
                     TextEditor(text: $viewModel.entry)
                         .frame(minWidth: 0, maxWidth: .infinity, minHeight: 50, maxHeight: 50)
                     
                     HStack {
-                        Button("Publish", action: viewModel.publish)
-                            .disabled(viewModel.entry.count == 0)
+                        Button("Publish (⌘ Enter)", action: viewModel.publish)
+                            .disabled(viewModel.networkActive || (viewModel.entry.count == 0 && viewModel.file == nil ))
                             .keyboardShortcut(.return, modifiers: [.command])
+                        
                         Spacer()
+                        
                         if viewModel.wordCount > 1 {
                             Text("\(viewModel.wordCount) words")
                         }

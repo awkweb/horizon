@@ -8,13 +8,10 @@ class ComposeViewModel: ObservableObject, Identifiable {
         
     @Published var networkActive = false
     @Published var entry = ""
-    @Published var selectedJournalId: Int {
-        didSet {
-            UserDefaults.standard.set(selectedJournalId, forKey: "SelectedJournalId")
-            print("didSet", UserDefaults.standard.integer(forKey: "SelectedJournal"), selectedJournalId)
-        }
-    }
+    @Published var selectedJournalId: Int = 0
     @Published var journals = [Journal]()
+    @Published var isFileBrowserOpen = false
+    @Published var file: File?
     
     var wordCount: Int {
         // TODO: Fix greedy word count
@@ -28,8 +25,45 @@ class ComposeViewModel: ObservableObject, Identifiable {
     
     init(store: AppStore) {
         self.store = store
-        self.selectedJournalId = UserDefaults.standard.integer(forKey: "SelectedJournal")
-        print("init", self.selectedJournalId)
+    }
+    
+    func addMedia() {
+        print("addMedia")
+        isFileBrowserOpen = true
+    }
+    
+    func attachMedia(_ result: Result<URL, Error>) {
+        do {
+            let fileUrl = try result.get()
+            guard fileUrl.startAccessingSecurityScopedResource() else { return }
+            
+            // Get file data
+            guard let data = try? Data(contentsOf: fileUrl) else {
+                print("Unable to read data")
+                return
+            }
+            
+            // Get mime type
+            guard
+                let extUTI = UTTypeCreatePreferredIdentifierForTag(
+                    kUTTagClassFilenameExtension,
+                    fileUrl.pathExtension as CFString,
+                    nil)?.takeUnretainedValue()
+            else { return }
+            guard
+                let mimeUTI = UTTypeCopyPreferredTagWithClass(extUTI, kUTTagClassMIMEType)
+             else { return }
+            let mimeType = mimeUTI.takeRetainedValue() as String
+            
+            file = File(name: fileUrl.lastPathComponent, data: data, mimeType: mimeType)
+            fileUrl.stopAccessingSecurityScopedResource()
+        } catch {
+            print(error.localizedDescription)
+        }
+    }
+    
+    func discardMedia() {
+        file = nil
     }
     
     func fetch() {
@@ -49,25 +83,19 @@ class ComposeViewModel: ObservableObject, Identifiable {
                 }
                 self.networkActive = false
             }, receiveValue: { journals in
-                print(journals)
-                self.journals = journals
+                let sortedJournals = journals.sorted { $0.lastEntryAt > $1.lastEntryAt }
+                print(sortedJournals)
+                self.journals = sortedJournals
 
-                print("fetch", UserDefaults.standard.integer(forKey: "SelectedJournal"))
-                let selectedJournal = journals.first { $0.id == self.selectedJournalId }
-                if (selectedJournal != nil) {
-                    return
-                }
+                // Check if a journal is already selected
+                let selectedJournal = sortedJournals.first { $0.id == self.selectedJournalId }
+                if (selectedJournal != nil) { return }
                 
-                guard let journal = journals.first else {
-                    return
-                }
+                // Select first journal if none are selected
+                guard let journal = sortedJournals.first else { return }
                 self.selectedJournalId = journal.id
             })
             .store(in: &disposables)
-    }
-    
-    func logout() {
-        self.store.token = nil
     }
     
     func publish() {
@@ -77,7 +105,10 @@ class ComposeViewModel: ObservableObject, Identifiable {
         }
         self.networkActive = true
         Futureland
-            .createEntry(token: token, notes: entry, journalId: selectedJournalId)
+            .createEntry(token: token,
+                         notes: entry,
+                         journalId: selectedJournalId,
+                         file: file)
             .sink(receiveCompletion: { completion in
                 switch completion {
                 case .finished:
@@ -90,6 +121,7 @@ class ComposeViewModel: ObservableObject, Identifiable {
             }, receiveValue: { entry in
                 print(entry)
                 self.entry = ""
+                self.file = nil
             })
             .store(in: &disposables)
     }
