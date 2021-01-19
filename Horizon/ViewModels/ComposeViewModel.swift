@@ -15,6 +15,8 @@ class ComposeViewModel: ObservableObject, Identifiable {
         }
     }
     @Published var journals = [Journal]()
+    @Published var isFileBrowserOpen = false
+    @Published var file: File?
     
     var wordCount: Int {
         // TODO: Fix greedy word count
@@ -30,6 +32,46 @@ class ComposeViewModel: ObservableObject, Identifiable {
         self.store = store
         self.selectedJournalId = UserDefaults.standard.integer(forKey: "SelectedJournal")
         print("init", self.selectedJournalId)
+    }
+    
+    func addMedia() {
+        print("addMedia")
+        isFileBrowserOpen = true
+    }
+    
+    func attachMedia(_ result: Result<URL, Error>) {
+        do {
+            let fileUrl = try result.get()
+            
+            guard fileUrl.startAccessingSecurityScopedResource() else { return }
+            guard let data = try? Data(contentsOf: fileUrl) else {
+                print("Unable to read data")
+                return
+            }
+            
+            guard
+                let extUTI = UTTypeCreatePreferredIdentifierForTag(
+                    kUTTagClassFilenameExtension,
+                    fileUrl.pathExtension as CFString,
+                    nil)?.takeUnretainedValue()
+            else { return }
+            
+            guard
+                let mimeUTI = UTTypeCopyPreferredTagWithClass(extUTI, kUTTagClassMIMEType)
+             else { return }
+            
+            let mimeType = mimeUTI.takeRetainedValue() as String
+            print(mimeType)
+            
+            file = File(name: fileUrl.lastPathComponent, data: data, mimeType: mimeType)
+            fileUrl.stopAccessingSecurityScopedResource()
+        } catch {
+            print(error.localizedDescription)
+        }
+    }
+    
+    func discardMedia() {
+        file = nil
     }
     
     func fetch() {
@@ -66,10 +108,6 @@ class ComposeViewModel: ObservableObject, Identifiable {
             .store(in: &disposables)
     }
     
-    func logout() {
-        self.store.token = nil
-    }
-    
     func publish() {
         guard let token = store.token else {
             print("No token :(")
@@ -77,7 +115,10 @@ class ComposeViewModel: ObservableObject, Identifiable {
         }
         self.networkActive = true
         Futureland
-            .createEntry(token: token, notes: entry, journalId: selectedJournalId)
+            .createEntry(token: token,
+                         notes: entry,
+                         journalId: selectedJournalId,
+                         file: file)
             .sink(receiveCompletion: { completion in
                 switch completion {
                 case .finished:

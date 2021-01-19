@@ -15,7 +15,7 @@ enum Futureland {
     }
     
     /// Gets journals for signed in user
-    static func createEntry(token: String, notes: String, journalId: Int) -> AnyPublisher<Entry, Error> {
+    static func createEntry(token: String, notes: String, journalId: Int, file: File?) -> AnyPublisher<Entry, Error> {
         let url = baseURL.appendingPathComponent("/entries")
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
@@ -26,7 +26,7 @@ enum Futureland {
         formatter.dateFormat = "yyyy-MM-dd"
         let streakDate = formatter.string(from: now)
         
-        let parameters = ["notes":notes, "file":"undefined", "streakDate":streakDate, "journal_id":"\(journalId)"]
+        let parameters = ["notes":notes, "streakDate":streakDate, "journal_id":"\(journalId)"]
         
         let boundary = "\(UUID().uuidString)"
         request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
@@ -37,6 +37,16 @@ enum Futureland {
             data.append(boundaryPrefix.data(using: .utf8, allowLossyConversion: false)!)
             data.append("Content-Disposition: form-data; name=\"\(key)\"\r\n\r\n".data(using: .utf8, allowLossyConversion: false)!)
             data.append("\(value)\r\n".data(using: .utf8, allowLossyConversion: false)!)
+        }
+        
+        if let fileData = file?.data,
+           let fileName = file?.name,
+           let mimeType = file?.mimeType {
+            data.append(boundaryPrefix.data(using: .utf8, allowLossyConversion: false)!)
+            data.append("Content-Disposition: form-data; name=\"file\"; filename=\"\(fileName)\"\r\n".data(using: .utf8, allowLossyConversion: false)!)
+            data.append("Content-Type: \(mimeType)\r\n\r\n".data(using: .utf8, allowLossyConversion: false)!)
+            data.append(fileData)
+            data.append("\r\n".data(using: .utf8, allowLossyConversion: false)!)
         }
         
         data.append("--".appending(boundary.appending("--")).data(using: .utf8, allowLossyConversion: false)!)
