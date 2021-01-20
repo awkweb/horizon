@@ -4,44 +4,79 @@ import SwiftUI
 
 @main
 struct HorizonApp: App {
-    @StateObject var store = AppStore()
-
     @NSApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
     var body: some Scene {
         WindowGroup {
-            RootView().environmentObject(store)
+            VStack {}
         }
     }
 }
 
-class AppDelegate: NSObject, NSApplicationDelegate {
-    var popover = NSPopover.init()
-    var statusBarItem: NSStatusItem?
+class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
+    @StateObject var store = AppStore()
+
+    var statusBarItem: NSStatusItem!
+    var menu = NSMenu(title: "Status Bar Menu")
+    var window: NSWindow!
 
     func applicationDidFinishLaunching(_ notification: Notification) {
-        popover.behavior = .transient // !!! - This does not seem to work in SwiftUI2.0 or macOS BigSur yet
-        popover.animates = false
-        popover.contentViewController = NSViewController()
-        statusBarItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
-        statusBarItem?.button?.title = "Horizon"
-        statusBarItem?.button?.action = #selector(AppDelegate.togglePopover(_:))
+        let statusBar = NSStatusBar.system
+        statusBarItem = statusBar.statusItem(withLength: NSStatusItem.variableLength)
+        statusBarItem?.button?.title = "🌅"
+        statusBarItem?.button?.action = #selector(AppDelegate.statusBarButtonClicked(_:))
+        statusBarItem?.button?.sendAction(on: [.leftMouseUp, .rightMouseUp])
+
+        menu = NSMenu(title: "Status Bar Menu")
+        menu.delegate = self
+        menu.addItem(
+            withTitle: "Preferences...",
+            action: #selector(AppDelegate.viewPreferences),
+            keyEquivalent: ",")
+        menu.addItem(
+            withTitle: "Open Horizon",
+            action: #selector(AppDelegate.open),
+            keyEquivalent: "")
+        menu.addItem(NSMenuItem.separator())
+        menu.addItem(
+            withTitle: "Quit Horizon",
+            action: #selector(AppDelegate.quit),
+            keyEquivalent: "q")
     }
-    
-    @objc func togglePopover(_ sender: AnyObject?) {
-        if popover.isShown {
-            closePopover(sender)
+
+    @objc func statusBarButtonClicked(_ sender: NSStatusBarButton) {
+        let event = NSApp.currentEvent!
+        if event.type ==  NSEvent.EventType.rightMouseUp {
+            statusBarItem?.menu = menu
+            statusBarItem?.button?.performClick(nil)
         } else {
-            showPopover(sender)
+            openWindow()
         }
     }
-    
-    func showPopover(_ sender: AnyObject?) {
-        if let button = statusBarItem?.button {
-            popover.show(relativeTo: button.bounds, of: button, preferredEdge: NSRectEdge.minY)
-        }
+
+    @objc func viewPreferences() {
+        print("viewPreferences")
     }
-    
-    func closePopover(_ sender: AnyObject?) {
-        popover.performClose(sender)
+
+    @objc func open() {
+        openWindow()
+    }
+
+    @objc func quit() {
+        NSApp.terminate(nil)
+    }
+
+    private func openWindow() {
+        if window != nil { return }
+
+        let rootView = RootView()
+        window = NSWindow(
+            contentRect: NSRect(x: 0, y: 0, width: 480, height: 300),
+            styleMask: [.titled],
+            backing: .buffered,
+            defer: false)
+        window.center()
+        window.titleVisibility = .hidden
+        window.contentView = NSHostingView(rootView: rootView)
+        window.makeKeyAndOrderFront(nil)
     }
 }

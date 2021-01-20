@@ -3,19 +3,21 @@
 import SwiftUI
 
 struct RootView: View {
-    @EnvironmentObject var store: AppStore
+    @StateObject var store = AppStore()
 
     var body: some View {
-        if store.token != nil {
-            ComposeView(viewModel: ComposeViewModel(store: store))
-        } else {
-            LoginView(viewModel: LoginViewModel(store: store))
-        }
+        VStack {
+            if store.token != nil {
+                ComposeView(viewModel: ComposeViewModel(store: store))
+            } else {
+                LoginView(viewModel: LoginViewModel(store: store))
+            }
+        }.environmentObject(store)
     }
 }
 
 struct RootView_Previews: PreviewProvider {
     static var previews: some View {
-        RootView().environmentObject(AppStore())
+        RootView()
     }
 }
