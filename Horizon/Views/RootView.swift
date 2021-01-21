@@ -12,7 +12,10 @@ struct RootView: View {
             } else {
                 LoginView(viewModel: LoginViewModel(store: store))
             }
-        }.environmentObject(store)
+        }
+        .environmentObject(store)
+        .background(Color.black)
+        .cornerRadius(10)
     }
 }
 

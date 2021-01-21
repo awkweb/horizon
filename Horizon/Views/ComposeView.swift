@@ -37,7 +37,8 @@ struct ComposeView: View {
                     }
 
                     TextEditor(text: $viewModel.entry)
-                        .frame(minWidth: 0, maxWidth: .infinity, minHeight: 50, maxHeight: 50)
+                        .font(.body)
+                        .frame(minWidth: 0, maxWidth: .infinity, minHeight: 75, maxHeight: 75)
 
                     HStack {
                         Button("Publish (⌘ Enter)", action: viewModel.publish)
