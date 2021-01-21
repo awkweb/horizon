@@ -5,6 +5,7 @@ import Combine
 
 class ComposeViewModel: ObservableObject, Identifiable {
     private(set) var store: AppStore
+    private(set) var window: NSPanel
 
     @Published var networkActive = false
     @Published var entry = ""
@@ -14,17 +15,14 @@ class ComposeViewModel: ObservableObject, Identifiable {
     @Published var file: File?
 
     var wordCount: Int {
-        // TODO: Fix greedy word count
-        entry
-            .split(separator: " ")
-            .flatMap { $0.split(separator: "\n")}
-            .count
+        entry.split { $0 == " " || $0.isNewline }.count
     }
 
     private var disposables = Set<AnyCancellable>()
 
-    init(store: AppStore) {
+    init(store: AppStore, window: NSPanel) {
         self.store = store
+        self.window = window
     }
 
     func addMedia() {
@@ -60,6 +58,10 @@ class ComposeViewModel: ObservableObject, Identifiable {
         } catch {
             print(error.localizedDescription)
         }
+    }
+
+    func cancel() {
+        reset()
     }
 
     func discardMedia() {
@@ -120,9 +122,14 @@ class ComposeViewModel: ObservableObject, Identifiable {
                 self.networkActive = false
             }, receiveValue: { entry in
                 print(entry)
-                self.entry = ""
-                self.file = nil
+                self.reset()
             })
             .store(in: &disposables)
+    }
+
+    private func reset() {
+        self.entry = ""
+        self.file = nil
+        self.window.close()
     }
 }

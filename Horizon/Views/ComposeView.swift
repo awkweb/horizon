@@ -45,6 +45,9 @@ struct ComposeView: View {
                             .disabled(viewModel.networkActive || (viewModel.entry.count == 0 && viewModel.file == nil ))
                             .keyboardShortcut(.return, modifiers: [.command])
 
+                        Button("Cancel", action: viewModel.cancel)
+                            .keyboardShortcut(.escape)
+
                         Spacer()
 
                         if viewModel.wordCount > 1 {
@@ -59,6 +62,6 @@ struct ComposeView: View {
 
 struct ComposeView_Previews: PreviewProvider {
     static var previews: some View {
-        ComposeView(viewModel: ComposeViewModel(store: AppStore()))
+        ComposeView(viewModel: ComposeViewModel(store: AppStore(), window: NSPanel()))
     }
 }

@@ -3,9 +3,7 @@
 import Foundation
 import SwiftUI
 
-class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
-    @StateObject var store = AppStore()
-
+class AppDelegate: NSObject, NSApplicationDelegate {
     var statusBarItem: NSStatusItem!
     var menu = NSMenu()
     var window: NSPanel!
@@ -17,26 +15,8 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         statusBarItem?.button?.action = #selector(AppDelegate.statusBarButtonClicked(_:))
         statusBarItem?.button?.sendAction(on: [.leftMouseUp, .rightMouseUp])
 
-        menu = NSMenu(title: "Status Bar Menu")
-        menu.delegate = self
-        menu.addItem(
-            withTitle: "Preferences...",
-            action: #selector(AppDelegate.viewPreferences),
-            keyEquivalent: ",")
-        menu.addItem(
-            withTitle: "Open Horizon",
-            action: #selector(AppDelegate.open),
-            keyEquivalent: "")
-        menu.addItem(NSMenuItem.separator())
-        menu.addItem(
-            withTitle: "Quit Horizon",
-            action: #selector(AppDelegate.quit),
-            keyEquivalent: "q")
-
-        window = HorizonWindow(contentRect: NSRect(x: 0, y: 0, width: 400, height: 300),
-                               styleMask: [.borderless],
-                               backing: .buffered,
-                               defer: false)
+        menu = HorizonMenu()
+        window = HorizonWindow()
     }
 
     @objc func statusBarButtonClicked(_ sender: NSStatusBarButton) {
@@ -47,7 +27,11 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
             statusBarItem?.button?.performClick(nil)
         } else {
             print("left")
-            window.makeKeyAndOrderFront(nil)
+            if window.isKeyWindow {
+                window.close()
+            } else {
+                window.makeKeyAndOrderFront(nil)
+            }
         }
     }
 

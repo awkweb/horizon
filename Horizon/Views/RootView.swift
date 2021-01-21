@@ -3,12 +3,17 @@
 import SwiftUI
 
 struct RootView: View {
-    @StateObject var store = AppStore()
+    @EnvironmentObject var store: AppStore
+    var window: NSPanel
+
+    init(window: NSPanel) {
+        self.window = window
+    }
 
     var body: some View {
         VStack {
             if store.token != nil {
-                ComposeView(viewModel: ComposeViewModel(store: store))
+                ComposeView(viewModel: ComposeViewModel(store: store, window: window))
             } else {
                 LoginView(viewModel: LoginViewModel(store: store))
             }
@@ -21,6 +26,6 @@ struct RootView: View {
 
 struct RootView_Previews: PreviewProvider {
     static var previews: some View {
-        RootView()
+        RootView(window: NSPanel())
     }
 }
