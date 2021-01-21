@@ -2,19 +2,9 @@
 
 import Foundation
 import Combine
+import SwiftUI
 
 final class AppStore: ObservableObject {
-    @Published var token: String? {
-        didSet {
-            UserDefaults.standard.set(token, forKey: "Token")
-        }
-    }
+    @AppStorage("Token") var token: String?
     @Published var user: User?
-
-    init() {
-        guard let token = UserDefaults.standard.string(forKey: "Token") else {
-            return
-        }
-        self.token = token
-    }
 }

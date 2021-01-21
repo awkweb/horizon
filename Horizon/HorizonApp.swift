@@ -5,11 +5,11 @@ import SwiftUI
 @main
 struct HorizonApp: App {
     @StateObject var store = AppStore()
+    @NSApplicationDelegateAdaptor(AppDelegate.self) weak var appDelegate
 
     var body: some Scene {
         WindowGroup {
-            RootView()
-                .environmentObject(store)
+            VStack {}
         }
     }
 }
