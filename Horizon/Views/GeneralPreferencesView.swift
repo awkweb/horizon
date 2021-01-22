@@ -5,9 +5,6 @@ import Preferences
 import KeyboardShortcuts
 import LaunchAtLogin
 
-/**
-Function wrapping SwiftUI into `PreferencePane`, which is mimicking view controller's default construction syntax.
-*/
 let GeneralPreferenceViewController: () -> PreferencePane = {
     /// Wrap your custom view into `Preferences.Pane`, while providing necessary toolbar info.
     let paneView = Preferences.Pane(
@@ -21,9 +18,6 @@ let GeneralPreferenceViewController: () -> PreferencePane = {
     return Preferences.PaneHostingController(pane: paneView)
 }
 
-/**
-The main view of “General” preference pane.
-*/
 struct GeneralPreferencesView: View {
     private let contentWidth: Double = 400.0
 
@@ -38,11 +32,11 @@ struct GeneralPreferencesView: View {
             Preferences.Section(title: "Keyboard Shortcuts:") {
                 VStack {
                     HStack {
-                        Text("New entry")
+                        Text("Toggle Horizon window")
                         Spacer()
                     }
                     HStack {
-                        KeyboardShortcuts.Recorder(for: .toggleNewEntry)
+                        KeyboardShortcuts.Recorder(for: .toggleWindow)
                         Spacer()
                     }
                 }

@@ -14,11 +14,10 @@
 		E226E5B125BA8BCF00582594 /* GeneralPreferencesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E226E5B025BA8BCF00582594 /* GeneralPreferencesView.swift */; };
 		E226E5BB25BA8E8A00582594 /* AccountPreferencesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E226E5BA25BA8E8A00582594 /* AccountPreferencesView.swift */; };
 		E226E5C425BB191E00582594 /* KeyboardShortcuts in Frameworks */ = {isa = PBXBuildFile; productRef = E226E5C325BB191E00582594 /* KeyboardShortcuts */; };
-		E226E5C925BB193100582594 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = E226E5C825BB193100582594 /* Constants.swift */; };
+		E226E5C925BB193100582594 /* KeyboardShortcuts.swift in Sources */ = {isa = PBXBuildFile; fileRef = E226E5C825BB193100582594 /* KeyboardShortcuts.swift */; };
 		E226E5D225BB1D8000582594 /* LaunchAtLogin in Frameworks */ = {isa = PBXBuildFile; productRef = E226E5D125BB1D8000582594 /* LaunchAtLogin */; };
 		E2296B9D25B26757005A7705 /* Futureland.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2296B9C25B26757005A7705 /* Futureland.swift */; };
 		E231D07F25B9293600773030 /* HorizonWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = E231D07E25B9293600773030 /* HorizonWindow.swift */; };
-		E231EFB425AFA838000ABB43 /* HorizonApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = E231EFB325AFA838000ABB43 /* HorizonApp.swift */; };
 		E231EFB625AFA838000ABB43 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E231EFB525AFA838000ABB43 /* LoginView.swift */; };
 		E231EFB825AFA838000ABB43 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E231EFB725AFA838000ABB43 /* Assets.xcassets */; };
 		E231EFBB25AFA838000ABB43 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E231EFBA25AFA838000ABB43 /* Preview Assets.xcassets */; };
@@ -26,10 +25,12 @@
 		E231EFD225AFA838000ABB43 /* HorizonUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E231EFD125AFA838000ABB43 /* HorizonUITests.swift */; };
 		E24C8E4325B65BB600EB8CA4 /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24C8E4225B65BB600EB8CA4 /* File.swift */; };
 		E24C8E4925B69C2000EB8CA4 /* DateFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24C8E4825B69C2000EB8CA4 /* DateFormatter.swift */; };
-		E26B74EA25B9277300AEFF39 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E26B74E925B9277300AEFF39 /* AppDelegate.swift */; };
 		E27B6FC225B090A0008AD600 /* AuthUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = E27B6FC125B090A0008AD600 /* AuthUser.swift */; };
 		E27B6FCA25B090BF008AD600 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = E27B6FC925B090BF008AD600 /* User.swift */; };
 		E2E0EDEE25BB311300CDF519 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2E0EDED25BB311300CDF519 /* Utilities.swift */; };
+		E2E0EDFC25BB8C0600CDF519 /* App.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2E0EDFB25BB8C0600CDF519 /* App.swift */; };
+		E2E0EE0425BB8C8200CDF519 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2E0EE0325BB8C8200CDF519 /* AppDelegate.swift */; };
+		E2E0EE0C25BB8CC200CDF519 /* Preferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2E0EE0B25BB8CC200CDF519 /* Preferences.swift */; };
 		E2EE29DE25B9CA3800B00E91 /* HorizonMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2EE29DD25B9CA3800B00E91 /* HorizonMenu.swift */; };
 		E2EF5B2825B606FA00F850B8 /* Entry.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2EF5B2725B606FA00F850B8 /* Entry.swift */; };
 		E2FE2B1B25B3474B0057A54E /* Agent.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2FE2B1A25B3474B0057A54E /* Agent.swift */; };
@@ -61,11 +62,10 @@
 		E223E41025B13E3500CB197D /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
 		E226E5B025BA8BCF00582594 /* GeneralPreferencesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneralPreferencesView.swift; sourceTree = "<group>"; };
 		E226E5BA25BA8E8A00582594 /* AccountPreferencesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountPreferencesView.swift; sourceTree = "<group>"; };
-		E226E5C825BB193100582594 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		E226E5C825BB193100582594 /* KeyboardShortcuts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardShortcuts.swift; sourceTree = "<group>"; };
 		E2296B9C25B26757005A7705 /* Futureland.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Futureland.swift; sourceTree = "<group>"; };
 		E231D07E25B9293600773030 /* HorizonWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HorizonWindow.swift; sourceTree = "<group>"; };
 		E231EFB025AFA838000ABB43 /* Horizon.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Horizon.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		E231EFB325AFA838000ABB43 /* HorizonApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HorizonApp.swift; sourceTree = "<group>"; };
 		E231EFB525AFA838000ABB43 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		E231EFB725AFA838000ABB43 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E231EFBA25AFA838000ABB43 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
@@ -82,10 +82,12 @@
 		E231F00025AFBB7D000ABB43 /* Mac */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Mac; path = Carthage/Build/Mac; sourceTree = "<group>"; };
 		E24C8E4225B65BB600EB8CA4 /* File.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = File.swift; sourceTree = "<group>"; };
 		E24C8E4825B69C2000EB8CA4 /* DateFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateFormatter.swift; sourceTree = "<group>"; };
-		E26B74E925B9277300AEFF39 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E27B6FC125B090A0008AD600 /* AuthUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthUser.swift; sourceTree = "<group>"; };
 		E27B6FC925B090BF008AD600 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		E2E0EDED25BB311300CDF519 /* Utilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
+		E2E0EDFB25BB8C0600CDF519 /* App.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = App.swift; sourceTree = "<group>"; };
+		E2E0EE0325BB8C8200CDF519 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		E2E0EE0B25BB8CC200CDF519 /* Preferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Preferences.swift; sourceTree = "<group>"; };
 		E2EE29DD25B9CA3800B00E91 /* HorizonMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HorizonMenu.swift; sourceTree = "<group>"; };
 		E2EF5B2725B606FA00F850B8 /* Entry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Entry.swift; sourceTree = "<group>"; };
 		E2FE2B1A25B3474B0057A54E /* Agent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Agent.swift; sourceTree = "<group>"; };
@@ -163,12 +165,9 @@
 		E231EFB225AFA838000ABB43 /* Horizon */ = {
 			isa = PBXGroup;
 			children = (
-				E226E5C825BB193100582594 /* Constants.swift */,
 				E2E0EDED25BB311300CDF519 /* Utilities.swift */,
-				E231EFB325AFA838000ABB43 /* HorizonApp.swift */,
-				E231D07E25B9293600773030 /* HorizonWindow.swift */,
-				E26B74E925B9277300AEFF39 /* AppDelegate.swift */,
-				E2EE29DD25B9CA3800B00E91 /* HorizonMenu.swift */,
+				E2E0EDFB25BB8C0600CDF519 /* App.swift */,
+				E2E0EE0325BB8C8200CDF519 /* AppDelegate.swift */,
 				E24C8E4725B69C0E00EB8CA4 /* Extensions */,
 				E2296B9B25B26741005A7705 /* Networking */,
 				E27B6FC025B09089008AD600 /* Models */,
@@ -223,6 +222,8 @@
 			isa = PBXGroup;
 			children = (
 				E24C8E4825B69C2000EB8CA4 /* DateFormatter.swift */,
+				E226E5C825BB193100582594 /* KeyboardShortcuts.swift */,
+				E2E0EE0B25BB8CC200CDF519 /* Preferences.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -230,6 +231,8 @@
 		E27B6FBC25B0907E008AD600 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				E231D07E25B9293600773030 /* HorizonWindow.swift */,
+				E2EE29DD25B9CA3800B00E91 /* HorizonMenu.swift */,
 				E231EFB525AFA838000ABB43 /* LoginView.swift */,
 				E226E5B025BA8BCF00582594 /* GeneralPreferencesView.swift */,
 				E226E5BA25BA8E8A00582594 /* AccountPreferencesView.swift */,
@@ -420,7 +423,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E2E0EE0425BB8C8200CDF519 /* AppDelegate.swift in Sources */,
 				E223E40125B13BC300CB197D /* AppStore.swift in Sources */,
+				E2E0EDFC25BB8C0600CDF519 /* App.swift in Sources */,
 				E27B6FCA25B090BF008AD600 /* User.swift in Sources */,
 				E2E0EDEE25BB311300CDF519 /* Utilities.swift in Sources */,
 				E2EF5B2825B606FA00F850B8 /* Entry.swift in Sources */,
@@ -428,11 +433,11 @@
 				E2FE2B1B25B3474B0057A54E /* Agent.swift in Sources */,
 				E2FE2B5B25B4C8610057A54E /* ComposeViewModel.swift in Sources */,
 				E2EE29DE25B9CA3800B00E91 /* HorizonMenu.swift in Sources */,
+				E2E0EE0C25BB8CC200CDF519 /* Preferences.swift in Sources */,
 				E223E40925B13C4900CB197D /* ComposeView.swift in Sources */,
 				E223E41125B13E3500CB197D /* RootView.swift in Sources */,
-				E26B74EA25B9277300AEFF39 /* AppDelegate.swift in Sources */,
 				E2296B9D25B26757005A7705 /* Futureland.swift in Sources */,
-				E226E5C925BB193100582594 /* Constants.swift in Sources */,
+				E226E5C925BB193100582594 /* KeyboardShortcuts.swift in Sources */,
 				E24C8E4925B69C2000EB8CA4 /* DateFormatter.swift in Sources */,
 				E24C8E4325B65BB600EB8CA4 /* File.swift in Sources */,
 				E27B6FC225B090A0008AD600 /* AuthUser.swift in Sources */,
@@ -440,7 +445,6 @@
 				E231D07F25B9293600773030 /* HorizonWindow.swift in Sources */,
 				E2FE2B4B25B4B8E70057A54E /* LoginViewModel.swift in Sources */,
 				E226E5B125BA8BCF00582594 /* GeneralPreferencesView.swift in Sources */,
-				E231EFB425AFA838000ABB43 /* HorizonApp.swift in Sources */,
 				E2FE2B6825B4D1150057A54E /* Journal.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

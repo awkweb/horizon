@@ -3,9 +3,6 @@
 import SwiftUI
 import Preferences
 
-/**
-Function wrapping SwiftUI into `PreferencePane`, which is mimicking view controller's default construction syntax.
-*/
 let AccountPreferenceViewController: () -> PreferencePane = {
     /// Wrap your custom view into `Preferences.Pane`, while providing necessary toolbar info.
     let paneView = Preferences.Pane(
@@ -19,18 +16,11 @@ let AccountPreferenceViewController: () -> PreferencePane = {
     return Preferences.PaneHostingController(pane: paneView)
 }
 
-/**
-The main view of “Account” preference pane.
-*/
 struct AccountPreferencesView: View {
     private let contentWidth: Double = 400.0
 
     var body: some View {
-        Preferences.Container(contentWidth: contentWidth) {
-            Preferences.Section(title: "Futureland Login:") {
-                Text("Futureland Login").preferenceDescription()
-            }
-        }
+        Text("Futureland Login")
     }
 }
 

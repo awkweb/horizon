@@ -4,7 +4,8 @@ import SwiftUI
 
 @main
 struct HorizonApp: App {
-    @NSApplicationDelegateAdaptor(AppDelegate.self) weak var appDelegate
+    // swiftlint:disable weak_delegate
+    @NSApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
 
     var body: some Scene {
         WindowGroup {

@@ -1,11 +1,11 @@
-// By Tom Meagher on 1/20/21 at 22:07
+// By Tom Meagher on 1/22/21 at 17:43
 
 import Foundation
 import SwiftUI
 import Preferences
 import KeyboardShortcuts
 
-class AppDelegate: NSObject, NSApplicationDelegate {
+final class AppDelegate: NSObject, NSApplicationDelegate {
     let menu = HorizonMenu()
 
     lazy var statusItem = with(NSStatusBar.system.statusItem(withLength: NSStatusItem.squareLength)) {
@@ -31,7 +31,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     func applicationDidFinishLaunching(_ notification: Notification) {
         _ = statusItemButton
         _ = window
-        KeyboardShortcuts.onKeyUp(for: .toggleNewEntry) { [self] in toggleWindow() }
+        KeyboardShortcuts.onKeyUp(for: .toggleWindow) { [self] in toggleWindow() }
     }
 
     private func toggleWindow() {
