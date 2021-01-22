@@ -34,7 +34,7 @@ struct GeneralPreferencesView: View {
                     Text("Launch at login")
                 }
             }
-            
+
             Preferences.Section(title: "Keyboard Shortcuts:") {
                 VStack {
                     HStack {

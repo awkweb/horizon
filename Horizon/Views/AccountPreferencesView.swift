@@ -39,4 +39,3 @@ struct AccountPreferencesView_Previews: PreviewProvider {
         AccountPreferencesView()
     }
 }
-

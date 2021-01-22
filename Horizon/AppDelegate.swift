@@ -5,10 +5,9 @@ import SwiftUI
 import Preferences
 import KeyboardShortcuts
 
-
 class AppDelegate: NSObject, NSApplicationDelegate {
     let menu = HorizonMenu()
-    
+
     lazy var statusItem = with(NSStatusBar.system.statusItem(withLength: NSStatusItem.squareLength)) {
         $0.menu = menu
         $0.button?.title = "❇️"
@@ -19,7 +18,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     lazy var preferences: [PreferencePane] = [
         GeneralPreferenceViewController(),
-        AccountPreferenceViewController(),
+        AccountPreferenceViewController()
     ]
 
     lazy var preferencesWindowController = PreferencesWindowController(
@@ -34,7 +33,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         _ = window
         KeyboardShortcuts.onKeyUp(for: .toggleNewEntry) { [self] in toggleWindow() }
     }
-    
+
     private func toggleWindow() {
         if window.isKeyWindow {
             window.close()
