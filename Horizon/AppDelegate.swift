@@ -2,41 +2,49 @@
 
 import Foundation
 import SwiftUI
+import Preferences
+import KeyboardShortcuts
+
 
 class AppDelegate: NSObject, NSApplicationDelegate {
-    var statusBarItem: NSStatusItem!
-    var menu = NSMenu()
-    var window: NSPanel!
+    let menu = HorizonMenu()
+    
+    lazy var statusItem = with(NSStatusBar.system.statusItem(withLength: NSStatusItem.squareLength)) {
+        $0.menu = menu
+        $0.button?.title = "❇️"
+//        $0.button?.image = Constants.menuBarIcon
+    }
+    lazy var statusItemButton = statusItem.button!
+    lazy var window = HorizonWindow()
+
+    lazy var preferences: [PreferencePane] = [
+        GeneralPreferenceViewController(),
+        AccountPreferenceViewController(),
+    ]
+
+    lazy var preferencesWindowController = PreferencesWindowController(
+        preferencePanes: preferences,
+        style: .segmentedControl,
+        animated: true,
+        hidesToolbarForSingleItem: true
+    )
 
     func applicationDidFinishLaunching(_ notification: Notification) {
-        let statusBar = NSStatusBar.system
-        statusBarItem = statusBar.statusItem(withLength: NSStatusItem.variableLength)
-        statusBarItem?.button?.title = "❇️"
-        statusBarItem?.button?.action = #selector(AppDelegate.statusBarButtonClicked(_:))
-        statusBarItem?.button?.sendAction(on: [.leftMouseUp, .rightMouseUp])
-
-        menu = HorizonMenu()
-        window = HorizonWindow()
+        _ = statusItemButton
+        _ = window
+        KeyboardShortcuts.onKeyUp(for: .toggleNewEntry) { [self] in toggleWindow() }
     }
-
-    @objc func statusBarButtonClicked(_ sender: NSStatusBarButton) {
-        let event = NSApp.currentEvent!
-        if event.type ==  NSEvent.EventType.rightMouseUp {
-            print("right")
-            statusBarItem?.menu = menu
-            statusBarItem?.button?.performClick(nil)
+    
+    private func toggleWindow() {
+        if window.isKeyWindow {
+            window.close()
         } else {
-            print("left")
-            if window.isKeyWindow {
-                window.close()
-            } else {
-                window.makeKeyAndOrderFront(nil)
-            }
+            window.makeKeyAndOrderFront(nil)
         }
     }
 
     @objc func viewPreferences() {
-        print("viewPreferences")
+        preferencesWindowController.show()
     }
 
     @objc func open() {

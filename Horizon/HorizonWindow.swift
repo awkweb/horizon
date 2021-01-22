@@ -4,6 +4,10 @@ import Foundation
 import SwiftUI
 
 class HorizonWindow: NSPanel {
+    override var canBecomeKey: Bool { true }
+    override var canBecomeMain: Bool { true }
+    override var acceptsFirstResponder: Bool { true }
+    
     init() {
         super.init(contentRect: NSRect(x: 0, y: 0, width: 400, height: 300),
                    styleMask: [],
@@ -26,13 +30,5 @@ class HorizonWindow: NSPanel {
         let rootView = RootView(window: self).environmentObject(store)
         contentView = NSHostingView(rootView: rootView)
         backgroundColor = .clear
-    }
-
-    override var canBecomeKey: Bool {
-        get { return true }
-    }
-
-    override var canBecomeMain: Bool {
-        get { return true }
     }
 }
