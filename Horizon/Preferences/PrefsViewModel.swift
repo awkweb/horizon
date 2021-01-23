@@ -1,24 +1,32 @@
-// By Tom Meagher on 1/17/21 at 13:26
+// By Tom Meagher on 1/23/21 at 14:14
 
 import SwiftUI
 import Combine
 
-class LoginViewModel: ObservableObject, Identifiable {
-    private(set) var store: AppStore
-
-    @Published var email = ""
-    @Published var password = ""
-    @Published var networkActive = false
-    @Published var error: String?
-
+class PrefsViewModel: ObservableObject, Identifiable {
+    private(set) var store: Store
     private var disposables = Set<AnyCancellable>()
-
-    init(store: AppStore) {
+    
+    @Published
+    var email = ""
+    
+    @Published
+    var password = ""
+    
+    @Published
+    var networkActive = false
+    
+    @Published
+    var error: String?
+    
+    init(
+        store: Store
+    ) {
         self.store = store
     }
 
     func login() {
-        self.networkActive = true
+        self.networkActive = true        
         Futureland
             .login(email: email, password: password)
             .sink(receiveCompletion: { completion in
@@ -32,8 +40,15 @@ class LoginViewModel: ObservableObject, Identifiable {
                 self.networkActive = false
             }, receiveValue: { authUser in
                 self.store.token = authUser.token
-                self.store.user = authUser.user
+                self.store.username = authUser.user.username
+                
+                self.email = ""
+                self.password = ""
             })
             .store(in: &disposables)
+    }
+    
+    func logout() {
+        self.store.token = nil
     }
 }

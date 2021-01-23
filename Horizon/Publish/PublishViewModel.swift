@@ -1,32 +1,42 @@
-// By Tom Meagher on 1/17/21 at 14:32
+// By Tom Meagher on 1/23/21 at 14:28
 
 import SwiftUI
 import Combine
 
-class ComposeViewModel: ObservableObject, Identifiable {
-    private(set) var store: AppStore
-    private(set) var window: NSPanel
-
-    @Published var networkActive = false
-    @Published var entry = ""
-    @Published var selectedJournalId: Int = 0
-    @Published var journals = [Journal]()
-    @Published var isFileBrowserOpen = false
-    @Published var file: File?
-
-    var wordCount: Int {
-        entry.split { $0 == " " || $0.isNewline }.count
-    }
-
+class PublishViewModel: ObservableObject, Identifiable {
+    private(set) var store: Store
+    private let onClose: () -> Void
     private var disposables = Set<AnyCancellable>()
 
-    init(store: AppStore, window: NSPanel) {
+    @Published
+    var networkActive = false
+    
+    @Published
+    var entry = ""
+    
+    @Published
+    var selectedJournalId: Int = 0
+    
+    @Published
+    var journals = [Journal]()
+    
+    @Published
+    var isFileBrowserOpen = false
+    
+    @Published
+    var file: File?
+
+    var wordCount: Int { entry.split { $0 == " " || $0.isNewline }.count }
+
+    init(
+        store: Store,
+        onClose: @escaping () -> Void
+    ) {
         self.store = store
-        self.window = window
+        self.onClose = onClose
     }
 
     func addMedia() {
-        print("addMedia")
         isFileBrowserOpen = true
     }
 
@@ -69,11 +79,10 @@ class ComposeViewModel: ObservableObject, Identifiable {
     }
 
     func fetch() {
-        guard let token = store.token else {
-            print("No token :(")
-            return
-        }
+        guard let token = store.token else { return }
+
         self.networkActive = true
+        
         Futureland
             .journals(token: token)
             .sink(receiveCompletion: { completion in
@@ -101,16 +110,17 @@ class ComposeViewModel: ObservableObject, Identifiable {
     }
 
     func publish() {
-        guard let token = store.token else {
-            print("No token :(")
-            return
-        }
+        guard let token = store.token else { return }
+        
         self.networkActive = true
+        
         Futureland
-            .createEntry(token: token,
-                         notes: entry,
-                         journalId: selectedJournalId,
-                         file: file)
+            .createEntry(
+                token: token,
+                notes: entry,
+                journalId: selectedJournalId,
+                file: file
+            )
             .sink(receiveCompletion: { completion in
                 switch completion {
                 case .finished:
@@ -127,9 +137,9 @@ class ComposeViewModel: ObservableObject, Identifiable {
             .store(in: &disposables)
     }
 
-    private func reset() {
+    func reset() {
         self.entry = ""
         self.file = nil
-        self.window.close()
+        self.onClose()
     }
 }

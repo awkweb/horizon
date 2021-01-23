@@ -1,4 +1,4 @@
-// By Tom Meagher on 1/16/21 at 11:09
+// By Tom Meagher on 1/23/21 at 14:22
 
 import Foundation
 import Combine
@@ -10,7 +10,7 @@ struct Agent {
 
         return URLSession.shared
             .dataTaskPublisher(for: request)
-            .map { $0.data }
+            .map(\.data)
             .handleEvents(receiveOutput: { print(NSString(data: $0, encoding: String.Encoding.utf8.rawValue)!) })
             .decode(type: T.self, decoder: decoder)
             .receive(on: RunLoop.main)
