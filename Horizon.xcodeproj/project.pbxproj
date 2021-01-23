@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E24B94E725BCCCC500B2854D /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24B94E625BCCCC500B2854D /* main.swift */; };
 		E279FD9425BC90830066F6FC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E279FD9325BC90830066F6FC /* AppDelegate.swift */; };
 		E279FD9625BC90830066F6FC /* PublishView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E279FD9525BC90830066F6FC /* PublishView.swift */; };
 		E279FD9825BC90830066F6FC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E279FD9725BC90830066F6FC /* Assets.xcassets */; };
@@ -19,7 +20,6 @@
 		E279FDE225BC92CD0066F6FC /* Preferences in Frameworks */ = {isa = PBXBuildFile; productRef = E279FDE125BC92CD0066F6FC /* Preferences */; };
 		E279FDF525BC959A0066F6FC /* StatusBarMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = E279FDF425BC959A0066F6FC /* StatusBarMenu.swift */; };
 		E279FE0025BC95B90066F6FC /* StatusBarMenuItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = E279FDFF25BC95B90066F6FC /* StatusBarMenuItem.swift */; };
-		E279FE0825BC9A170066F6FC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E279FE0725BC9A170066F6FC /* Main.storyboard */; };
 		E279FE4825BCA8CD0066F6FC /* AccountPrefsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E279FE4725BCA8CD0066F6FC /* AccountPrefsView.swift */; };
 		E279FE5125BCAA250066F6FC /* LaunchAtLogin in Frameworks */ = {isa = PBXBuildFile; productRef = E279FE5025BCAA250066F6FC /* LaunchAtLogin */; };
 		E279FE5625BCAD210066F6FC /* PrefsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E279FE5525BCAD210066F6FC /* PrefsViewModel.swift */; };
@@ -51,6 +51,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		E24B94E625BCCCC500B2854D /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		E279FD9025BC90830066F6FC /* Horizon.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Horizon.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E279FD9325BC90830066F6FC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E279FD9525BC90830066F6FC /* PublishView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PublishView.swift; sourceTree = "<group>"; };
@@ -68,7 +69,6 @@
 		E279FDD825BC92A80066F6FC /* GeneralPrefsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneralPrefsView.swift; sourceTree = "<group>"; };
 		E279FDF425BC959A0066F6FC /* StatusBarMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusBarMenu.swift; sourceTree = "<group>"; };
 		E279FDFF25BC95B90066F6FC /* StatusBarMenuItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusBarMenuItem.swift; sourceTree = "<group>"; };
-		E279FE0725BC9A170066F6FC /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = Main.storyboard; path = ../../../.Trash/Main.storyboard; sourceTree = "<group>"; };
 		E279FE4725BCA8CD0066F6FC /* AccountPrefsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountPrefsView.swift; sourceTree = "<group>"; };
 		E279FE5525BCAD210066F6FC /* PrefsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrefsViewModel.swift; sourceTree = "<group>"; };
 		E279FE5B25BCAD680066F6FC /* AuthUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthUser.swift; sourceTree = "<group>"; };
@@ -132,6 +132,7 @@
 		E279FD9225BC90830066F6FC /* Horizon */ = {
 			isa = PBXGroup;
 			children = (
+				E24B94E625BCCCC500B2854D /* main.swift */,
 				E279FD9325BC90830066F6FC /* AppDelegate.swift */,
 				E279FE5A25BCAD5A0066F6FC /* Models */,
 				E279FE6825BCAECD0066F6FC /* Networking */,
@@ -139,7 +140,6 @@
 				E279FDC525BC90A70066F6FC /* Publish */,
 				E279FDF325BC95750066F6FC /* StatusBar */,
 				E279FD9725BC90830066F6FC /* Assets.xcassets */,
-				E279FE0725BC9A170066F6FC /* Main.storyboard */,
 				E279FD9F25BC90830066F6FC /* Info.plist */,
 				E279FDA025BC90830066F6FC /* Horizon.entitlements */,
 				E279FD9925BC90830066F6FC /* Preview Content */,
@@ -336,7 +336,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E279FE0825BC9A170066F6FC /* Main.storyboard in Resources */,
 				E279FD9B25BC90830066F6FC /* Preview Assets.xcassets in Resources */,
 				E279FD9825BC90830066F6FC /* Assets.xcassets in Resources */,
 			);
@@ -365,6 +364,7 @@
 			files = (
 				E279FD9625BC90830066F6FC /* PublishView.swift in Sources */,
 				E279FE4825BCA8CD0066F6FC /* AccountPrefsView.swift in Sources */,
+				E24B94E725BCCCC500B2854D /* main.swift in Sources */,
 				E279FE7725BCAF1B0066F6FC /* Entry.swift in Sources */,
 				E279FE0025BC95B90066F6FC /* StatusBarMenuItem.swift in Sources */,
 				E279FE8925BCB05F0066F6FC /* PublishViewModel.swift in Sources */,

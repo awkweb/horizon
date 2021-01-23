@@ -71,10 +71,13 @@ class Store: ObservableObject {
     }
 }
 
-@NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
     var store = Store()
-    var panel: PublishPanel?
+    
+    lazy var panel = PublishPanel(
+        store: store,
+        onClose: closePanel
+    )
     
     /// Set up preferences
     lazy var preferences: [PreferencePane] = [
@@ -113,7 +116,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
 extension AppDelegate {
     private func togglePanel() {
-        if ((panel?.isKeyWindow) != nil) {
+        if panel.isKeyWindow {
             closePanel()
         } else {
             openPanel()
@@ -121,8 +124,7 @@ extension AppDelegate {
     }
     
     private func closePanel() {
-        panel?.close()
-        panel = nil
+        panel.close()
     }
 
     private func openPanel() {
@@ -130,11 +132,7 @@ extension AppDelegate {
             preferencesWindowController.show(preferencePane: .account)
             return
         }
-        panel = PublishPanel(
-            store: store,
-            onClose: closePanel
-        )
-        panel?.makeKeyAndOrderFront(nil)
+        panel.makeKeyAndOrderFront(nil)
     }
     
     private func openPrefs() {
