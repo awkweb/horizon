@@ -6,19 +6,19 @@ import Combine
 class PrefsViewModel: ObservableObject, Identifiable {
     private(set) var store: Store
     private var disposables = Set<AnyCancellable>()
-    
+
     @Published
     var email = ""
-    
+
     @Published
     var password = ""
-    
+
     @Published
     var networkActive = false
-    
+
     @Published
     var error: String?
-    
+
     init(
         store: Store
     ) {
@@ -26,7 +26,7 @@ class PrefsViewModel: ObservableObject, Identifiable {
     }
 
     func login() {
-        self.networkActive = true        
+        self.networkActive = true
         Futureland
             .login(email: email, password: password)
             .sink(receiveCompletion: { completion in
@@ -41,13 +41,13 @@ class PrefsViewModel: ObservableObject, Identifiable {
             }, receiveValue: { authUser in
                 self.store.token = authUser.token
                 self.store.username = authUser.user.username
-                
+
                 self.email = ""
                 self.password = ""
             })
             .store(in: &disposables)
     }
-    
+
     func logout() {
         self.store.token = nil
     }

@@ -46,4 +46,3 @@ struct GeneralPrefsView_Previews: PreviewProvider {
         GeneralPrefsView()
     }
 }
-

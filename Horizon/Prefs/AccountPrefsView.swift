@@ -24,10 +24,10 @@ let AccountPrefsViewController: (Store) -> PreferencePane = { store in
 struct AccountPrefsView: View {
     @EnvironmentObject
     var store: Store
-    
+
     @ObservedObject
     var viewModel: PrefsViewModel
-    
+
     init(
         viewModel: PrefsViewModel
     ) {
@@ -45,7 +45,7 @@ struct AccountPrefsView: View {
             } else {
                 Form {
                     Text("Log in to Futureland")
-                    
+
                     TextField("Email", text: $viewModel.email)
 
                     SecureField("Password", text: $viewModel.password)
@@ -54,9 +54,9 @@ struct AccountPrefsView: View {
                         Button("Login", action: viewModel.login)
                             .disabled(viewModel.networkActive)
                             .keyboardShortcut(.return, modifiers: [.command])
-                        
+
                         Spacer()
-                        
+
                         if let error = viewModel.error {
                             Text(error)
                         }
@@ -77,5 +77,3 @@ struct AccountPrefsView_Previews: PreviewProvider {
         )
     }
 }
-
-

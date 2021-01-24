@@ -1,6 +1,7 @@
 // By Tom Meagher on 1/23/21 at 12:12
 
 import Cocoa
+import Combine
 import KeyboardShortcuts
 import Preferences
 import SwiftUI
@@ -59,10 +60,10 @@ class Store: ObservableObject {
             UserDefaults.standard.set(token, forKey: "Token")
         }
     }
-    
+
     @AppStorage("Username")
     var username: String?
-    
+
     init() {
         guard let token = UserDefaults.standard.string(forKey: "Token") else {
             return
@@ -71,18 +72,19 @@ class Store: ObservableObject {
     }
 }
 
+@NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
     var store = Store()
-    
+
     lazy var panel = PublishPanel(
         store: store,
         onClose: closePanel
     )
-    
+
     /// Set up preferences
     lazy var preferences: [PreferencePane] = [
         GeneralPrefsViewController(store),
-        AccountPrefsViewController(store),
+        AccountPrefsViewController(store)
     ]
     lazy var preferencesWindowController = PreferencesWindowController(
         preferencePanes: preferences,
@@ -90,7 +92,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         animated: false,
         hidesToolbarForSingleItem: true
     )
-    
+
     /// Set up menu bar
     lazy var menu = StatusBarMenu(
         openPrefs: self.openPrefs,
@@ -105,9 +107,12 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     func applicationDidFinishLaunching(_ notification: Notification) {
         _ = statusBarItemButton
-        
+        _ = panel
+
+        panel.makeKeyAndOrderFront(nil)
+
         KeyboardShortcuts.onKeyUp(for: .togglePanel) { [self] in togglePanel() }
-        
+
         if store.token == nil {
             preferencesWindowController.show(preferencePane: .account)
         }
@@ -122,7 +127,7 @@ extension AppDelegate {
             openPanel()
         }
     }
-    
+
     private func closePanel() {
         panel.close()
     }
@@ -134,11 +139,11 @@ extension AppDelegate {
         }
         panel.makeKeyAndOrderFront(nil)
     }
-    
+
     private func openPrefs() {
         preferencesWindowController.show()
     }
-    
+
     private func quit() {
         NSApp.quit()
     }

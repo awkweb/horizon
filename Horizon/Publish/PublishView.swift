@@ -6,16 +6,16 @@ import SwiftUI
 struct PublishView: View {
     @EnvironmentObject
     var store: Store
-    
+
     @ObservedObject
     var viewModel: PublishViewModel
-        
+
     init(
         viewModel: PublishViewModel
     ) {
         self.viewModel = viewModel
     }
-    
+
     var body: some View {
         VStack {
             HStack {
@@ -24,8 +24,8 @@ struct PublishView: View {
                         Text($0.title)
                     }
                 }
-                .onChange(of: viewModel.store.token) { _ in viewModel.fetch() }
-                .onAppear(perform: viewModel.fetch)
+                .onChange(of: viewModel.store.token) { _ in viewModel.fetchJournals() }
+                .onAppear(perform: viewModel.fetchJournals)
 
                 if let fileName = viewModel.file?.name {
                     HStack {
@@ -68,7 +68,6 @@ struct PublishView: View {
         })
     }
 }
-
 
 struct PublishView_Previews: PreviewProvider {
     static var previews: some View {

@@ -15,7 +15,7 @@ final class StatusBarMenu: NSMenu, NSMenuDelegate {
         let preferencesMenuItem = StatusBarMenuItem("Preferences", key: ",") { _ in openPrefs() }
         let openMenuItem = StatusBarMenuItem("Open Horizon") { _ in openPanel() }
         let quitMenuItem = StatusBarMenuItem("Quite Horizon", key: "q") { _ in quit() }
-        
+
         addItem(preferencesMenuItem)
         addItem(openMenuItem)
         addItem(NSMenuItem.separator())

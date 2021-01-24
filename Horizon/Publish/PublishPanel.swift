@@ -18,7 +18,7 @@ class PublishPanel: NSPanel {
             backing: .buffered,
             defer: false
         )
-        
+
         backgroundColor = .clear
         center()
         collectionBehavior = [
@@ -41,4 +41,3 @@ class PublishPanel: NSPanel {
         contentView = NSHostingView(rootView: rootView)
     }
 }
-

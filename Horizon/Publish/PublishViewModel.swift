@@ -10,19 +10,19 @@ class PublishViewModel: ObservableObject, Identifiable {
 
     @Published
     var networkActive = false
-    
+
     @Published
     var entry = ""
-    
+
     @Published
     var selectedJournalId: Int = 0
-    
+
     @Published
     var journals = [Journal]()
-    
+
     @Published
     var isFileBrowserOpen = false
-    
+
     @Published
     var file: File?
 
@@ -78,11 +78,11 @@ class PublishViewModel: ObservableObject, Identifiable {
         file = nil
     }
 
-    func fetch() {
+    func fetchJournals() {
         guard let token = store.token else { return }
 
         self.networkActive = true
-        
+
         Futureland
             .journals(token: token)
             .sink(receiveCompletion: { completion in
@@ -111,9 +111,9 @@ class PublishViewModel: ObservableObject, Identifiable {
 
     func publish() {
         guard let token = store.token else { return }
-        
+
         self.networkActive = true
-        
+
         Futureland
             .createEntry(
                 token: token,
