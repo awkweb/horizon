@@ -1,5 +1,6 @@
 // By Tom Meagher on 1/23/21 at 14:22
 
+import Alamofire
 import Foundation
 import Combine
 
@@ -15,44 +16,27 @@ enum Futureland {
     }
 
     /// Gets journals for signed in user
-    static func createEntry(token: String, notes: String, journalId: Int, file: File?) -> AnyPublisher<Entry, Error> {
+    static func createEntry(token: String, notes: String, journalId: Int, file: File?) -> UploadRequest {
         let url = baseURL.appendingPathComponent("/entries")
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
         request.addValue("token=\(token)", forHTTPHeaderField: "Cookie")
-
+        
         let now = Date()
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd"
         let streakDate = formatter.string(from: now)
-
-        let parameters = ["notes": notes, "streakDate": streakDate, "journal_id": "\(journalId)"]
-
-        let boundary = "\(UUID().uuidString)"
-        request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
-
-        let boundaryPrefix = "--\(boundary)\r\n"
-        var data = Data()
-        for (key, value) in parameters {
-            data.append(boundaryPrefix.data(using: .utf8, allowLossyConversion: false)!)
-            data.append("Content-Disposition: form-data; name=\"\(key)\"\r\n\r\n".data(using: .utf8, allowLossyConversion: false)!)
-            data.append("\(value)\r\n".data(using: .utf8, allowLossyConversion: false)!)
-        }
-
-        if let fileData = file?.data,
-           let fileName = file?.name,
-           let mimeType = file?.mimeType {
-            data.append(boundaryPrefix.data(using: .utf8, allowLossyConversion: false)!)
-            data.append("Content-Disposition: form-data; name=\"file\"; filename=\"\(fileName)\"\r\n".data(using: .utf8, allowLossyConversion: false)!)
-            data.append("Content-Type: \(mimeType)\r\n\r\n".data(using: .utf8, allowLossyConversion: false)!)
-            data.append(fileData)
-            data.append("\r\n".data(using: .utf8, allowLossyConversion: false)!)
-        }
-
-        data.append("--".appending(boundary.appending("--")).data(using: .utf8, allowLossyConversion: false)!)
-        request.httpBody = data
-
-        return agent.run(request)
+        
+        let fileData = file?.data ?? Data()
+        let fileName = file?.name
+        let mimeType = file?.mimeType
+        
+        return AF.upload(multipartFormData: { multipartFormData in
+            multipartFormData.append(Data(notes.utf8), withName: "notes")
+            multipartFormData.append(Data(streakDate.utf8), withName: "streakDate")
+            multipartFormData.append(Data("\(journalId)".utf8), withName: "journal_id")
+            multipartFormData.append(fileData, withName: "file", fileName: fileName, mimeType: mimeType)
+        }, with: request)
     }
 
     /// Gets journals for signed in user

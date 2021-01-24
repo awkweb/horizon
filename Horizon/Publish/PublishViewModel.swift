@@ -10,6 +10,9 @@ class PublishViewModel: ObservableObject, Identifiable {
 
     @Published
     var networkActive = false
+    
+    @Published
+    var progress = 0.0
 
     @Published
     var entry = ""
@@ -25,6 +28,8 @@ class PublishViewModel: ObservableObject, Identifiable {
 
     @Published
     var file: File?
+    
+    var disabled: Bool { networkActive || (entry.count == 0 && file == nil ) }
 
     var wordCount: Int { entry.split { $0 == " " || $0.isNewline }.count }
 
@@ -121,23 +126,19 @@ class PublishViewModel: ObservableObject, Identifiable {
                 journalId: selectedJournalId,
                 file: file
             )
-            .sink(receiveCompletion: { completion in
-                switch completion {
-                case .finished:
-                    break
-                case .failure(let error):
-                    print(error)
-                    fatalError(error.localizedDescription)
-                }
-                self.networkActive = false
-            }, receiveValue: { entry in
-                print(entry)
+            .uploadProgress { progress in
+                print(progress.fractionCompleted)
+                self.progress = progress.fractionCompleted
+            }
+            .responseDecodable(of: Entry.self) { response in
+//                debugPrint(response)
                 self.reset()
-            })
-            .store(in: &disposables)
+            }
     }
 
     func reset() {
+        self.progress = 0.0
+        self.networkActive = false
         self.entry = ""
         self.file = nil
         self.onClose()

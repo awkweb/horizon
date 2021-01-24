@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E233838025BE326200902F38 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = E233837F25BE326200902F38 /* Alamofire */; };
 		E2AEB10B25BDF413003BD251 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2AEB10A25BDF413003BD251 /* AppDelegate.swift */; };
 		E2AEB10F25BDF413003BD251 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E2AEB10E25BDF413003BD251 /* Assets.xcassets */; };
 		E2AEB11225BDF413003BD251 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E2AEB11125BDF413003BD251 /* Preview Assets.xcassets */; };
@@ -87,6 +88,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E2AEB14425BDF43F003BD251 /* LaunchAtLogin in Frameworks */,
+				E233838025BE326200902F38 /* Alamofire in Frameworks */,
 				E2AEB14A25BDF446003BD251 /* Preferences in Frameworks */,
 				E2AEB13E25BDF438003BD251 /* KeyboardShortcuts in Frameworks */,
 			);
@@ -243,6 +245,7 @@
 				E2AEB13D25BDF438003BD251 /* KeyboardShortcuts */,
 				E2AEB14325BDF43F003BD251 /* LaunchAtLogin */,
 				E2AEB14925BDF446003BD251 /* Preferences */,
+				E233837F25BE326200902F38 /* Alamofire */,
 			);
 			productName = Horizon;
 			productReference = E2AEB10725BDF413003BD251 /* Horizon.app */;
@@ -319,6 +322,7 @@
 				E2AEB13C25BDF438003BD251 /* XCRemoteSwiftPackageReference "KeyboardShortcuts" */,
 				E2AEB14225BDF43F003BD251 /* XCRemoteSwiftPackageReference "LaunchAtLogin" */,
 				E2AEB14825BDF446003BD251 /* XCRemoteSwiftPackageReference "Preferences" */,
+				E233837E25BE326200902F38 /* XCRemoteSwiftPackageReference "Alamofire" */,
 			);
 			productRefGroup = E2AEB10825BDF413003BD251 /* Products */;
 			projectDirPath = "";
@@ -714,6 +718,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		E233837E25BE326200902F38 /* XCRemoteSwiftPackageReference "Alamofire" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Alamofire/Alamofire";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.4.1;
+			};
+		};
 		E2AEB13C25BDF438003BD251 /* XCRemoteSwiftPackageReference "KeyboardShortcuts" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/sindresorhus/KeyboardShortcuts";
@@ -741,6 +753,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		E233837F25BE326200902F38 /* Alamofire */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E233837E25BE326200902F38 /* XCRemoteSwiftPackageReference "Alamofire" */;
+			productName = Alamofire;
+		};
 		E2AEB13D25BDF438003BD251 /* KeyboardShortcuts */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = E2AEB13C25BDF438003BD251 /* XCRemoteSwiftPackageReference "KeyboardShortcuts" */;
