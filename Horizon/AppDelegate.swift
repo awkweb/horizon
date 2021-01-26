@@ -101,7 +101,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     )
     lazy var statusBarItem = with(NSStatusBar.system.statusItem(withLength: NSStatusItem.squareLength)) {
         $0.menu = menu
-        $0.button?.title = "❇️"
+        $0.button?.image = #imageLiteral(resourceName: "MenuBarIcon")
+        $0.button?.image?.size = NSSize(width: 18.0, height: 18.0)
+        $0.button?.image?.isTemplate = true
     }
     lazy var statusBarItemButton = statusBarItem.button
 
