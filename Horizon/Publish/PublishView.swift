@@ -17,7 +17,7 @@ struct PublishView: View {
     }
 
     var body: some View {
-        VStack(spacing: 10) {
+        VStack(spacing: 15) {
             if viewModel.progress > 0.0 {
                 ProgressView(value: viewModel.progress)
             }
@@ -31,7 +31,7 @@ struct PublishView: View {
                 .disabled(viewModel.networkActive)
                 .onChange(of: viewModel.store.token) { _ in viewModel.fetchJournals() }
                 .onAppear(perform: viewModel.fetchJournals)
-
+                
                 if let fileName = viewModel.file?.name {
                     HStack {
                         Text(fileName)
@@ -47,11 +47,21 @@ struct PublishView: View {
                                   onCompletion: viewModel.attachMedia)
                 }
             }
-
-            TextEditor(text: $viewModel.entry)
-                .disabled(viewModel.networkActive)
-                .font(.body)
-                .frame(minWidth: 0, maxWidth: .infinity, minHeight: 75, maxHeight: 75)
+            
+            ZStack(alignment: .topLeading) {
+                if viewModel.entry.count == 0 {
+                    Text("Write…")
+                        .foregroundColor(Color(NSColor.placeholderTextColor))
+                        .font(.system(size: 14))
+                        .padding(.horizontal, 5)
+                }
+                MacEditorTextView(
+                    text: $viewModel.entry,
+                    isFirstResponder: true,
+                    isEditable: !viewModel.networkActive
+                )
+                .frame(minWidth: 0, maxWidth: .infinity, minHeight: 85, maxHeight: 85)
+            }
 
             HStack {
                 Button("Publish (⌘ Enter)", action: viewModel.publish)
@@ -60,7 +70,7 @@ struct PublishView: View {
 
                 Button("Cancel", action: viewModel.cancel)
                     .disabled(viewModel.networkActive)
-                    .keyboardShortcut(.escape)
+                    .keyboardShortcut(.cancelAction)
 
                 Spacer()
 

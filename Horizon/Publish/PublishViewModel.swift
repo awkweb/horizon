@@ -100,7 +100,6 @@ class PublishViewModel: ObservableObject, Identifiable {
                 self.networkActive = false
             }, receiveValue: { journals in
                 let sortedJournals = journals.sorted { $0.lastEntryAt > $1.lastEntryAt }
-                print(sortedJournals)
                 self.journals = sortedJournals
 
                 // Check if a journal is already selected

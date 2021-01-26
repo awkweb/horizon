@@ -13,7 +13,7 @@ class PublishPanel: NSPanel {
         onClose: @escaping () -> Void
     ) {
         super.init(
-            contentRect: NSRect(x: 0, y: 0, width: 400, height: 300),
+            contentRect: NSRect(x: 0, y: 0, width: 440, height: 300),
             styleMask: [.nonactivatingPanel],
             backing: .buffered,
             defer: false

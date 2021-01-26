@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		E233838025BE326200902F38 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = E233837F25BE326200902F38 /* Alamofire */; };
+		E275D2B325BFA63E00320CA5 /* MacEditorTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E275D2B225BFA63E00320CA5 /* MacEditorTextView.swift */; };
 		E2AEB10B25BDF413003BD251 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2AEB10A25BDF413003BD251 /* AppDelegate.swift */; };
 		E2AEB10F25BDF413003BD251 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E2AEB10E25BDF413003BD251 /* Assets.xcassets */; };
 		E2AEB11225BDF413003BD251 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E2AEB11125BDF413003BD251 /* Preview Assets.xcassets */; };
@@ -23,7 +24,6 @@
 		E2AEB15A25BDF4A7003BD251 /* AuthUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2AEB15525BDF4A7003BD251 /* AuthUser.swift */; };
 		E2AEB15B25BDF4A7003BD251 /* Journal.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2AEB15625BDF4A7003BD251 /* Journal.swift */; };
 		E2AEB16225BDF4D7003BD251 /* Futureland.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2AEB16025BDF4D6003BD251 /* Futureland.swift */; };
-		E2AEB16325BDF4D7003BD251 /* Agent.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2AEB16125BDF4D6003BD251 /* Agent.swift */; };
 		E2AEB16B25BDF4F7003BD251 /* PrefsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2AEB16825BDF4F7003BD251 /* PrefsViewModel.swift */; };
 		E2AEB16C25BDF4F7003BD251 /* AccountPrefsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2AEB16925BDF4F7003BD251 /* AccountPrefsView.swift */; };
 		E2AEB16D25BDF4F7003BD251 /* GeneralPrefsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2AEB16A25BDF4F7003BD251 /* GeneralPrefsView.swift */; };
@@ -52,6 +52,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		E275D2B225BFA63E00320CA5 /* MacEditorTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacEditorTextView.swift; sourceTree = "<group>"; };
 		E2AEB10725BDF413003BD251 /* Horizon.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Horizon.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E2AEB10A25BDF413003BD251 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E2AEB10E25BDF413003BD251 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -71,7 +72,6 @@
 		E2AEB15525BDF4A7003BD251 /* AuthUser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthUser.swift; sourceTree = "<group>"; };
 		E2AEB15625BDF4A7003BD251 /* Journal.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Journal.swift; sourceTree = "<group>"; };
 		E2AEB16025BDF4D6003BD251 /* Futureland.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Futureland.swift; sourceTree = "<group>"; };
-		E2AEB16125BDF4D6003BD251 /* Agent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Agent.swift; sourceTree = "<group>"; };
 		E2AEB16825BDF4F7003BD251 /* PrefsViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PrefsViewModel.swift; sourceTree = "<group>"; };
 		E2AEB16925BDF4F7003BD251 /* AccountPrefsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountPrefsView.swift; sourceTree = "<group>"; };
 		E2AEB16A25BDF4F7003BD251 /* GeneralPrefsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GeneralPrefsView.swift; sourceTree = "<group>"; };
@@ -135,6 +135,7 @@
 			isa = PBXGroup;
 			children = (
 				E2AEB10A25BDF413003BD251 /* AppDelegate.swift */,
+				E2B8FFD425BF0BFF0090A6B6 /* Components */,
 				E2AEB15125BDF491003BD251 /* Models */,
 				E2AEB15F25BDF4C7003BD251 /* Networking */,
 				E2AEB16725BDF4E5003BD251 /* Prefs */,
@@ -190,7 +191,6 @@
 		E2AEB15F25BDF4C7003BD251 /* Networking */ = {
 			isa = PBXGroup;
 			children = (
-				E2AEB16125BDF4D6003BD251 /* Agent.swift */,
 				E2AEB16025BDF4D6003BD251 /* Futureland.swift */,
 			);
 			path = Networking;
@@ -223,6 +223,14 @@
 				E2AEB17D25BDF537003BD251 /* StatusBarMenuItem.swift */,
 			);
 			path = StatusBar;
+			sourceTree = "<group>";
+		};
+		E2B8FFD425BF0BFF0090A6B6 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				E275D2B225BFA63E00320CA5 /* MacEditorTextView.swift */,
+			);
+			path = Components;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -367,6 +375,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E275D2B325BFA63E00320CA5 /* MacEditorTextView.swift in Sources */,
 				E2AEB17E25BDF537003BD251 /* StatusBarMenu.swift in Sources */,
 				E2AEB16B25BDF4F7003BD251 /* PrefsViewModel.swift in Sources */,
 				E2AEB16D25BDF4F7003BD251 /* GeneralPrefsView.swift in Sources */,
@@ -379,7 +388,6 @@
 				E2AEB15825BDF4A7003BD251 /* File.swift in Sources */,
 				E2AEB15A25BDF4A7003BD251 /* AuthUser.swift in Sources */,
 				E2AEB17725BDF52F003BD251 /* PublishPanel.swift in Sources */,
-				E2AEB16325BDF4D7003BD251 /* Agent.swift in Sources */,
 				E2AEB10B25BDF413003BD251 /* AppDelegate.swift in Sources */,
 				E2AEB15B25BDF4A7003BD251 /* Journal.swift in Sources */,
 				E2AEB17F25BDF537003BD251 /* StatusBarMenuItem.swift in Sources */,

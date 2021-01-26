@@ -7,7 +7,6 @@ import Combine
 enum Futureland {
     // TODO: Standardize token passing and headers
     // https://swiftwithmajid.com/2020/01/08/building-networking-layer-using-functions/
-    private static let agent = Agent()
     private static var baseURL: URL {
         guard let url = URL(string: "https://api.futureland.tv") else {
             fatalError("FAILED: https://api.futureland.tv")
@@ -40,18 +39,24 @@ enum Futureland {
     }
 
     /// Gets journals for signed in user
-    static func journals(token: String) -> AnyPublisher<[Journal], Error> {
+    static func journals(token: String) -> AnyPublisher<[Journal], AFError> {
         let url = baseURL.appendingPathComponent("/users/log")
-        var request = URLRequest(url: url)
-        request.httpMethod = "GET"
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        request.addValue("token=\(token)", forHTTPHeaderField: "Cookie")
-
-        return agent.run(request)
+        let headers = HTTPHeaders([
+            HTTPHeader(name: "Content-Type", value: "application/json"),
+            HTTPHeader(name: "Cookie", value: "token=\(token)")
+        ])
+        
+        let decoder = JSONDecoder()
+        decoder.dateDecodingStrategy = .formatted(DateFormatter.iso8601Full)
+        
+        return AF
+            .request(url, method: .get, headers: headers)
+            .publishDecodable(type: [Journal].self, decoder: decoder)
+            .value()
     }
 
     /// Sign in and get token
-    static func login(email: String, password: String) -> AnyPublisher<AuthUser, Error> {
+    static func login(email: String, password: String) -> AnyPublisher<AuthUser, AFError> {
         let url = baseURL.appendingPathComponent("/auth/login")
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
@@ -60,7 +65,10 @@ enum Futureland {
         let json: [String: Any] = ["email": email, "password": password]
         let body = try? JSONSerialization.data(withJSONObject: json)
         request.httpBody = body
-
-        return agent.run(request)
+        
+        return AF
+            .request(request)
+            .publishDecodable(type: AuthUser.self)
+            .value()
     }
 }
