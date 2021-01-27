@@ -5,53 +5,7 @@ import Combine
 import KeyboardShortcuts
 import Preferences
 import SwiftUI
-
-extension KeyboardShortcuts.Name {
-    static let togglePanel = Self("togglePanel", default: .init(.d, modifiers: [.command]))
-}
-
-extension Preferences.PaneIdentifier {
-    static let account = Self("account")
-    static let general = Self("general")
-}
-
-extension Preferences {
-    static let contentWidth: Double = 400.0
-}
-
-extension DateFormatter {
-    static let iso8601Full: DateFormatter = {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZZZZZ"
-        formatter.calendar = Calendar(identifier: .iso8601)
-        formatter.timeZone = TimeZone(secondsFromGMT: 0)
-        formatter.locale = Locale(identifier: "en_US_POSIX")
-        return formatter
-    }()
-}
-
-extension NSApplication {
-    func quit() {
-        NSApp.terminate(nil)
-    }
-}
-
-/**
-Convenience function for initializing an object and modifying its properties.
-```
-let label = with(NSTextField()) {
-    $0.stringValue = "Foo"
-    $0.textColor = .systemBlue
-    view.addSubview($0)
-}
-```
-*/
-@discardableResult
-func with<T>(_ item: T, update: (inout T) throws -> Void) rethrows -> T {
-    var this = item
-    try update(&this)
-    return this
-}
+import UserNotifications
 
 class Store: ObservableObject {
     @Published
@@ -70,10 +24,21 @@ class Store: ObservableObject {
         }
         self.token = token
     }
+    
+    let isFirstLaunch: Bool = {
+        let key = "HasLaunched"
+
+        if UserDefaults.standard.bool(forKey: key) {
+            return false
+        } else {
+            UserDefaults.standard.set(true, forKey: key)
+            return true
+        }
+    }()
 }
 
 @NSApplicationMain
-class AppDelegate: NSObject, NSApplicationDelegate {
+class AppDelegate: NSObject, NSApplicationDelegate, UNUserNotificationCenterDelegate {
     var store = Store()
 
     lazy var panel = PublishPanel(
@@ -95,13 +60,13 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     /// Set up menu bar
     lazy var menu = StatusBarMenu(
-        openPrefs: self.openPrefs,
         openPanel: self.openPanel,
+        openPrefs: self.openPrefs,
         quit: self.quit
     )
     lazy var statusBarItem = with(NSStatusBar.system.statusItem(withLength: NSStatusItem.squareLength)) {
         $0.menu = menu
-        $0.button?.image = #imageLiteral(resourceName: "MenuBarIcon")
+        $0.button?.image = Constants.menuBarIcon
         $0.button?.image?.size = NSSize(width: 18.0, height: 18.0)
         $0.button?.image?.isTemplate = true
     }
@@ -110,17 +75,26 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     func applicationDidFinishLaunching(_ notification: Notification) {
         _ = statusBarItemButton
         _ = panel
-
+        
         panel.makeKeyAndOrderFront(nil)
-
-        KeyboardShortcuts.onKeyUp(for: .togglePanel) { [self] in togglePanel() }
 
         if store.token == nil {
             preferencesWindowController.show(preferencePane: .account)
         }
+        
+        // Set up keyboard shortcuts
+        KeyboardShortcuts.onKeyUp(for: .togglePanel) { [self] in togglePanel() }
+        
+        // Set up notifications
+        UNUserNotificationCenter.current().delegate = self
+        setupNotifications()
+        
+        // Set up Sparkle
+        UpdaterManager.shared.setup(menu: menu)
     }
 }
 
+// MARK: Menu bar
 extension AppDelegate {
     private func togglePanel() {
         if panel.isKeyWindow {
@@ -148,5 +122,64 @@ extension AppDelegate {
 
     private func quit() {
         NSApp.quit()
+    }
+}
+
+// MARK: Notifications
+extension AppDelegate {
+    func userNotificationCenter(
+        _ center: UNUserNotificationCenter,
+        didReceive response: UNNotificationResponse,
+        withCompletionHandler completionHandler: @escaping () -> Void
+    ) {
+        let userInfo = response.notification.request.content.userInfo
+        let entryUrl = userInfo["entryUrl"] as! String
+                
+        switch response.actionIdentifier {
+        case Notifications.Actions.viewPublishedEntry:
+            if let url = URL(string: entryUrl) {
+                NSWorkspace.shared.open(url)
+            }
+           break
+        default:
+           break
+        }
+        
+        completionHandler()
+    }
+    
+    private func setupNotifications() {
+        // Define custom actions
+        let acceptAction = UNNotificationAction(
+            identifier: Notifications.Actions.viewPublishedEntry,
+            title: "View",
+            options: UNNotificationActionOptions(rawValue: 0)
+        )
+        
+        // Define notification type
+        let publishedEntryCategory =
+              UNNotificationCategory(
+                identifier: Notifications.Categories.publishedEntry,
+                actions: [acceptAction],
+                intentIdentifiers: [],
+                hiddenPreviewsBodyPlaceholder: ""
+              )
+
+        // Register notification type
+        let notificationCenter = UNUserNotificationCenter.current()
+        notificationCenter.setNotificationCategories([publishedEntryCategory])
+        
+        guard store.isFirstLaunch else { return }
+        
+        // Request permissions
+        UNUserNotificationCenter
+            .current()
+            .requestAuthorization(options: [.alert]) { success, error in
+           if success {
+               print("User Accepted")
+           } else if let error = error {
+               print(error.localizedDescription)
+          }
+        }
     }
 }

@@ -2,6 +2,7 @@
 
 import SwiftUI
 import Combine
+import UserNotifications
 
 class PublishViewModel: ObservableObject, Identifiable {
     private(set) var store: Store
@@ -16,9 +17,13 @@ class PublishViewModel: ObservableObject, Identifiable {
 
     @Published
     var entry = ""
-
+    
     @Published
-    var selectedJournalId: Int = 0
+    var selectedJournalId: Int = 0 {
+        didSet {
+            previousSelectedJournal = journals.first { $0.id == oldValue }
+        }
+    }
 
     @Published
     var journals = [Journal]()
@@ -30,9 +35,11 @@ class PublishViewModel: ObservableObject, Identifiable {
     var file: File?
     
     var disabled: Bool { networkActive || (entry.count == 0 && file == nil ) }
-
     var wordCount: Int { entry.split { $0 == " " || $0.isNewline }.count }
-
+    
+    var selectedJournal: Journal? { journals.first { $0.id == self.selectedJournalId } }
+    var previousSelectedJournal: Journal?
+    
     init(
         store: Store,
         onClose: @escaping () -> Void
@@ -41,52 +48,14 @@ class PublishViewModel: ObservableObject, Identifiable {
         self.onClose = onClose
     }
 
-    func addMedia() {
-        isFileBrowserOpen = true
-    }
-
-    func attachMedia(_ result: Result<URL, Error>) {
-        do {
-            let fileUrl = try result.get()
-            guard fileUrl.startAccessingSecurityScopedResource() else { return }
-
-            // Get file data
-            guard let data = try? Data(contentsOf: fileUrl) else {
-                print("Unable to read data")
-                return
-            }
-
-            // Get mime type
-            guard
-                let extUTI = UTTypeCreatePreferredIdentifierForTag(
-                    kUTTagClassFilenameExtension,
-                    fileUrl.pathExtension as CFString,
-                    nil)?.takeUnretainedValue()
-            else { return }
-            guard
-                let mimeUTI = UTTypeCopyPreferredTagWithClass(extUTI, kUTTagClassMIMEType)
-             else { return }
-            let mimeType = mimeUTI.takeRetainedValue() as String
-
-            file = File(name: fileUrl.lastPathComponent, data: data, mimeType: mimeType)
-            fileUrl.stopAccessingSecurityScopedResource()
-        } catch {
-            print(error.localizedDescription)
-        }
-    }
-
     func cancel() {
         reset()
-    }
-
-    func discardMedia() {
-        file = nil
     }
 
     func fetchJournals() {
         guard let token = store.token else { return }
 
-        self.networkActive = true
+        networkActive = true
 
         Futureland
             .journals(token: token)
@@ -116,7 +85,7 @@ class PublishViewModel: ObservableObject, Identifiable {
     func publish() {
         guard let token = store.token else { return }
 
-        self.networkActive = true
+        networkActive = true
 
         Futureland
             .createEntry(
@@ -129,17 +98,109 @@ class PublishViewModel: ObservableObject, Identifiable {
                 print(progress.fractionCompleted)
                 self.progress = progress.fractionCompleted
             }
-            .responseDecodable(of: Entry.self) { response in
-//                debugPrint(response)
+            .publishDecodable(type: Entry.self)
+            .value()
+            .sink(receiveCompletion: { completion in
+                switch completion {
+                case .finished:
+                    break
+                case .failure(let error):
+                    print(error)
+                }
+                self.networkActive = false
+            }, receiveValue: { entry in                
+                let entryUrl = "https://futureland.tv/\(self.store.username!)/\(self.selectedJournal!.slug)/\(entry.id)"
+                let content = UNMutableNotificationContent()
+                content.title = "Published Entry"
+                content.body = entry.notes
+                content.userInfo = ["entryUrl" : entryUrl]
+                content.categoryIdentifier = Notifications.Categories.publishedEntry
+                
+                let uuidString = UUID().uuidString
+                let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
+                let request = UNNotificationRequest(
+                    identifier: uuidString,
+                    content: content,
+                    trigger: trigger
+                )
+                
+                let notificationCenter = UNUserNotificationCenter.current()
+                notificationCenter.add(request) { (error) in
+                   if let error = error {
+                      print(error)
+                   }
+                }
+                
                 self.reset()
-            }
+            })
+            .store(in: &disposables)
     }
 
     func reset() {
-        self.progress = 0.0
-        self.networkActive = false
-        self.entry = ""
-        self.file = nil
-        self.onClose()
+        progress = 0.0
+        networkActive = false
+        file = nil
+        entry = ""
+        
+        maybeSetEntryToTemplate(journalId: selectedJournalId)
+        
+        onClose()
+    }
+}
+
+// MARK: Add media
+extension PublishViewModel {
+    func addMedia() {
+        isFileBrowserOpen = true
+    }
+    
+    func discardMedia() {
+        file = nil
+    }
+
+    func attachMedia(_ result: Result<URL, Error>) {
+        do {
+            let fileUrl = try result.get()
+            guard fileUrl.startAccessingSecurityScopedResource() else { return }
+
+            // Get file data
+            guard let data = try? Data(contentsOf: fileUrl) else {
+                print("Unable to read data")
+                return
+            }
+
+            // Get mime type
+            guard let mimeType = getMimeTypeFor(fileUrl: fileUrl) else {
+                print("Unable to get mime type")
+                return
+            }
+
+            file = File(name: fileUrl.lastPathComponent, data: data, mimeType: mimeType)
+            fileUrl.stopAccessingSecurityScopedResource()
+        } catch {
+            print(error.localizedDescription)
+        }
+    }
+}
+
+// MARK: Entry template
+extension PublishViewModel {
+    func maybeSetEntryToTemplate(journalId id: Int) {
+        if entry != previousSelectedJournal?.entryTemplate ?? "" {
+            return
+        }
+        
+        guard let journal = journals.first(where: { $0.id == id }) else {
+            return
+        }
+                
+        guard let template = journal.entryTemplate else {
+            entry = ""
+            return
+        }
+        
+        if journal.entryTemplateActive {
+            entry = template
+        }
     }
 }

@@ -13,8 +13,10 @@
 import Combine
 import SwiftUI
 
-struct MacEditorTextView: NSViewRepresentable {
-    @Binding var text: String
+struct TextView: NSViewRepresentable {
+    @Binding
+    var text: String
+    
     var isFirstResponder: Bool = false
     var isEditable: Bool = true
     var font: NSFont? = .systemFont(ofSize: 14, weight: .regular)
@@ -46,14 +48,14 @@ struct MacEditorTextView: NSViewRepresentable {
 }
 
 // MARK: - Coordinator
-extension MacEditorTextView {
+extension TextView {
 
     class Coordinator: NSObject, NSTextViewDelegate {
-        var parent: MacEditorTextView
+        var parent: TextView
         var selectedRanges: [NSValue] = []
         var didBecomeFirstResponder: Bool = false
 
-        init(_ parent: MacEditorTextView) {
+        init(_ parent: TextView) {
             self.parent = parent
         }
 

@@ -29,7 +29,10 @@ struct PublishView: View {
                     }
                 }
                 .disabled(viewModel.networkActive)
-                .onChange(of: viewModel.store.token) { _ in viewModel.fetchJournals() }
+                .onChange(of: viewModel.selectedJournalId) { journalId in
+                    viewModel.maybeSetEntryToTemplate(journalId: journalId)
+                }
+                .onChange(of: store.token) { _ in viewModel.fetchJournals() }
                 .onAppear(perform: viewModel.fetchJournals)
                 
                 if let fileName = viewModel.file?.name {
@@ -39,12 +42,14 @@ struct PublishView: View {
                             .disabled(viewModel.networkActive)
                     }
                 } else {
-                Button("Add media (⌘ ⇧ A)", action: viewModel.addMedia)
-                    .disabled(viewModel.networkActive)
-                    .keyboardShortcut("A", modifiers: [.command, .shift])
-                    .fileImporter(isPresented: $viewModel.isFileBrowserOpen,
-                                  allowedContentTypes: [.movie, .image, .audio],
-                                  onCompletion: viewModel.attachMedia)
+                    Button("Add media (⌘ ⇧ A)", action: viewModel.addMedia)
+                        .disabled(viewModel.networkActive)
+                        .keyboardShortcut("A", modifiers: [.command, .shift])
+                        .fileImporter(
+                            isPresented: $viewModel.isFileBrowserOpen,
+                            allowedContentTypes: [.movie, .image, .audio],
+                            onCompletion: viewModel.attachMedia
+                        )
                 }
             }
             
@@ -55,11 +60,21 @@ struct PublishView: View {
                         .font(.system(size: 14))
                         .padding(.horizontal, 5)
                 }
-                MacEditorTextView(
-                    text: $viewModel.entry,
-                    isFirstResponder: true,
-                    isEditable: !viewModel.networkActive
-                )
+                VStack {
+                    if viewModel.networkActive {
+                        TextView(
+                            text: $viewModel.entry,
+                            isFirstResponder: false,
+                            isEditable: false
+                        )
+                    } else {
+                        TextView(
+                            text: $viewModel.entry,
+                            isFirstResponder: true,
+                            isEditable: true
+                        )
+                    }
+                }
                 .frame(minWidth: 0, maxWidth: .infinity, minHeight: 85, maxHeight: 85)
             }
 
@@ -68,7 +83,7 @@ struct PublishView: View {
                     .disabled(viewModel.disabled)
                     .keyboardShortcut(.return, modifiers: [.command])
 
-                Button("Cancel", action: viewModel.cancel)
+                Button("Cancel (Esc)", action: viewModel.cancel)
                     .disabled(viewModel.networkActive)
                     .keyboardShortcut(.cancelAction)
 

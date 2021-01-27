@@ -8,7 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		E233838025BE326200902F38 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = E233837F25BE326200902F38 /* Alamofire */; };
-		E275D2B325BFA63E00320CA5 /* MacEditorTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E275D2B225BFA63E00320CA5 /* MacEditorTextView.swift */; };
+		E275D2B325BFA63E00320CA5 /* TextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E275D2B225BFA63E00320CA5 /* TextView.swift */; };
+		E283259825C109980021BD90 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = E283259725C109980021BD90 /* Constants.swift */; };
+		E28E326225C1B49100084AEC /* UpdaterManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E28E326125C1B49100084AEC /* UpdaterManager.swift */; };
 		E2AEB10B25BDF413003BD251 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2AEB10A25BDF413003BD251 /* AppDelegate.swift */; };
 		E2AEB10F25BDF413003BD251 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E2AEB10E25BDF413003BD251 /* Assets.xcassets */; };
 		E2AEB11225BDF413003BD251 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E2AEB11125BDF413003BD251 /* Preview Assets.xcassets */; };
@@ -32,6 +34,8 @@
 		E2AEB17725BDF52F003BD251 /* PublishPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2AEB17425BDF52F003BD251 /* PublishPanel.swift */; };
 		E2AEB17E25BDF537003BD251 /* StatusBarMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2AEB17C25BDF537003BD251 /* StatusBarMenu.swift */; };
 		E2AEB17F25BDF537003BD251 /* StatusBarMenuItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2AEB17D25BDF537003BD251 /* StatusBarMenuItem.swift */; };
+		E2D9610725C0F87500E4210D /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2D9610625C0F87500E4210D /* Utilities.swift */; };
+		E2DAAAF725C1B35200E9A847 /* Sparkle in Frameworks */ = {isa = PBXBuildFile; productRef = E2DAAAF625C1B35200E9A847 /* Sparkle */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -52,7 +56,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		E275D2B225BFA63E00320CA5 /* MacEditorTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacEditorTextView.swift; sourceTree = "<group>"; };
+		E275D2B225BFA63E00320CA5 /* TextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextView.swift; sourceTree = "<group>"; };
+		E283259725C109980021BD90 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		E28E326125C1B49100084AEC /* UpdaterManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdaterManager.swift; sourceTree = "<group>"; };
 		E2AEB10725BDF413003BD251 /* Horizon.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Horizon.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E2AEB10A25BDF413003BD251 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E2AEB10E25BDF413003BD251 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -80,6 +86,7 @@
 		E2AEB17425BDF52F003BD251 /* PublishPanel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PublishPanel.swift; sourceTree = "<group>"; };
 		E2AEB17C25BDF537003BD251 /* StatusBarMenu.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatusBarMenu.swift; sourceTree = "<group>"; };
 		E2AEB17D25BDF537003BD251 /* StatusBarMenuItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatusBarMenuItem.swift; sourceTree = "<group>"; };
+		E2D9610625C0F87500E4210D /* Utilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -87,6 +94,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E2DAAAF725C1B35200E9A847 /* Sparkle in Frameworks */,
 				E2AEB14425BDF43F003BD251 /* LaunchAtLogin in Frameworks */,
 				E233838025BE326200902F38 /* Alamofire in Frameworks */,
 				E2AEB14A25BDF446003BD251 /* Preferences in Frameworks */,
@@ -135,6 +143,9 @@
 			isa = PBXGroup;
 			children = (
 				E2AEB10A25BDF413003BD251 /* AppDelegate.swift */,
+				E283259725C109980021BD90 /* Constants.swift */,
+				E28E326125C1B49100084AEC /* UpdaterManager.swift */,
+				E2D9610625C0F87500E4210D /* Utilities.swift */,
 				E2B8FFD425BF0BFF0090A6B6 /* Components */,
 				E2AEB15125BDF491003BD251 /* Models */,
 				E2AEB15F25BDF4C7003BD251 /* Networking */,
@@ -228,7 +239,7 @@
 		E2B8FFD425BF0BFF0090A6B6 /* Components */ = {
 			isa = PBXGroup;
 			children = (
-				E275D2B225BFA63E00320CA5 /* MacEditorTextView.swift */,
+				E275D2B225BFA63E00320CA5 /* TextView.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -254,6 +265,7 @@
 				E2AEB14325BDF43F003BD251 /* LaunchAtLogin */,
 				E2AEB14925BDF446003BD251 /* Preferences */,
 				E233837F25BE326200902F38 /* Alamofire */,
+				E2DAAAF625C1B35200E9A847 /* Sparkle */,
 			);
 			productName = Horizon;
 			productReference = E2AEB10725BDF413003BD251 /* Horizon.app */;
@@ -331,6 +343,7 @@
 				E2AEB14225BDF43F003BD251 /* XCRemoteSwiftPackageReference "LaunchAtLogin" */,
 				E2AEB14825BDF446003BD251 /* XCRemoteSwiftPackageReference "Preferences" */,
 				E233837E25BE326200902F38 /* XCRemoteSwiftPackageReference "Alamofire" */,
+				E2DAAAF525C1B35200E9A847 /* XCRemoteSwiftPackageReference "Sparkle" */,
 			);
 			productRefGroup = E2AEB10825BDF413003BD251 /* Products */;
 			projectDirPath = "";
@@ -375,7 +388,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E275D2B325BFA63E00320CA5 /* MacEditorTextView.swift in Sources */,
+				E275D2B325BFA63E00320CA5 /* TextView.swift in Sources */,
+				E28E326225C1B49100084AEC /* UpdaterManager.swift in Sources */,
 				E2AEB17E25BDF537003BD251 /* StatusBarMenu.swift in Sources */,
 				E2AEB16B25BDF4F7003BD251 /* PrefsViewModel.swift in Sources */,
 				E2AEB16D25BDF4F7003BD251 /* GeneralPrefsView.swift in Sources */,
@@ -385,12 +399,14 @@
 				E2AEB16225BDF4D7003BD251 /* Futureland.swift in Sources */,
 				E2AEB15725BDF4A7003BD251 /* Entry.swift in Sources */,
 				E2AEB17625BDF52F003BD251 /* PublishViewModel.swift in Sources */,
+				E2D9610725C0F87500E4210D /* Utilities.swift in Sources */,
 				E2AEB15825BDF4A7003BD251 /* File.swift in Sources */,
 				E2AEB15A25BDF4A7003BD251 /* AuthUser.swift in Sources */,
 				E2AEB17725BDF52F003BD251 /* PublishPanel.swift in Sources */,
 				E2AEB10B25BDF413003BD251 /* AppDelegate.swift in Sources */,
 				E2AEB15B25BDF4A7003BD251 /* Journal.swift in Sources */,
 				E2AEB17F25BDF537003BD251 /* StatusBarMenuItem.swift in Sources */,
+				E283259825C109980021BD90 /* Constants.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -758,6 +774,14 @@
 				minimumVersion = 2.2.0;
 			};
 		};
+		E2DAAAF525C1B35200E9A847 /* XCRemoteSwiftPackageReference "Sparkle" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/sparkle-project/Sparkle";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -780,6 +804,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = E2AEB14825BDF446003BD251 /* XCRemoteSwiftPackageReference "Preferences" */;
 			productName = Preferences;
+		};
+		E2DAAAF625C1B35200E9A847 /* Sparkle */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E2DAAAF525C1B35200E9A847 /* XCRemoteSwiftPackageReference "Sparkle" */;
+			productName = Sparkle;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
