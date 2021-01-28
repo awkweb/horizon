@@ -112,7 +112,7 @@ class PublishViewModel: ObservableObject, Identifiable {
                 let content = UNMutableNotificationContent()
                 content.title = "Published Entry"
                 content.body = entry.notes
-                content.userInfo = ["entryUrl" : entryUrl]
+                content.userInfo = ["entryUrl": entryUrl]
                 content.categoryIdentifier = Notifications.Categories.publishedEntry
                 
                 let uuidString = UUID().uuidString

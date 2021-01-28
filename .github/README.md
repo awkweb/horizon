@@ -1,14 +1,5 @@
-## Dev
+## Horizon
 
-Install [`Brewfile`](../Brewfile) tools and dependencies with [homebrew](https://brew.sh/):
+Horizon is a tiny macOS app for writing and publishing entries to [Futureland](https://futureland.tv).
 
-```bash
-brew bundle
-```
-
-## Publish new update
-
-```
-ditto -c -k --sequesterRsrc --keepParent <src_path_to_app> <zip_dest>
-./bin/sign_update <zip_dest>.zip # Use output to update appcast.xml
-```
+[Download the latest release](https://github.com/tmm/horizon/releases/latest/download/Horizon.app.zip)
