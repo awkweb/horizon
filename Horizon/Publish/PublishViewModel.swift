@@ -95,7 +95,6 @@ class PublishViewModel: ObservableObject, Identifiable {
                 file: file
             )
             .uploadProgress { progress in
-                print(progress.fractionCompleted)
                 self.progress = progress.fractionCompleted
             }
             .publishDecodable(type: Entry.self)

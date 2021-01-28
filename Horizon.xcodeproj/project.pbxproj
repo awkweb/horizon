@@ -10,7 +10,6 @@
 		E233838025BE326200902F38 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = E233837F25BE326200902F38 /* Alamofire */; };
 		E275D2B325BFA63E00320CA5 /* TextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E275D2B225BFA63E00320CA5 /* TextView.swift */; };
 		E283259825C109980021BD90 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = E283259725C109980021BD90 /* Constants.swift */; };
-		E28E326225C1B49100084AEC /* UpdaterManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E28E326125C1B49100084AEC /* UpdaterManager.swift */; };
 		E2AEB10B25BDF413003BD251 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2AEB10A25BDF413003BD251 /* AppDelegate.swift */; };
 		E2AEB10F25BDF413003BD251 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E2AEB10E25BDF413003BD251 /* Assets.xcassets */; };
 		E2AEB11225BDF413003BD251 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E2AEB11125BDF413003BD251 /* Preview Assets.xcassets */; };
@@ -58,7 +57,6 @@
 /* Begin PBXFileReference section */
 		E275D2B225BFA63E00320CA5 /* TextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextView.swift; sourceTree = "<group>"; };
 		E283259725C109980021BD90 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
-		E28E326125C1B49100084AEC /* UpdaterManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdaterManager.swift; sourceTree = "<group>"; };
 		E2AEB10725BDF413003BD251 /* Horizon.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Horizon.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E2AEB10A25BDF413003BD251 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E2AEB10E25BDF413003BD251 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -144,7 +142,6 @@
 			children = (
 				E2AEB10A25BDF413003BD251 /* AppDelegate.swift */,
 				E283259725C109980021BD90 /* Constants.swift */,
-				E28E326125C1B49100084AEC /* UpdaterManager.swift */,
 				E2D9610625C0F87500E4210D /* Utilities.swift */,
 				E2B8FFD425BF0BFF0090A6B6 /* Components */,
 				E2AEB15125BDF491003BD251 /* Models */,
@@ -254,6 +251,7 @@
 				E2AEB10325BDF413003BD251 /* Sources */,
 				E2AEB10425BDF413003BD251 /* Frameworks */,
 				E2AEB10525BDF413003BD251 /* Resources */,
+				E2AAC24025C23974003869BB /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -383,13 +381,32 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		E2AAC24025C23974003869BB /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n\"${BUILT_PRODUCTS_DIR}/LaunchAtLogin_LaunchAtLogin.bundle/Contents/Resources/copy-helper-swiftpm.sh\"\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		E2AEB10325BDF413003BD251 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				E275D2B325BFA63E00320CA5 /* TextView.swift in Sources */,
-				E28E326225C1B49100084AEC /* UpdaterManager.swift in Sources */,
 				E2AEB17E25BDF537003BD251 /* StatusBarMenu.swift in Sources */,
 				E2AEB16B25BDF4F7003BD251 /* PrefsViewModel.swift in Sources */,
 				E2AEB16D25BDF4F7003BD251 /* GeneralPrefsView.swift in Sources */,
@@ -574,6 +591,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Horizon/Horizon.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"Horizon/Preview Content\"";
@@ -598,6 +616,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Horizon/Horizon.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"Horizon/Preview Content\"";
