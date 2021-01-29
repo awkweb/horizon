@@ -6,7 +6,7 @@ struct Journal: Codable, Identifiable {
     var id: Int
     var entryTemplate: String?
     var entryTemplateActive: Bool
-    var lastEntryAt: Date
+    var lastEntryAt: Date?
     var slug: String
     var title: String
 
