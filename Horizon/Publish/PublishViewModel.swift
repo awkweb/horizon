@@ -68,7 +68,11 @@ class PublishViewModel: ObservableObject, Identifiable {
                 }
                 self.networkActive = false
             }, receiveValue: { journals in
-                let sortedJournals = journals.sorted { $0.lastEntryAt > $1.lastEntryAt }
+                let sortedJournals = journals.sorted { (a, b) -> Bool in
+                    guard let lastEntryAtA = a.lastEntryAt else { return false }
+                    guard let lastEntryAtB = b.lastEntryAt else { return true }
+                    return lastEntryAtA > lastEntryAtB
+                }
                 self.journals = sortedJournals
 
                 // Check if a journal is already selected
@@ -108,7 +112,7 @@ class PublishViewModel: ObservableObject, Identifiable {
                 }
                 self.networkActive = false
             }, receiveValue: { entry in                
-                let entryUrl = "https://futureland.tv/\(self.store.username!)/\(self.selectedJournal!.slug)/\(entry.id)"
+                let entryUrl = "https://futureland.tv/\(self.store.username!)/\(self.selectedJournal!.slug)/\(entry.id)?fullscreen=1"
                 let content = UNMutableNotificationContent()
                 content.title = "Published Entry"
                 content.body = entry.notes
