@@ -21,12 +21,9 @@ class PublishViewModel: ObservableObject, Identifiable {
     @Published
     var selectedJournalId: Int = 0 {
         didSet {
-            previousSelectedJournal = journals.first { $0.id == oldValue }
+            previousSelectedJournal = store.journals.first { $0.id == oldValue }
         }
     }
-
-    @Published
-    var journals = [Journal]()
 
     @Published
     var isFileBrowserOpen = false
@@ -37,7 +34,7 @@ class PublishViewModel: ObservableObject, Identifiable {
     var disabled: Bool { networkActive || (entry.isEmpty && file == nil ) }
     var wordCount: Int { entry.split { $0 == " " || $0.isNewline }.count }
     
-    var selectedJournal: Journal? { journals.first { $0.id == self.selectedJournalId } }
+    var selectedJournal: Journal? { store.journals.first { $0.id == self.selectedJournalId } }
     var previousSelectedJournal: Journal?
     
     init(
@@ -50,41 +47,6 @@ class PublishViewModel: ObservableObject, Identifiable {
 
     func cancel() {
         reset()
-    }
-
-    func fetchJournals() {
-        guard let token = store.token else { return }
-
-        networkActive = true
-
-        Futureland
-            .journals(token: token)
-            .sink(receiveCompletion: { completion in
-                switch completion {
-                case .finished:
-                    break
-                case .failure(let error):
-                    print(error)
-                }
-                self.networkActive = false
-            }, receiveValue: { journals in
-                print(journals)
-                let sortedJournals = journals.sorted { (a, b) -> Bool in
-                    guard let lastEntryAtA = a.lastEntryAt else { return false }
-                    guard let lastEntryAtB = b.lastEntryAt else { return true }
-                    return lastEntryAtA > lastEntryAtB
-                }
-                self.journals = sortedJournals
-
-                // Check if a journal is already selected
-                let selectedJournal = sortedJournals.first { $0.id == self.selectedJournalId }
-                if selectedJournal != nil { return }
-
-                // Select first journal if none are selected
-                guard let journal = sortedJournals.first else { return }
-                self.selectedJournalId = journal.id
-            })
-            .store(in: &disposables)
     }
 
     func publish() {
@@ -171,16 +133,10 @@ extension PublishViewModel {
             guard fileUrl.startAccessingSecurityScopedResource() else { return }
 
             // Get file data
-            guard let data = try? Data(contentsOf: fileUrl) else {
-                print("Unable to read data")
-                return
-            }
+            guard let data = try? Data(contentsOf: fileUrl) else { return }
 
             // Get mime type
-            guard let mimeType = getMimeTypeFor(fileUrl: fileUrl) else {
-                print("Unable to get mime type")
-                return
-            }
+            guard let mimeType = getMimeTypeFor(fileUrl: fileUrl) else { return }
 
             file = File(name: fileUrl.lastPathComponent, data: data, mimeType: mimeType)
             fileUrl.stopAccessingSecurityScopedResource()
@@ -193,13 +149,9 @@ extension PublishViewModel {
 // MARK: Entry template
 extension PublishViewModel {
     func maybeSetEntryToTemplate(journalId id: Int) {
-        if entry != previousSelectedJournal?.entryTemplate ?? "" {
-            return
-        }
+        if entry != previousSelectedJournal?.entryTemplate ?? "" { return }
         
-        guard let journal = journals.first(where: { $0.id == id }) else {
-            return
-        }
+        guard let journal = store.journals.first(where: { $0.id == id }) else { return }
                 
         guard let template = journal.entryTemplate else {
             entry = ""
@@ -209,5 +161,15 @@ extension PublishViewModel {
         if journal.entryTemplateActive {
             entry = template
         }
+    }
+    
+    func maybeSetSelectedJournalId(journals: [Journal]) {
+        // Check if a journal is already selected
+        let selectedJournal = journals.first { $0.id == self.selectedJournalId }
+        if selectedJournal != nil { return }
+
+        // Select first journal if none are selected
+        guard let journal = journals.first else { return }
+        self.selectedJournalId = journal.id
     }
 }

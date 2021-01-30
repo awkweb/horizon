@@ -24,16 +24,15 @@ struct PublishView: View {
             
             HStack {
                 Picker(selection: $viewModel.selectedJournalId, label: Text("Journal")) {
-                    ForEach(viewModel.journals) {
+                    ForEach(store.journals) {
                         Text($0.title)
                     }
                 }
                 .disabled(viewModel.networkActive)
-                .onChange(of: viewModel.selectedJournalId) { journalId in
-                    viewModel.maybeSetEntryToTemplate(journalId: journalId)
-                }
-                .onChange(of: store.token) { _ in viewModel.fetchJournals() }
-                .onAppear(perform: viewModel.fetchJournals)
+                .onChange(of: viewModel.selectedJournalId, perform: viewModel.maybeSetEntryToTemplate)
+                .onChange(of: store.journals, perform: viewModel.maybeSetSelectedJournalId)
+                .onChange(of: store.token) { _ in store.fetchJournals() }
+                .onAppear(perform: store.fetchJournals)
                 
                 if let fileName = viewModel.file?.name {
                     HStack {

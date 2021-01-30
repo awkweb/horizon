@@ -1,5 +1,6 @@
 // By Tom Meagher on 1/29/21 at 22:21
 
+import Alamofire
 import Combine
 import Foundation
 import KeychainAccess
@@ -8,6 +9,11 @@ import SwiftUI
 let keychain = Keychain()
 
 class Store: ObservableObject {
+    private var disposables = Set<AnyCancellable>()
+    
+    @Published
+    var journals = [Journal]()
+    
     @Published
     var token: String? {
         didSet {
@@ -28,6 +34,32 @@ class Store: ObservableObject {
         
         guard let user: User = keychainGet(key: "User") else { return }
         self.user = user
+    }
+    
+    func fetchJournals() {
+        guard let token = token else { return }
+        Futureland
+            .journals(token: token)
+            .sink(
+                receiveCompletion: { completion in
+                    switch completion {
+                    case .finished:
+                        break
+                    case .failure(let error):
+                        print(error)
+                    }
+                },
+                receiveValue: { journals in
+                    let sortedJournals = journals.sorted { (a, b) -> Bool in
+                        guard let lastEntryAtA = a.lastEntryAt else { return false }
+                        guard let lastEntryAtB = b.lastEntryAt else { return true }
+                        return lastEntryAtA > lastEntryAtB
+                    }
+                    self.journals = sortedJournals
+                    print(sortedJournals)
+                }
+            )
+            .store(in: &disposables)
     }
 }
 

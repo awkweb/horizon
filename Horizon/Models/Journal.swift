@@ -2,7 +2,7 @@
 
 import Foundation
 
-struct Journal: Codable, Identifiable {
+struct Journal: Codable, Identifiable, Equatable {
     var id: Int
     var entryTemplate: String?
     var entryTemplateActive: Bool

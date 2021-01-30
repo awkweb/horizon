@@ -84,6 +84,7 @@ extension AppDelegate {
             preferencesWindowController.show(preferencePane: .account)
             return
         }
+        store.fetchJournals()
         panel.makeKeyAndOrderFront(nil)
     }
 
