@@ -34,7 +34,7 @@ class PublishViewModel: ObservableObject, Identifiable {
     @Published
     var file: File?
     
-    var disabled: Bool { networkActive || (entry.count == 0 && file == nil ) }
+    var disabled: Bool { networkActive || (entry.isEmpty && file == nil ) }
     var wordCount: Int { entry.split { $0 == " " || $0.isNewline }.count }
     
     var selectedJournal: Journal? { journals.first { $0.id == self.selectedJournalId } }

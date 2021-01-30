@@ -54,7 +54,7 @@ struct PublishView: View {
             }
             
             ZStack(alignment: .topLeading) {
-                if viewModel.entry.count == 0 {
+                if viewModel.entry.isEmpty {
                     Text("Write…")
                         .foregroundColor(Color(NSColor.placeholderTextColor))
                         .font(.system(size: 14))

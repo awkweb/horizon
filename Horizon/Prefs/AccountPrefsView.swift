@@ -37,7 +37,7 @@ struct AccountPrefsView: View {
     var body: some View {
         VStack {
             if let username = viewModel.store.username,
-               let _ = viewModel.store.token {
+               viewModel.store.token != nil {
                 VStack {
                     Text("Signed in as @\(username)")
                     Button("Log out", action: viewModel.logout)

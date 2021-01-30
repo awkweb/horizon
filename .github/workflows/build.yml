@@ -13,5 +13,5 @@ jobs:
         run: sudo xcode-select --switch /Applications/Xcode_12.2.app
       - name: Build for macOS using xcodebuild
         run:
-          xcodebuild -scheme macOS -sdk macosx clean build
+          xcodebuild -scheme Horizon -sdk macosx clean build
           CODE_SIGNING_ALLOWED=NO

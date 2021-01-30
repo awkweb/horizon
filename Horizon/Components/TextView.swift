@@ -105,9 +105,11 @@ final class CustomTextView: NSView {
 
     var selectedRanges: [NSValue] = [] {
         didSet {
+            // swiftlint:disable empty_count
             guard selectedRanges.count > 0 else {
                 return
             }
+            // swiftlint:enable empty_count
 
             textView.selectedRanges = selectedRanges
         }

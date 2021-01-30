@@ -159,14 +159,15 @@ extension AppDelegate {
         withCompletionHandler completionHandler: @escaping () -> Void
     ) {
         let userInfo = response.notification.request.content.userInfo
-        let entryUrl = userInfo["entryUrl"] as! String
                 
         switch response.actionIdentifier {
         case Notifications.Actions.viewPublishedEntry:
+            guard let entryUrl = userInfo["entryUrl"] as? String else {
+                return
+            }
             if let url = URL(string: entryUrl) {
                 NSWorkspace.shared.open(url)
             }
-           break
         default:
            break
         }
