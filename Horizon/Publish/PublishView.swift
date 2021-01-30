@@ -91,6 +91,14 @@ struct PublishView: View {
                 if viewModel.wordCount > 1 {
                     Text("\(viewModel.wordCount) words")
                 }
+                
+                if !(viewModel.selectedJournal?.isPrivate ?? false) {
+                    Button("\(viewModel.isPrivate ? "🔒" : "🔓")") {
+                        viewModel.isPrivate = !viewModel.isPrivate
+                    }
+                        .disabled(viewModel.networkActive)
+                        .keyboardShortcut("P", modifiers: [.command, .shift])
+                }
             }
         }
         .padding()

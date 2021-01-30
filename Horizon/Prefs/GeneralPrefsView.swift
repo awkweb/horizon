@@ -22,7 +22,8 @@ let GeneralPrefsViewController: (Store) -> PreferencePane = { store in
 }
 
 struct GeneralPrefsView: View {
-    @EnvironmentObject var store: Store
+    @EnvironmentObject
+    var store: Store
 
     var body: some View {
         Preferences.Container(contentWidth: Preferences.contentWidth) {

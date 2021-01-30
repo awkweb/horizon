@@ -6,6 +6,7 @@ struct Journal: Codable, Identifiable, Equatable {
     var id: Int
     var entryTemplate: String?
     var entryTemplateActive: Bool
+    var isPrivate: Bool
     var lastEntryAt: Date?
     var slug: String
     var title: String
@@ -14,6 +15,7 @@ struct Journal: Codable, Identifiable, Equatable {
         case id
         case entryTemplate
         case entryTemplateActive
+        case isPrivate = "private"
         case lastEntryAt = "last_entry_at"
         case slug
         case title

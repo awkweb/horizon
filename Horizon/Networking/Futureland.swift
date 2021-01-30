@@ -15,7 +15,13 @@ enum Futureland {
     }
 
     /// Gets journals for signed in user
-    static func createEntry(token: String, notes: String, journalId: Int, file: File?) -> UploadRequest {
+    static func createEntry(
+        token: String,
+        notes: String,
+        journalId: Int,
+        file: File?,
+        isPrivate: Bool
+    ) -> UploadRequest {
         let url = baseURL.appendingPathComponent("/entries")
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
@@ -34,6 +40,7 @@ enum Futureland {
             multipartFormData.append(Data(notes.utf8), withName: "notes")
             multipartFormData.append(Data(streakDate.utf8), withName: "streakDate")
             multipartFormData.append(Data("\(journalId)".utf8), withName: "journal_id")
+            multipartFormData.append(Data("\(isPrivate)".utf8), withName: "private")
             multipartFormData.append(fileData, withName: "file", fileName: fileName, mimeType: mimeType)
         }, with: request)
     }

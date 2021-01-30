@@ -27,6 +27,9 @@ class PublishViewModel: ObservableObject, Identifiable {
 
     @Published
     var isFileBrowserOpen = false
+    
+    @Published
+    var isPrivate = false
 
     @Published
     var file: File?
@@ -59,7 +62,8 @@ class PublishViewModel: ObservableObject, Identifiable {
                 token: token,
                 notes: entry,
                 journalId: selectedJournalId,
-                file: file
+                file: file,
+                isPrivate: isPrivate
             )
             .uploadProgress { progress in
                 self.progress = progress.fractionCompleted
@@ -108,6 +112,7 @@ class PublishViewModel: ObservableObject, Identifiable {
     func reset() {
         progress = 0.0
         networkActive = false
+        isPrivate = false
         file = nil
         entry = ""
         
