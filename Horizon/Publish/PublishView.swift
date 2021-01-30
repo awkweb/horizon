@@ -105,9 +105,11 @@ struct PublishView: View {
 
 struct PublishView_Previews: PreviewProvider {
     static var previews: some View {
+        let store = Store()
+        
         PublishView(
             viewModel: PublishViewModel(
-                store: Store(),
+                store: store,
                 onClose: { print("onClose") }
             )
         )

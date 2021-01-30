@@ -1,4 +1,4 @@
-name: SwiftLint
+name: Lint
 
 on:
   push:
@@ -8,17 +8,21 @@ on:
       - "**/*.swift"
 
 jobs:
-  SwiftLint:
+  lint:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v1
-      - name: GitHub Action for SwiftLint
+      - name: Check out main
+        uses: actions/checkout@v1
+
+      - name: Lint
         uses: norio-nomura/action-swiftlint@3.1.0
-      - name: GitHub Action for SwiftLint with --strict
+
+      - name: Lint --strict
         uses: norio-nomura/action-swiftlint@3.1.0
         with:
           args: --strict
-      - name: GitHub Action for SwiftLint (Only files changed in the PR)
+
+      - name: Lint files changed in PR
         uses: norio-nomura/action-swiftlint@3.1.0
         env:
           DIFF_BASE: ${{ github.base_ref }}

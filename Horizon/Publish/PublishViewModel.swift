@@ -68,6 +68,7 @@ class PublishViewModel: ObservableObject, Identifiable {
                 }
                 self.networkActive = false
             }, receiveValue: { journals in
+                print(journals)
                 let sortedJournals = journals.sorted { (a, b) -> Bool in
                     guard let lastEntryAtA = a.lastEntryAt else { return false }
                     guard let lastEntryAtB = b.lastEntryAt else { return true }
@@ -111,8 +112,11 @@ class PublishViewModel: ObservableObject, Identifiable {
                     print(error)
                 }
                 self.networkActive = false
-            }, receiveValue: { entry in                
-                let entryUrl = "https://futureland.tv/\(self.store.username!)/\(self.selectedJournal!.slug)/\(entry.id)?fullscreen=1"
+            }, receiveValue: { entry in
+                guard let username = self.store.user?.username else { return }
+                guard let slug = self.selectedJournal?.slug else { return }
+                
+                let entryUrl = "https://futureland.tv/\(username)/\(slug)/\(entry.id)?fullscreen=1"
                 let content = UNMutableNotificationContent()
                 content.title = "Published Entry"
                 content.body = entry.notes

@@ -40,7 +40,7 @@ class PrefsViewModel: ObservableObject, Identifiable {
                 self.networkActive = false
             }, receiveValue: { authUser in
                 self.store.token = authUser.token
-                self.store.username = authUser.user.username
+                self.store.user = authUser.user
 
                 self.email = ""
                 self.password = ""

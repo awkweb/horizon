@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		E233838025BE326200902F38 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = E233837F25BE326200902F38 /* Alamofire */; };
 		E275D2B325BFA63E00320CA5 /* TextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E275D2B225BFA63E00320CA5 /* TextView.swift */; };
+		E276483825C50824007ECF9B /* Store.swift in Sources */ = {isa = PBXBuildFile; fileRef = E276483725C50824007ECF9B /* Store.swift */; };
+		E276484125C5CB74007ECF9B /* KeychainAccess in Frameworks */ = {isa = PBXBuildFile; productRef = E276484025C5CB74007ECF9B /* KeychainAccess */; };
 		E283259825C109980021BD90 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = E283259725C109980021BD90 /* Constants.swift */; };
 		E2AEB10B25BDF413003BD251 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2AEB10A25BDF413003BD251 /* AppDelegate.swift */; };
 		E2AEB10F25BDF413003BD251 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E2AEB10E25BDF413003BD251 /* Assets.xcassets */; };
@@ -56,6 +58,7 @@
 
 /* Begin PBXFileReference section */
 		E275D2B225BFA63E00320CA5 /* TextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextView.swift; sourceTree = "<group>"; };
+		E276483725C50824007ECF9B /* Store.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Store.swift; sourceTree = "<group>"; };
 		E283259725C109980021BD90 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		E2AEB10725BDF413003BD251 /* Horizon.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Horizon.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E2AEB10A25BDF413003BD251 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -94,6 +97,7 @@
 			files = (
 				E2DAAAF725C1B35200E9A847 /* Sparkle in Frameworks */,
 				E2AEB14425BDF43F003BD251 /* LaunchAtLogin in Frameworks */,
+				E276484125C5CB74007ECF9B /* KeychainAccess in Frameworks */,
 				E233838025BE326200902F38 /* Alamofire in Frameworks */,
 				E2AEB14A25BDF446003BD251 /* Preferences in Frameworks */,
 				E2AEB13E25BDF438003BD251 /* KeyboardShortcuts in Frameworks */,
@@ -142,6 +146,7 @@
 			children = (
 				E2AEB10A25BDF413003BD251 /* AppDelegate.swift */,
 				E283259725C109980021BD90 /* Constants.swift */,
+				E276483725C50824007ECF9B /* Store.swift */,
 				E2D9610625C0F87500E4210D /* Utilities.swift */,
 				E2B8FFD425BF0BFF0090A6B6 /* Components */,
 				E2AEB15125BDF491003BD251 /* Models */,
@@ -265,6 +270,7 @@
 				E2AEB14925BDF446003BD251 /* Preferences */,
 				E233837F25BE326200902F38 /* Alamofire */,
 				E2DAAAF625C1B35200E9A847 /* Sparkle */,
+				E276484025C5CB74007ECF9B /* KeychainAccess */,
 			);
 			productName = Horizon;
 			productReference = E2AEB10725BDF413003BD251 /* Horizon.app */;
@@ -343,6 +349,7 @@
 				E2AEB14825BDF446003BD251 /* XCRemoteSwiftPackageReference "Preferences" */,
 				E233837E25BE326200902F38 /* XCRemoteSwiftPackageReference "Alamofire" */,
 				E2DAAAF525C1B35200E9A847 /* XCRemoteSwiftPackageReference "Sparkle" */,
+				E276483F25C5CB74007ECF9B /* XCRemoteSwiftPackageReference "KeychainAccess" */,
 			);
 			productRefGroup = E2AEB10825BDF413003BD251 /* Products */;
 			projectDirPath = "";
@@ -438,6 +445,7 @@
 				E2AEB15825BDF4A7003BD251 /* File.swift in Sources */,
 				E2AEB15A25BDF4A7003BD251 /* AuthUser.swift in Sources */,
 				E2AEB17725BDF52F003BD251 /* PublishPanel.swift in Sources */,
+				E276483825C50824007ECF9B /* Store.swift in Sources */,
 				E2AEB10B25BDF413003BD251 /* AppDelegate.swift in Sources */,
 				E2AEB15B25BDF4A7003BD251 /* Journal.swift in Sources */,
 				E2AEB17F25BDF537003BD251 /* StatusBarMenuItem.swift in Sources */,
@@ -791,6 +799,14 @@
 				minimumVersion = 5.4.1;
 			};
 		};
+		E276483F25C5CB74007ECF9B /* XCRemoteSwiftPackageReference "KeychainAccess" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/kishikawakatsumi/KeychainAccess";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 4.2.1;
+			};
+		};
 		E2AEB13C25BDF438003BD251 /* XCRemoteSwiftPackageReference "KeyboardShortcuts" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/sindresorhus/KeyboardShortcuts";
@@ -830,6 +846,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = E233837E25BE326200902F38 /* XCRemoteSwiftPackageReference "Alamofire" */;
 			productName = Alamofire;
+		};
+		E276484025C5CB74007ECF9B /* KeychainAccess */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E276483F25C5CB74007ECF9B /* XCRemoteSwiftPackageReference "KeychainAccess" */;
+			productName = KeychainAccess;
 		};
 		E2AEB13D25BDF438003BD251 /* KeyboardShortcuts */ = {
 			isa = XCSwiftPackageProductDependency;

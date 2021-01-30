@@ -3,7 +3,7 @@
 import Foundation
 import SwiftUI
 
-class PublishPanel: NSPanel {
+class PublishPanel: NSPanel {    
     override var canBecomeKey: Bool { true }
     override var canBecomeMain: Bool { true }
     override var acceptsFirstResponder: Bool { true }

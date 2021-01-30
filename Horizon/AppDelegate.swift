@@ -8,25 +8,6 @@ import Sparkle
 import SwiftUI
 import UserNotifications
 
-class Store: ObservableObject {
-    @Published
-    var token: String? {
-        didSet {
-            UserDefaults.standard.set(token, forKey: "Token")
-        }
-    }
-
-    @AppStorage("Username")
-    var username: String?
-
-    init() {
-        guard let token = UserDefaults.standard.string(forKey: "Token") else {
-            return
-        }
-        self.token = token
-    }
-}
-
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate, UNUserNotificationCenterDelegate, SUUpdaterDelegate {
     var store = Store()

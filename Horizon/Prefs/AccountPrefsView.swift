@@ -36,7 +36,7 @@ struct AccountPrefsView: View {
 
     var body: some View {
         VStack {
-            if let username = viewModel.store.username,
+            if let username = viewModel.store.user?.username,
                viewModel.store.token != nil {
                 VStack {
                     Text("Signed in as @\(username)")
@@ -72,8 +72,10 @@ struct AccountPrefsView: View {
 
 struct AccountPrefsView_Previews: PreviewProvider {
     static var previews: some View {
+        let store = Store()
+
         AccountPrefsView(
-            viewModel: PrefsViewModel(store: Store())
+            viewModel: PrefsViewModel(store: store)
         )
     }
 }
