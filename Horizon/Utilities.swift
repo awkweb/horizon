@@ -53,3 +53,13 @@ func with<T>(_ item: T, update: (inout T) throws -> Void) rethrows -> T {
     try update(&this)
     return this
 }
+
+func getFileForUrl(url fileUrl: URL) -> File? {
+    // Get file data
+    guard let data = try? Data(contentsOf: fileUrl) else { return nil }
+
+    // Get mime type
+    guard let mimeType = getMimeTypeFor(fileUrl: fileUrl) else { return nil }
+
+    return File(name: fileUrl.lastPathComponent, data: data, mimeType: mimeType)
+}

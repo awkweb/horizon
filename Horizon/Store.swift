@@ -56,7 +56,6 @@ class Store: ObservableObject {
                         return lastEntryAtA > lastEntryAtB
                     }
                     self.journals = sortedJournals
-                    print(sortedJournals)
                 }
             )
             .store(in: &disposables)

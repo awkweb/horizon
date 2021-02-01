@@ -24,6 +24,9 @@ class PublishViewModel: ObservableObject, Identifiable {
             previousSelectedJournal = store.journals.first { $0.id == oldValue }
         }
     }
+    
+    @Published
+    var isDragAndDropActive = false
 
     @Published
     var isFileBrowserOpen = false
@@ -137,13 +140,10 @@ extension PublishViewModel {
             let fileUrl = try result.get()
             guard fileUrl.startAccessingSecurityScopedResource() else { return }
 
-            // Get file data
-            guard let data = try? Data(contentsOf: fileUrl) else { return }
-
-            // Get mime type
-            guard let mimeType = getMimeTypeFor(fileUrl: fileUrl) else { return }
-
-            file = File(name: fileUrl.lastPathComponent, data: data, mimeType: mimeType)
+            guard let mediaFile = getFileForUrl(url: fileUrl) else { return }
+            
+            file = mediaFile
+            
             fileUrl.stopAccessingSecurityScopedResource()
         } catch {
             print(error.localizedDescription)
@@ -157,13 +157,13 @@ extension PublishViewModel {
         if entry != previousSelectedJournal?.entryTemplate ?? "" { return }
         
         guard let journal = store.journals.first(where: { $0.id == id }) else { return }
-                
+        
         guard let template = journal.entryTemplate else {
             entry = ""
             return
         }
         
-        if journal.entryTemplateActive {
+        if journal.entryTemplateActive || template.isEmpty {
             entry = template
         }
     }

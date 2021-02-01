@@ -159,6 +159,7 @@ final class CustomTextView: NSView {
         textView.minSize = NSSize(width: 0, height: contentSize.height)
         textView.textColor = NSColor.labelColor
         textView.allowsUndo = true
+        textView.isContinuousSpellCheckingEnabled = true
 
         return textView
     }()
