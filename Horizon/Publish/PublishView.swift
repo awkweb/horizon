@@ -2,9 +2,6 @@
 
 import Combine
 import SwiftUI
-import UniformTypeIdentifiers
-
-let allowedContentTypes: [UTType] = [.movie, .video, .image, .audio]
 
 struct PublishView: View {
     @EnvironmentObject
@@ -37,6 +34,7 @@ struct PublishView: View {
                     .onChange(of: store.journals, perform: viewModel.maybeSetSelectedJournalId)
                     .onChange(of: store.token) { _ in store.fetchJournals() }
                     .onAppear(perform: store.fetchJournals)
+                    .accessibility(value: Text("Selected journal: \(viewModel.selectedJournal?.title ?? "None")"))
                     
                     if let fileName = viewModel.file?.name {
                         HStack {
@@ -45,14 +43,19 @@ struct PublishView: View {
                                 .disabled(viewModel.networkActive)
                         }
                     } else {
-                        Button("Add media (⌘ ⇧ A)", action: viewModel.addMedia)
-                            .disabled(viewModel.networkActive)
-                            .keyboardShortcut("a", modifiers: [.command, .shift])
-                            .fileImporter(
-                                isPresented: $viewModel.isFileBrowserOpen,
-                                allowedContentTypes: allowedContentTypes,
-                                onCompletion: viewModel.attachMedia
-                            )
+                        Button(action: viewModel.addMedia) {
+                            Text("Add media")
+                            Text("(⌘ ⇧ A)")
+                                .accessibility(hidden: true)
+                        }
+                        .disabled(viewModel.networkActive)
+                        .keyboardShortcut("a", modifiers: [.command, .shift])
+                        .fileImporter(
+                            isPresented: $viewModel.isFileBrowserOpen,
+                            allowedContentTypes: Constants.allowedContentTypes,
+                            onCompletion: viewModel.attachMedia
+                        )
+                        .accessibility(hint: Text("Attach media to entry"))
                     }
                 }
                 
@@ -62,6 +65,7 @@ struct PublishView: View {
                             .foregroundColor(Color(NSColor.placeholderTextColor))
                             .font(.system(size: 14))
                             .padding(.horizontal, 5)
+                            .accessibility(hidden: true)
                     }
                     VStack {
                         if viewModel.networkActive || viewModel.isDragAndDropActive {
@@ -82,18 +86,29 @@ struct PublishView: View {
                 }
 
                 HStack {
-                    Button("Publish (⌘ Enter)", action: viewModel.publish)
-                        .disabled(viewModel.disabled)
-                        .keyboardShortcut(.return, modifiers: [.command])
-
-                    Button("Cancel (Esc)", action: viewModel.cancel)
-                        .disabled(viewModel.networkActive)
-                        .keyboardShortcut(.cancelAction)
+                    Button(action: viewModel.publish) {
+                        Text("Publish")
+                        Text("(⌘ Enter)")
+                            .accessibility(hidden: true)
+                    }
+                    .disabled(viewModel.disabled)
+                    .keyboardShortcut(.return, modifiers: [.command])
+                    .accessibility(hint: Text("Publish entry to Futureland"))
+                    
+                    Button(action: viewModel.cancel) {
+                        Text("Cancel")
+                        Text("(Esc)")
+                            .accessibility(hidden: true)
+                    }
+                    .disabled(viewModel.networkActive)
+                    .keyboardShortcut(.cancelAction)
+                    .accessibility(hint: Text("Discard changes and close window"))
 
                     Spacer()
 
                     if viewModel.wordCount > 1 {
                         Text("\(viewModel.wordCount) words")
+                            .accessibility(value: Text("Word count"))
                     }
                     
                     if !(viewModel.selectedJournal?.isPrivate ?? false) {
@@ -102,6 +117,8 @@ struct PublishView: View {
                         }
                         .disabled(viewModel.networkActive)
                         .keyboardShortcut("p", modifiers: [.command, .shift])
+                        .accessibility(label: Text("\(viewModel.isPrivate ? "Private" : "Public")"))
+                        .accessibility(hint: Text("Mark entry as public or private"))
                     }
                 }
             }
@@ -113,7 +130,7 @@ struct PublishView: View {
                     Text("Drop Media")
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
-                .background(Color.gray.opacity(0.2))
+                .background(Color("Background").opacity(0.85))
             }
         }
         .cornerRadius(10)
@@ -121,7 +138,7 @@ struct PublishView: View {
             if store.token == nil { viewModel.reset() }
         })
         .onDrop(
-            of: allowedContentTypes,
+            of: Constants.allowedContentTypes,
             delegate: PublishDropDelegate(
                 active: $viewModel.isDragAndDropActive,
                 file: $viewModel.file
@@ -141,15 +158,10 @@ struct PublishDropDelegate: DropDelegate {
         guard let itemProvider = info.itemProviders(for: [(kUTTypeFileURL as String)]).first else { return false }
         
         itemProvider.loadItem(forTypeIdentifier: (kUTTypeFileURL as String), options: nil) { item, _ in
-            guard let data = item as? Data else { return }
-            
-            if let fileUrl = URL(dataRepresentation: data, relativeTo: nil) {
-                guard fileUrl.startAccessingSecurityScopedResource() else { return }
-                guard let mediaFile = getFileForUrl(url: fileUrl) else { return }
-                
+            if let data = item as? Data,
+               let fileUrl = URL(dataRepresentation: data, relativeTo: nil),
+               let mediaFile = getFileForUrl(url: fileUrl) {
                 DispatchQueue.main.async { file = mediaFile }
-                
-                fileUrl.stopAccessingSecurityScopedResource()
             }
         }
         
@@ -157,11 +169,32 @@ struct PublishDropDelegate: DropDelegate {
     }
     
     func dropEntered(info: DropInfo) {
-        active = true
+        // TODO: Swift bug `dropEntered` isn't called
+        // - Check file type
+        // - Set active to true if valid
     }
     
     func dropUpdated(info: DropInfo) -> DropProposal? {
-        if !active { active = true }
+        // TODO: Move this logic to `dropEntered` once supported
+        // Determine if file type is audio, image, or video before showing active region
+        guard
+            info.hasItemsConforming(to: [(kUTTypeFileURL as String)]),
+            let itemProvider = info.itemProviders(for: [(kUTTypeFileURL as String)]).first else {
+            print("cancel")
+            return DropProposal(operation: .cancel)
+        }
+        
+        if !active {
+            itemProvider.loadItem(forTypeIdentifier: (kUTTypeFileURL as String), options: nil) { item, _ in
+                if let data = item as? Data,
+                   let fileUrl = URL(dataRepresentation: data, relativeTo: nil),
+                   let mediaFile = getFileForUrl(url: fileUrl),
+                   ["audio", "image", "video"].contains(where: mediaFile.mimeType.contains) {
+                    DispatchQueue.main.async { active = true }
+                }
+            }
+        }
+        
         return DropProposal(operation: .copy)
     }
     

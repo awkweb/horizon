@@ -3,8 +3,10 @@
 import KeyboardShortcuts
 import Preferences
 import SwiftUI
+import UniformTypeIdentifiers
 
 struct Constants {
+    static let allowedContentTypes: [UTType] = [.image, .audiovisualContent]
     static let menuBarIcon = NSImage(named: "MenuBarIcon")!
 }
 
