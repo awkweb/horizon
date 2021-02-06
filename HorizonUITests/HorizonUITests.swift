@@ -17,13 +17,37 @@ class HorizonUITests: XCTestCase {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
     }
 
-    func testExample() throws {
-        // UI tests must launch the application that they test.
+    func testLoginError() throws {
         let app = XCUIApplication()
         app.launch()
-
-        // Use recording to get started writing UI tests.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
+        
+        let accountWindow = XCUIApplication().windows["Account"]
+        
+        let emailTextField = accountWindow.textFields["Email"]
+        emailTextField.click()
+        emailTextField.typeText("foo@example.com")
+        
+        let passwordSecureTextField = accountWindow.secureTextFields["Password"]
+        passwordSecureTextField.click()
+        passwordSecureTextField.typeText("foobarbaz")
+        
+        accountWindow.buttons["Login"].click()
+        
+        let errorMessage = app.staticTexts["wrong credentials"]
+        _ = errorMessage.waitForExistence(timeout: 5)
+        
+        XCTAssertTrue(errorMessage.exists)
+    }
+    
+    func testLoginSuccess() throws {
+        let app = XCUIApplication()
+        app.launch()
+        
+        let accountWindow = XCUIApplication().windows["Account"]
+        
+        let emailTextField = accountWindow.textFields["Email"]
+        emailTextField.click()
+        emailTextField.typeText("foo@example.com")
     }
 
     func testLaunchPerformance() throws {
