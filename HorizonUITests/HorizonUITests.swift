@@ -45,9 +45,18 @@ class HorizonUITests: XCTestCase {
         
         let accountWindow = XCUIApplication().windows["Account"]
         
+        guard let email = ProcessInfo.processInfo.environment["FUTURELAND_EMAIL"] else { return }
+        guard let password = ProcessInfo.processInfo.environment["FUTURELAND_PASSWORD"] else { return }
+        
         let emailTextField = accountWindow.textFields["Email"]
         emailTextField.click()
-        emailTextField.typeText("foo@example.com")
+        emailTextField.typeText(email)
+        
+        let passwordSecureTextField = accountWindow.secureTextFields["Password"]
+        passwordSecureTextField.click()
+        passwordSecureTextField.typeText(password)
+        
+        accountWindow.buttons["Login"].click()
     }
 
     func testLaunchPerformance() throws {

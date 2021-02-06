@@ -13,8 +13,8 @@ jobs:
         run: ls /Applications | grep Xcode
 
       - name: Select Xcode 12
-        run: sudo xcode-select --switch /Applications/Xcode_12.2.app
+        run: sudo xcode-select --switch /Applications/Xcode_12.4.app
 
-      - name: Build for macOS using xcodebuild
+      - name: Test
         run:
-          xcodebuild test -scheme Horizon
+          xcodebuild test -scheme Horizon\ Test
