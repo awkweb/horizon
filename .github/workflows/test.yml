@@ -17,4 +17,9 @@ jobs:
 
       - name: Test
         run:
-          xcodebuild test -scheme Horizon\ Test
+          xcodebuild test -scheme Horizon \
+          FUTURELAND_EMAIL=$FUTURELAND_EMAIL \
+          FUTURELAND_PASSWORD=$FUTURELAND_PASSWORD
+        env:
+          FUTURELAND_EMAIL: ${{ secrets.FUTURELAND_EMAIL }}
+          FUTURELAND_PASSWORD: ${{ secrets.FUTURELAND_PASSWORD }}

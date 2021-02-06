@@ -76,9 +76,14 @@
       </BuildableProductRunnable>
       <EnvironmentVariables>
          <EnvironmentVariable
-            key = ""
-            value = ""
-            isEnabled = "NO">
+            key = "FUTURELAND_EMAIL"
+            value = "$(FUTURELAND_EMAIL)"
+            isEnabled = "YES">
+         </EnvironmentVariable>
+         <EnvironmentVariable
+            key = "FUTURELAND_PASSWORD"
+            value = "$(FUTURELAND_PASSWORD)"
+            isEnabled = "YES">
          </EnvironmentVariable>
       </EnvironmentVariables>
    </LaunchAction>
