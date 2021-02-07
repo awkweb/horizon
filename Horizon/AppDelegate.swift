@@ -30,24 +30,24 @@ class AppDelegate: NSObject, NSApplicationDelegate, UNUserNotificationCenterDele
     )
 
     /// Set up menu bar
-    lazy var menu = StatusBarMenu(
+    lazy var menu = StatusItemMenu(
         openPanel: self.openPanel,
         openPrefs: self.openPrefs,
         checkForUpdates: self.checkForUpdates,
         quit: self.quit
     )
-    lazy var statusBarItem = with(NSStatusBar.system.statusItem(withLength: NSStatusItem.squareLength)) {
+    lazy var statusItem = with(NSStatusBar.system.statusItem(withLength: NSStatusItem.squareLength)) {
         $0.menu = menu
         $0.button?.image = Constants.menuBarIcon
         $0.button?.image?.size = NSSize(width: 18.0, height: 18.0)
         $0.button?.image?.isTemplate = true
     }
-    lazy var statusBarItemButton = statusBarItem.button
-
+    lazy var statusItemButton = statusItem.button
+    
     func applicationDidFinishLaunching(_ notification: Notification) {
-        _ = statusBarItemButton
+        _ = statusItemButton
         _ = panel
-
+        
         if store.token == nil {
             preferencesWindowController.show(preferencePane: .account)
         } else {

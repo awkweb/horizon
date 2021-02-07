@@ -3,14 +3,14 @@
 import Foundation
 import SwiftUI
 
-final class StatusBarMenu: NSMenu, NSMenuDelegate {
+final class StatusItemMenu: NSMenu, NSMenuDelegate {
     init(
         openPanel: @escaping () -> Void,
         openPrefs: @escaping () -> Void,
         checkForUpdates: @escaping () -> Void,
         quit: @escaping () -> Void
     ) {
-        super.init(title: "Status Bar Menu")
+        super.init(title: "Horizon Status Item Menu")
         delegate = self
 
         let openMenuItem = StatusBarMenuItem("Open Horizon") { _ in openPanel() }

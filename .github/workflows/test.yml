@@ -1,9 +1,9 @@
-name: Build
+name: Test
 
 on: [push]
 
 jobs:
-  build:
+  test:
     runs-on: macOS-latest
     steps:
       - name: Check out main
@@ -15,7 +15,11 @@ jobs:
       - name: Select Xcode 12
         run: sudo xcode-select --switch /Applications/Xcode_12.4.app
 
-      - name: Build
+      - name: Test
         run:
-          xcodebuild -scheme Horizon -sdk macosx clean build
-          CODE_SIGNING_ALLOWED=NO
+          xcodebuild test -scheme Horizon \
+          FUTURELAND_EMAIL=$FUTURELAND_EMAIL \
+          FUTURELAND_PASSWORD=$FUTURELAND_PASSWORD
+        env:
+          FUTURELAND_EMAIL: ${{ secrets.FUTURELAND_EMAIL }}
+          FUTURELAND_PASSWORD: ${{ secrets.FUTURELAND_PASSWORD }}

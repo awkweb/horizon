@@ -45,7 +45,8 @@ struct PublishView: View {
                     } else {
                         Button(action: viewModel.addMedia) {
                             Text("Add media")
-                            Text("(⌘ ⇧ A)")
+                            Text("⌘ ⇧ A")
+                                .font(.caption)
                                 .accessibility(hidden: true)
                         }
                         .disabled(viewModel.networkActive)
@@ -88,7 +89,8 @@ struct PublishView: View {
                 HStack {
                     Button(action: viewModel.publish) {
                         Text("Publish")
-                        Text("(⌘ Enter)")
+                        Text("⌘ Enter")
+                            .font(.caption)
                             .accessibility(hidden: true)
                     }
                     .disabled(viewModel.disabled)
@@ -97,7 +99,8 @@ struct PublishView: View {
                     
                     Button(action: viewModel.cancel) {
                         Text("Cancel")
-                        Text("(Esc)")
+                        Text("Esc")
+                            .font(.caption)
                             .accessibility(hidden: true)
                     }
                     .disabled(viewModel.networkActive)

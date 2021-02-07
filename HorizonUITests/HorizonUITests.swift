@@ -2,36 +2,133 @@
 
 import XCTest
 
+extension XCUIApplication {
+    func statusItem() -> XCUIElement {
+        menuBars.children(matching: .statusItem).firstMatch
+    }
+    
+    func statusItemMenu() -> XCUIElement {
+        statusItem().menus.firstMatch
+    }
+    
+    func statusItemMenuItem(_ identifier: String) -> XCUIElement {
+        statusItemMenu().menuItems[identifier].firstMatch
+    }
+}
+
+extension HorizonUITests {
+    func openPanel() {
+        let statusItem = app.statusItem()
+        statusItem.click()
+        
+        let statusItemMenuItem = app.statusItemMenuItem("Open Horizon")
+        statusItemMenuItem.click()
+    }
+    
+    func openPreferences() {
+        let statusItem = app.statusItem()
+        statusItem.click()
+        
+        let statusItemMenuItem = app.statusItemMenuItem("Preferences")
+        statusItemMenuItem.click()
+    }
+    
+    func openPreferencesWindow(_ identifier: String) {
+        openPreferences()
+        app.radioButtons[identifier].click()
+    }
+    
+    func logIn(email: String, password: String) {
+        openPreferencesWindow("Account")
+                
+        let emailTextField = app.textFields["Email"]
+        XCTAssertTrue(emailTextField.exists)
+        emailTextField.click()
+        emailTextField.typeText(email)
+        
+        let passwordSecureTextField = app.secureTextFields["Password"]
+        XCTAssertTrue(passwordSecureTextField.exists)
+        passwordSecureTextField.click()
+        passwordSecureTextField.typeText(password)
+        
+        let logInButton = app.buttons["Login"]
+        XCTAssertTrue(logInButton.exists)
+        logInButton.click()
+        
+        let logOutButton = app.buttons["Log out"]
+        _ = logOutButton.waitForExistence(timeout: 5)
+        XCTAssertTrue(logOutButton.exists)
+    }
+    
+    func logOut() {
+        openPreferencesWindow("Account")
+        
+        let logOutButton = app.buttons["Log out"]
+        XCTAssertTrue(logOutButton.exists)
+        logOutButton.click()
+        
+        let logInButton = app.buttons["Login"]
+        XCTAssertTrue(logInButton.exists)
+    }
+}
+
 class HorizonUITests: XCTestCase {
+    var app: XCUIApplication!
+    
+    override func setUp() {
+        app = XCUIApplication()
+        app.launch()
+    }
 
     override func setUpWithError() throws {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
-
-        // In UI tests it is usually best to stop immediately when a failure occurs.
         continueAfterFailure = false
-
-        // In UI tests it’s important to set the initial state - such as interface orientation - required for your tests before they run. The setUp method is a good place to do this.
+    }
+    
+    override func tearDown() {
+        app.terminate()
     }
 
-    override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
+    func testLoginError() throws {
+        logIn(email: "foo@example.com", password: "foobarbaz")
+
+        let errorMessage = app.staticTexts["wrong credentials"]
+        _ = errorMessage.waitForExistence(timeout: 5)
+
+        XCTAssertTrue(errorMessage.exists)
     }
 
-    func testExample() throws {
-        // UI tests must launch the application that they test.
-        let app = XCUIApplication()
-        app.launch()
+    func testLoginSuccess() throws {
+        guard let email = ProcessInfo.processInfo.environment["FUTURELAND_EMAIL"] else { return }
+        guard let password = ProcessInfo.processInfo.environment["FUTURELAND_PASSWORD"] else { return }
 
-        // Use recording to get started writing UI tests.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
+        logIn(email: email, password: password)
+        logOut()
     }
-
-    func testLaunchPerformance() throws {
-        if #available(macOS 10.15, iOS 13.0, tvOS 13.0, *) {
-            // This measures how long it takes to launch your application.
-            measure(metrics: [XCTApplicationLaunchMetric()]) {
-                XCUIApplication().launch()
-            }
-        }
+    
+    func testPublishEntry() throws {
+        guard let email = ProcessInfo.processInfo.environment["FUTURELAND_EMAIL"] else { return }
+        guard let password = ProcessInfo.processInfo.environment["FUTURELAND_PASSWORD"] else { return }
+                
+        logIn(email: email, password: password)
+        openPanel()
+                        
+        let journalPopUpButton = app.popUpButtons.firstMatch
+        XCTAssertTrue(journalPopUpButton.exists)
+        journalPopUpButton.click()
+        
+        let journalMenuItem = app.menuItems["Horizon Test"]
+        XCTAssertTrue(journalMenuItem.exists)
+        journalMenuItem.click()
+        
+        let entryTextView = app.textViews.firstMatch
+        XCTAssertTrue(entryTextView.exists)
+        entryTextView.click()
+        entryTextView.typeText("testPublishEntry")
+        
+        let publishButton = app.buttons["Publish"]
+        XCTAssertTrue(publishButton.exists)
+        publishButton.click()
+        
+        logOut()
     }
 }
