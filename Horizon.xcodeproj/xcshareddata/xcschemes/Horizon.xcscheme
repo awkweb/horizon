@@ -74,6 +74,16 @@
             ReferencedContainer = "container:Horizon.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
+      <CommandLineArguments>
+         <CommandLineArgument
+            argument = "FUTURELAND_EMAIL=$FUTURELAND_EMAIL"
+            isEnabled = "YES">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "FUTURELAND_PASSWORD=$FUTURELAND_PASSWORD"
+            isEnabled = "YES">
+         </CommandLineArgument>
+      </CommandLineArguments>
       <EnvironmentVariables>
          <EnvironmentVariable
             key = "FUTURELAND_EMAIL"

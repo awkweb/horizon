@@ -33,7 +33,7 @@
 		E2AEB17525BDF52F003BD251 /* PublishView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2AEB17225BDF52F003BD251 /* PublishView.swift */; };
 		E2AEB17625BDF52F003BD251 /* PublishViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2AEB17325BDF52F003BD251 /* PublishViewModel.swift */; };
 		E2AEB17725BDF52F003BD251 /* PublishPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2AEB17425BDF52F003BD251 /* PublishPanel.swift */; };
-		E2AEB17E25BDF537003BD251 /* StatusBarMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2AEB17C25BDF537003BD251 /* StatusBarMenu.swift */; };
+		E2AEB17E25BDF537003BD251 /* StatusItemMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2AEB17C25BDF537003BD251 /* StatusItemMenu.swift */; };
 		E2AEB17F25BDF537003BD251 /* StatusBarMenuItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2AEB17D25BDF537003BD251 /* StatusBarMenuItem.swift */; };
 		E2D9610725C0F87500E4210D /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2D9610625C0F87500E4210D /* Utilities.swift */; };
 		E2DAAAF725C1B35200E9A847 /* Sparkle in Frameworks */ = {isa = PBXBuildFile; productRef = E2DAAAF625C1B35200E9A847 /* Sparkle */; };
@@ -85,7 +85,7 @@
 		E2AEB17225BDF52F003BD251 /* PublishView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PublishView.swift; sourceTree = "<group>"; };
 		E2AEB17325BDF52F003BD251 /* PublishViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PublishViewModel.swift; sourceTree = "<group>"; };
 		E2AEB17425BDF52F003BD251 /* PublishPanel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PublishPanel.swift; sourceTree = "<group>"; };
-		E2AEB17C25BDF537003BD251 /* StatusBarMenu.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatusBarMenu.swift; sourceTree = "<group>"; };
+		E2AEB17C25BDF537003BD251 /* StatusItemMenu.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatusItemMenu.swift; sourceTree = "<group>"; };
 		E2AEB17D25BDF537003BD251 /* StatusBarMenuItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatusBarMenuItem.swift; sourceTree = "<group>"; };
 		E2D9610625C0F87500E4210D /* Utilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -232,7 +232,7 @@
 		E2AEB17B25BDF537003BD251 /* StatusBar */ = {
 			isa = PBXGroup;
 			children = (
-				E2AEB17C25BDF537003BD251 /* StatusBarMenu.swift */,
+				E2AEB17C25BDF537003BD251 /* StatusItemMenu.swift */,
 				E2AEB17D25BDF537003BD251 /* StatusBarMenuItem.swift */,
 			);
 			path = StatusBar;
@@ -432,7 +432,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E275D2B325BFA63E00320CA5 /* TextView.swift in Sources */,
-				E2AEB17E25BDF537003BD251 /* StatusBarMenu.swift in Sources */,
+				E2AEB17E25BDF537003BD251 /* StatusItemMenu.swift in Sources */,
 				E2AEB16B25BDF4F7003BD251 /* PrefsViewModel.swift in Sources */,
 				E2AEB16D25BDF4F7003BD251 /* GeneralPrefsView.swift in Sources */,
 				E2AEB17525BDF52F003BD251 /* PublishView.swift in Sources */,
