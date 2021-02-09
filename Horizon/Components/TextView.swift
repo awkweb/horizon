@@ -13,8 +13,41 @@
 import Combine
 import SwiftUI
 
+struct HorizonTextView: View {
+    var text: String
+        
+    var placeholder: String = ""
+    var isEditable: Bool = true
+    var isFirstResponder: Bool = false
+    
+    var onEditingChanged: () -> Void = {}
+    var onCommit: () -> Void = {}
+    var onTextChange: (String) -> Void = { _ in }
+    
+    var body: some View {
+        ZStack(alignment: .topLeading) {
+            if text.isEmpty {
+                Text(placeholder)
+                    .foregroundColor(Color(NSColor.placeholderTextColor))
+                    .font(.system(size: 14))
+                    .padding(.horizontal, 5)
+                    .accessibility(hidden: true)
+            }
+            TextView(
+                text: text,
+                isFirstResponder: true,
+                isEditable: isEditable,
+                onEditingChanged: onEditingChanged,
+                onCommit: onCommit,
+                onTextChange: onTextChange
+            )
+        }
+    }
+}
+
 struct TextView: NSViewRepresentable {
-    @Binding
+    // TODO: Switch back to @Binding
+    // Doesn't work with @Published in PublishViewModel, but works with @State fine
     var text: String
     
     var isFirstResponder: Bool = false
@@ -43,17 +76,21 @@ struct TextView: NSViewRepresentable {
 
     func updateNSView(_ view: CustomTextView, context: Context) {
         view.text = text
+        
+        view.isEditable = isEditable
         view.selectedRanges = context.coordinator.selectedRanges
+        
+        // TODO: When selecting emoji using character palette font changes to monospaced
+        // for some reason so need to set font again
+        view.font = .systemFont(ofSize: 14, weight: .regular)
     }
 }
 
 // MARK: - Coordinator
 extension TextView {
-
     class Coordinator: NSObject, NSTextViewDelegate {
         var parent: TextView
         var selectedRanges: [NSValue] = []
-        var didBecomeFirstResponder: Bool = false
 
         init(_ parent: TextView) {
             self.parent = parent
@@ -67,12 +104,12 @@ extension TextView {
             self.parent.text = textView.string
             self.parent.onEditingChanged()
         }
-
+        
         func textDidChange(_ notification: Notification) {
             guard let textView = notification.object as? NSTextView else {
                 return
             }
-
+            
             self.parent.text = textView.string
             self.selectedRanges = textView.selectedRanges
             self.parent.onTextChange(textView.string)
@@ -92,10 +129,20 @@ extension TextView {
 // MARK: - CustomTextView
 final class CustomTextView: NSView {
     private var isFirstResponder: Bool
-    private var isEditable: Bool
-    private var font: NSFont?
 
     weak var delegate: NSTextViewDelegate?
+    
+    var font: NSFont? {
+        didSet {
+            textView.font = font
+        }
+    }
+    
+    var isEditable: Bool {
+        didSet {
+            textView.isEditable = isEditable
+        }
+    }
 
     var text: String {
         didSet {
@@ -123,6 +170,7 @@ final class CustomTextView: NSView {
         scrollView.hasHorizontalRuler = false
         scrollView.autoresizingMask = [.width, .height]
         scrollView.translatesAutoresizingMaskIntoConstraints = false
+        scrollView.autohidesScrollers = true
 
         return scrollView
     }()

@@ -9,7 +9,7 @@ struct PublishView: View {
 
     @ObservedObject
     var viewModel: PublishViewModel
-
+    
     init(
         viewModel: PublishViewModel
     ) {
@@ -26,7 +26,7 @@ struct PublishView: View {
                 HStack {
                     Picker(selection: $viewModel.selectedJournalId, label: Text("Journal")) {
                         ForEach(store.journals) {
-                            Text($0.title)
+                            Text($0.title).tag($0.id)
                         }
                     }
                     .disabled(viewModel.networkActive)
@@ -41,6 +41,7 @@ struct PublishView: View {
                             Text(fileName)
                             Button("x", action: viewModel.discardMedia)
                                 .disabled(viewModel.networkActive)
+                                .accessibility(label: Text("Discard attached media"))
                         }
                     } else {
                         Button(action: viewModel.addMedia) {
@@ -60,31 +61,15 @@ struct PublishView: View {
                     }
                 }
                 
-                ZStack(alignment: .topLeading) {
-                    if viewModel.entry.isEmpty {
-                        Text("Write…")
-                            .foregroundColor(Color(NSColor.placeholderTextColor))
-                            .font(.system(size: 14))
-                            .padding(.horizontal, 5)
-                            .accessibility(hidden: true)
+                HorizonTextView(
+                    text: viewModel.entryText,
+                    placeholder: "Write…",
+                    isEditable: !(viewModel.networkActive || viewModel.isDragAndDropActive),
+                    onTextChange: { val in
+                        self.viewModel.entryText = val
                     }
-                    VStack {
-                        if viewModel.networkActive || viewModel.isDragAndDropActive {
-                            TextView(
-                                text: $viewModel.entry,
-                                isFirstResponder: false,
-                                isEditable: false
-                            )
-                        } else {
-                            TextView(
-                                text: $viewModel.entry,
-                                isFirstResponder: true,
-                                isEditable: true
-                            )
-                        }
-                    }
-                    .frame(minWidth: 0, maxWidth: .infinity, minHeight: 85, maxHeight: 85)
-                }
+                )
+                .frame(minWidth: 0, maxWidth: .infinity, minHeight: 85, maxHeight: 85)
 
                 HStack {
                     Button(action: viewModel.publish) {
@@ -123,6 +108,13 @@ struct PublishView: View {
                         .accessibility(label: Text("\(viewModel.isPrivate ? "Private" : "Public")"))
                         .accessibility(hint: Text("Mark entry as public or private"))
                     }
+                    
+                    Button("🙂") {
+                        NSApp.orderFrontCharacterPalette(nil)
+                    }
+                    .disabled(viewModel.networkActive)
+                    .keyboardShortcut("e", modifiers: [.command, .shift])
+                    .accessibility(label: Text("Show emoji picker"))
                 }
             }
             .padding()

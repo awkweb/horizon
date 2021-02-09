@@ -16,7 +16,7 @@ class PublishViewModel: ObservableObject, Identifiable {
     var progress = 0.0
 
     @Published
-    var entry = ""
+    var entryText = ""
     
     @Published
     var selectedJournalId: Int = 0 {
@@ -37,8 +37,8 @@ class PublishViewModel: ObservableObject, Identifiable {
     @Published
     var file: File?
     
-    var disabled: Bool { networkActive || (entry.isEmpty && file == nil ) }
-    var wordCount: Int { entry.split { $0 == " " || $0.isNewline }.count }
+    var disabled: Bool { networkActive || (entryText.isEmpty && file == nil ) }
+    var wordCount: Int { entryText.split { $0 == " " || $0.isNewline }.count }
     
     var selectedJournal: Journal? { store.journals.first { $0.id == self.selectedJournalId } }
     var previousSelectedJournal: Journal?
@@ -63,7 +63,7 @@ class PublishViewModel: ObservableObject, Identifiable {
         Futureland
             .createEntry(
                 token: token,
-                notes: entry,
+                notes: entryText,
                 journalId: selectedJournalId,
                 file: file,
                 isPrivate: isPrivate
@@ -117,7 +117,7 @@ class PublishViewModel: ObservableObject, Identifiable {
         networkActive = false
         isPrivate = false
         file = nil
-        entry = ""
+        entryText = ""
         
         maybeSetEntryToTemplate(journalId: selectedJournalId)
         
@@ -154,17 +154,17 @@ extension PublishViewModel {
 // MARK: Entry template
 extension PublishViewModel {
     func maybeSetEntryToTemplate(journalId id: Int) {
-        if entry != previousSelectedJournal?.entryTemplate ?? "" { return }
+        if entryText != previousSelectedJournal?.entryTemplate ?? "" { return }
         
         guard let journal = store.journals.first(where: { $0.id == id }) else { return }
         
         guard let template = journal.entryTemplate else {
-            entry = ""
+            entryText = ""
             return
         }
         
         if journal.entryTemplateActive || template.isEmpty {
-            entry = template
+            entryText = template
         }
     }
     
