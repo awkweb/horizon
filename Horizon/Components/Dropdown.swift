@@ -54,7 +54,7 @@ struct Dropdown<T: Hashable>: NSViewRepresentable {
             let menuItem = NSMenuItem(
                 title: self.getItemTitle(element),
                 action: #selector(Coordinator.valueChanged(_:)),
-                keyEquivalent: "\(index + 1)"
+                keyEquivalent: index < 10 ? "\(index)" : ""
             )
             menuItem.target = context.coordinator
             view.menu?.insertItem(menuItem, at: index)

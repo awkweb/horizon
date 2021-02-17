@@ -8,9 +8,9 @@ struct PublishView: View {
     private var store: Store
 
     @ObservedObject
-    var viewModel: PublishViewModel
+    private var viewModel: PublishViewModel
     
-    var parent: PublishPanel
+    private var parent: PublishPanel
         
     init(
         viewModel: PublishViewModel,
@@ -36,10 +36,10 @@ struct PublishView: View {
                     selectedValue: $viewModel.selectedJournal,
                     items: $store.journals,
                     disabled: viewModel.networkActive,
-                    getItemTitle: { $0.title },
+                    getItemTitle: { $0.title.count >= 30 ? "\(String($0.title.prefix(27)))…" : $0.title },
                     onChange: onChange
                 )
-                .frame(maxWidth: 200.0)
+                .frame(width: 220.0)
                 .accessibility(value: Text("Selected journal: \(viewModel.selectedJournal?.title ?? "None")"))
                 .onChange(of: viewModel.selectedJournal, perform: viewModel.maybeSetEntryToTemplate)
                 .onChange(of: store.journals, perform: viewModel.maybeSetSelectedJournalId)
