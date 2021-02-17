@@ -14,30 +14,45 @@ class PublishPanel: NSPanel {
     ) {
         super.init(
             contentRect: NSRect(x: 0, y: 0, width: 440, height: 300),
-            styleMask: [.nonactivatingPanel],
+            styleMask: [.nonactivatingPanel, .titled, .fullSizeContentView],
             backing: .buffered,
             defer: false
         )
 
-        backgroundColor = .clear
         center()
+        isMovableByWindowBackground = true
+        hasShadow = true
+        setFrameAutosaveName("main")
+        
         collectionBehavior = [
             .canJoinAllSpaces,
             .fullScreenAuxiliary
         ]
-        hasShadow = true
         hidesOnDeactivate = false
-        isMovableByWindowBackground = true
         isExcludedFromWindowsMenu = false
+        
         isFloatingPanel = true
-        level = .popUpMenu
+        level = .floating
+        
+        titleVisibility = .hidden
+        titlebarAppearsTransparent = true
 
         let rootView = PublishView(
             viewModel: PublishViewModel(
                 store: store,
                 onClose: onClose
-            )
-        ).environmentObject(store)
-        contentView = NSHostingView(rootView: rootView)
+            ),
+            parent: self
+        )
+        .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity)
+        .edgesIgnoringSafeArea(.all)
+        .environmentObject(store)
+        
+        contentView = NSHostingView(rootView: rootView)        
+        resize()
+    }
+    
+    func resize() {
+        setContentSize(contentView!.fittingSize)
     }
 }

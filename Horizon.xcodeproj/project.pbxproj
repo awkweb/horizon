@@ -12,6 +12,7 @@
 		E276483825C50824007ECF9B /* Store.swift in Sources */ = {isa = PBXBuildFile; fileRef = E276483725C50824007ECF9B /* Store.swift */; };
 		E276484125C5CB74007ECF9B /* KeychainAccess in Frameworks */ = {isa = PBXBuildFile; productRef = E276484025C5CB74007ECF9B /* KeychainAccess */; };
 		E283259825C109980021BD90 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = E283259725C109980021BD90 /* Constants.swift */; };
+		E2943D1725DB2EFE0012CDCB /* Dropdown.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2943D1625DB2EFE0012CDCB /* Dropdown.swift */; };
 		E2AEB10B25BDF413003BD251 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2AEB10A25BDF413003BD251 /* AppDelegate.swift */; };
 		E2AEB10F25BDF413003BD251 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E2AEB10E25BDF413003BD251 /* Assets.xcassets */; };
 		E2AEB11225BDF413003BD251 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E2AEB11125BDF413003BD251 /* Preview Assets.xcassets */; };
@@ -60,6 +61,7 @@
 		E275D2B225BFA63E00320CA5 /* TextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextView.swift; sourceTree = "<group>"; };
 		E276483725C50824007ECF9B /* Store.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Store.swift; sourceTree = "<group>"; };
 		E283259725C109980021BD90 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		E2943D1625DB2EFE0012CDCB /* Dropdown.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dropdown.swift; sourceTree = "<group>"; };
 		E2AEB10725BDF413003BD251 /* Horizon.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Horizon.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E2AEB10A25BDF413003BD251 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E2AEB10E25BDF413003BD251 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -242,6 +244,7 @@
 			isa = PBXGroup;
 			children = (
 				E275D2B225BFA63E00320CA5 /* TextView.swift */,
+				E2943D1625DB2EFE0012CDCB /* Dropdown.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -449,6 +452,7 @@
 				E2AEB10B25BDF413003BD251 /* AppDelegate.swift in Sources */,
 				E2AEB15B25BDF4A7003BD251 /* Journal.swift in Sources */,
 				E2AEB17F25BDF537003BD251 /* StatusBarMenuItem.swift in Sources */,
+				E2943D1725DB2EFE0012CDCB /* Dropdown.swift in Sources */,
 				E283259825C109980021BD90 /* Constants.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -620,7 +624,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 111;
+				CURRENT_PROJECT_VERSION = 112;
 				DEVELOPMENT_ASSET_PATHS = "\"Horizon/Preview Content\"";
 				DEVELOPMENT_TEAM = LCFAPK739L;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -631,7 +635,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 1.1.1;
+				MARKETING_VERSION = 1.1.2;
 				PRODUCT_BUNDLE_IDENTIFIER = co.meagher.Horizon;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -647,7 +651,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 111;
+				CURRENT_PROJECT_VERSION = 112;
 				DEVELOPMENT_ASSET_PATHS = "\"Horizon/Preview Content\"";
 				DEVELOPMENT_TEAM = LCFAPK739L;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -658,7 +662,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 1.1.1;
+				MARKETING_VERSION = 1.1.2;
 				PRODUCT_BUNDLE_IDENTIFIER = co.meagher.Horizon;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;

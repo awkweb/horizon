@@ -75,6 +75,7 @@ struct TextView: NSViewRepresentable {
     }
 
     func updateNSView(_ view: CustomTextView, context: Context) {
+        // TODO: Check out https://www.markusbodner.com/til/2021/02/08/multi-line-text-field-with-swiftui-on-macos/
         view.text = text
         
         view.isEditable = isEditable

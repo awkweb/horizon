@@ -11,7 +11,7 @@ import UserNotifications
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate, UNUserNotificationCenterDelegate, SUUpdaterDelegate {
     var store = Store()
-
+    
     lazy var panel = PublishPanel(
         store: store,
         onClose: closePanel
