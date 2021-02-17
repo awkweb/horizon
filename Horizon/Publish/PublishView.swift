@@ -5,133 +5,151 @@ import SwiftUI
 
 struct PublishView: View {
     @EnvironmentObject
-    var store: Store
+    private var store: Store
 
     @ObservedObject
     var viewModel: PublishViewModel
     
+    var parent: PublishPanel
+        
     init(
-        viewModel: PublishViewModel
+        viewModel: PublishViewModel,
+        parent: PublishPanel
     ) {
         self.viewModel = viewModel
+        self.parent = parent
+    }
+    
+    func onChange(value: Journal?) {
+        guard let journal = value else { return }
+        print("onChange", journal)
     }
 
     var body: some View {
-        ZStack {
-            VStack(spacing: 15) {
-                if viewModel.progress > 0.0 {
-                    ProgressView(value: viewModel.progress)
-                }
-                
-                HStack {
-                    Picker(selection: $viewModel.selectedJournalId, label: Text("Journal")) {
-                        ForEach(store.journals) {
-                            Text($0.title).tag($0.id)
-                        }
-                    }
-                    .disabled(viewModel.networkActive)
-                    .onChange(of: viewModel.selectedJournalId, perform: viewModel.maybeSetEntryToTemplate)
-                    .onChange(of: store.journals, perform: viewModel.maybeSetSelectedJournalId)
-                    .onChange(of: store.token) { _ in store.fetchJournals() }
-                    .onAppear(perform: store.fetchJournals)
-                    .accessibility(value: Text("Selected journal: \(viewModel.selectedJournal?.title ?? "None")"))
-                    
-                    if let fileName = viewModel.file?.name {
-                        HStack {
-                            Text(fileName)
-                            Button("x", action: viewModel.discardMedia)
-                                .disabled(viewModel.networkActive)
-                                .accessibility(label: Text("Discard attached media"))
-                        }
-                    } else {
-                        Button(action: viewModel.addMedia) {
-                            Text("Add media")
-                            Text("⌘ ⇧ A")
-                                .font(.caption)
-                                .accessibility(hidden: true)
-                        }
-                        .disabled(viewModel.networkActive)
-                        .keyboardShortcut("a", modifiers: [.command, .shift])
-                        .fileImporter(
-                            isPresented: $viewModel.isFileBrowserOpen,
-                            allowedContentTypes: Constants.allowedContentTypes,
-                            onCompletion: viewModel.attachMedia
-                        )
-                        .accessibility(hint: Text("Attach media to entry"))
-                    }
-                }
-                
-                HorizonTextView(
-                    text: viewModel.entryText,
-                    placeholder: "Write…",
-                    isEditable: !(viewModel.networkActive || viewModel.isDragAndDropActive),
-                    onTextChange: { val in
-                        self.viewModel.entryText = val
-                    }
+        VStack(spacing: 15) {
+            if viewModel.progress > 0.0 {
+                ProgressView(value: viewModel.progress)
+            }
+            
+            HStack {
+                Dropdown<Journal>(
+                    selectedValue: $viewModel.selectedJournal,
+                    items: $store.journals,
+                    disabled: viewModel.networkActive,
+                    getItemTitle: { $0.title },
+                    onChange: onChange
                 )
-                .frame(minWidth: 0, maxWidth: .infinity, minHeight: 85, maxHeight: 85)
-
-                HStack {
-                    Button(action: viewModel.publish) {
-                        Text("Publish")
-                        Text("⌘ Enter")
-                            .font(.caption)
-                            .accessibility(hidden: true)
+                .frame(maxWidth: 200.0)
+                .accessibility(value: Text("Selected journal: \(viewModel.selectedJournal?.title ?? "None")"))
+                .onChange(of: viewModel.selectedJournal, perform: viewModel.maybeSetEntryToTemplate)
+                .onChange(of: store.journals, perform: viewModel.maybeSetSelectedJournalId)
+                .onChange(of: store.token) { _ in store.fetchJournals() }
+                .onAppear(perform: store.fetchJournals)
+                
+                Spacer()
+                
+                if let fileName = viewModel.file?.name {
+                    HStack {
+                        Text(fileName)
+                            .lineLimit(1)
+                            .frame(maxWidth: 150.0, alignment: .trailing)
+                        
+                        Button("x", action: viewModel.discardMedia)
+                            .disabled(viewModel.networkActive)
+                            .accessibility(label: Text("Discard attached media"))
                     }
-                    .disabled(viewModel.disabled)
-                    .keyboardShortcut(.return, modifiers: [.command])
-                    .accessibility(hint: Text("Publish entry to Futureland"))
-                    
-                    Button(action: viewModel.cancel) {
-                        Text("Cancel")
-                        Text("Esc")
+                } else {
+                    Button(action: viewModel.addMedia) {
+                        Text("Add media")
+                        Text("⌘ M")
                             .font(.caption)
                             .accessibility(hidden: true)
                     }
                     .disabled(viewModel.networkActive)
-                    .keyboardShortcut(.cancelAction)
-                    .accessibility(hint: Text("Discard changes and close window"))
-
-                    Spacer()
-
-                    if viewModel.wordCount > 1 {
-                        Text("\(viewModel.wordCount) words")
-                            .accessibility(value: Text("Word count"))
-                    }
-                    
-                    if !(viewModel.selectedJournal?.isPrivate ?? false) {
-                        Button("\(viewModel.isPrivate ? "🔒" : "🔓")") {
-                            viewModel.isPrivate = !viewModel.isPrivate
-                        }
-                        .disabled(viewModel.networkActive)
-                        .keyboardShortcut("p", modifiers: [.command, .shift])
-                        .accessibility(label: Text("\(viewModel.isPrivate ? "Private" : "Public")"))
-                        .accessibility(hint: Text("Mark entry as public or private"))
-                    }
-                    
-                    Button("🙂") {
-                        NSApp.orderFrontCharacterPalette(nil)
-                    }
-                    .disabled(viewModel.networkActive)
-                    .keyboardShortcut("e", modifiers: [.command, .shift])
-                    .accessibility(label: Text("Show emoji picker"))
+                    .keyboardShortcut("m", modifiers: [.command])
+                    .fileImporter(
+                        isPresented: $viewModel.isFileBrowserOpen,
+                        allowedContentTypes: Constants.allowedContentTypes,
+                        onCompletion: viewModel.attachMedia
+                    )
+                    .accessibility(hint: Text("Attach media to entry"))
                 }
             }
-            .padding()
-            .background(Color("Background"))
             
-            if viewModel.isDragAndDropActive {
-                VStack {
-                    Text("Drop Media")
+            HorizonTextView(
+                text: viewModel.entryText,
+                placeholder: "Write…",
+                isEditable: !(viewModel.networkActive || viewModel.isDragAndDropActive),
+                onTextChange: { val in
+                    self.viewModel.entryText = val
                 }
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
-                .background(Color("Background").opacity(0.85))
+            )
+            .frame(minWidth: 0, maxWidth: .infinity, minHeight: 85, maxHeight: 85)
+
+            HStack {
+                Button(action: viewModel.publish) {
+                    Text("Publish")
+                    Text("⌘ Enter")
+                        .font(.caption)
+                        .accessibility(hidden: true)
+                }
+                .disabled(viewModel.disabled)
+                .keyboardShortcut(.return, modifiers: [.command])
+                .accessibility(hint: Text("Publish entry to Futureland"))
+                
+                Button(action: viewModel.cancel) {
+                    Text("Cancel")
+                    Text("Esc")
+                        .font(.caption)
+                        .accessibility(hidden: true)
+                }
+                .disabled(viewModel.networkActive)
+                .keyboardShortcut(.cancelAction)
+                .accessibility(hint: Text("Discard changes and close window"))
+
+                Spacer()
+
+                if viewModel.wordCount > 1 {
+                    Text("\(viewModel.wordCount) words")
+                        .accessibility(value: Text("Word count"))
+                }
+                
+                if !(viewModel.selectedJournal?.isPrivate ?? false) {
+                    Button("\(viewModel.isPrivate ? "🔒" : "🔓")") {
+                        viewModel.isPrivate = !viewModel.isPrivate
+                    }
+                    .disabled(viewModel.networkActive)
+                    .keyboardShortcut("p", modifiers: [.command])
+                    .accessibility(label: Text("\(viewModel.isPrivate ? "Private" : "Public")"))
+                    .accessibility(hint: Text("Mark entry as public or private"))
+                }
+                
+                Button("🙂") {
+                    NSApp.orderFrontCharacterPalette(nil)
+                }
+                .disabled(viewModel.networkActive)
+                .keyboardShortcut("e", modifiers: [.command])
+                .accessibility(label: Text("Show emoji picker"))
             }
         }
-        .cornerRadius(10)
-        .onChange(of: store.token, perform: { _ in
+        .padding(.top, 5)
+        .padding(.horizontal)
+        .frame(width: 440)
+        .overlay(
+            VStack {
+                if viewModel.isDragAndDropActive {
+                    VStack {
+                        Text("Drop Media")
+                    }
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    .background(Color("Background").opacity(0.85))
+                }
+            }
+        )
+        .onChange(of: viewModel.progress) { _ in self.parent.resize() }
+        .onChange(of: store.token) { _ in
             if store.token == nil { viewModel.reset() }
-        })
+        }
         .onDrop(
             of: Constants.allowedContentTypes,
             delegate: PublishDropDelegate(
@@ -204,6 +222,10 @@ struct PublishView_Previews: PreviewProvider {
         
         PublishView(
             viewModel: PublishViewModel(
+                store: store,
+                onClose: { print("onClose") }
+            ),
+            parent: PublishPanel(
                 store: store,
                 onClose: { print("onClose") }
             )

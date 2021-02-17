@@ -2,7 +2,7 @@
 
 import Foundation
 
-struct Journal: Codable, Identifiable, Equatable {
+struct Journal: Codable, Equatable, Hashable, Identifiable {
     var id: Int
     var entryTemplate: String?
     var entryTemplateActive: Bool
@@ -10,6 +10,10 @@ struct Journal: Codable, Identifiable, Equatable {
     var lastEntryAt: Date?
     var slug: String
     var title: String
+    
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
+    }
 
     enum CodingKeys: String, CodingKey {
         case id

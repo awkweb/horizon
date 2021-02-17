@@ -19,9 +19,9 @@ class PublishViewModel: ObservableObject, Identifiable {
     var entryText = ""
     
     @Published
-    var selectedJournalId: Int = 0 {
+    var selectedJournal: Journal? {
         didSet {
-            previousSelectedJournal = store.journals.first { $0.id == oldValue }
+            previousSelectedJournal = store.journals.first { $0.id == oldValue?.id }
         }
     }
     
@@ -40,7 +40,6 @@ class PublishViewModel: ObservableObject, Identifiable {
     var disabled: Bool { networkActive || (entryText.isEmpty && file == nil ) }
     var wordCount: Int { entryText.split { $0 == " " || $0.isNewline }.count }
     
-    var selectedJournal: Journal? { store.journals.first { $0.id == self.selectedJournalId } }
     var previousSelectedJournal: Journal?
     
     init(
@@ -64,7 +63,7 @@ class PublishViewModel: ObservableObject, Identifiable {
             .createEntry(
                 token: token,
                 notes: entryText,
-                journalId: selectedJournalId,
+                journalId: selectedJournal!.id,
                 file: file,
                 isPrivate: isPrivate
             )
@@ -119,7 +118,9 @@ class PublishViewModel: ObservableObject, Identifiable {
         file = nil
         entryText = ""
         
-        maybeSetEntryToTemplate(journalId: selectedJournalId)
+        if let journal = selectedJournal {
+            maybeSetEntryToTemplate(journal: journal)
+        }
         
         onClose()
     }
@@ -153,11 +154,10 @@ extension PublishViewModel {
 
 // MARK: Entry template
 extension PublishViewModel {
-    func maybeSetEntryToTemplate(journalId id: Int) {
+    func maybeSetEntryToTemplate(journal: Journal?) {
+        guard let journal = journal else { return }
         if entryText != previousSelectedJournal?.entryTemplate ?? "" { return }
-        
-        guard let journal = store.journals.first(where: { $0.id == id }) else { return }
-        
+                
         guard let template = journal.entryTemplate else {
             entryText = ""
             return
@@ -170,11 +170,11 @@ extension PublishViewModel {
     
     func maybeSetSelectedJournalId(journals: [Journal]) {
         // Check if a journal is already selected
-        let selectedJournal = journals.first { $0.id == self.selectedJournalId }
+        let selectedJournal = journals.first { $0.id == self.selectedJournal?.id }
         if selectedJournal != nil { return }
 
         // Select first journal if none are selected
         guard let journal = journals.first else { return }
-        self.selectedJournalId = journal.id
+        self.selectedJournal = journal
     }
 }
