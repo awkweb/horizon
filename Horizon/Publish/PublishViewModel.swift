@@ -50,10 +50,6 @@ class PublishViewModel: ObservableObject, Identifiable {
         self.onClose = onClose
     }
 
-    func cancel() {
-        reset()
-    }
-
     func publish() {
         guard let token = store.token else { return }
 
@@ -119,14 +115,21 @@ class PublishViewModel: ObservableObject, Identifiable {
         entryText = ""
         
         if let journal = selectedJournal {
-            maybeSetEntryToTemplate(journal: journal)
+            setEntryToTemplate(journal: journal)
         }
         
         onClose()
     }
+    
+    func onChangeJournal(value: Journal?) {
+        guard let journal = value else { return }
+        
+        setEntryToTemplate(journal: journal)
+        isPrivate = journal.isPrivate
+    }
 }
 
-// MARK: Add media
+// MARK: Media
 extension PublishViewModel {
     func addMedia() {
         isFileBrowserOpen = true
@@ -154,8 +157,7 @@ extension PublishViewModel {
 
 // MARK: Entry template
 extension PublishViewModel {
-    func maybeSetEntryToTemplate(journal: Journal?) {
-        guard let journal = journal else { return }
+    private func setEntryToTemplate(journal: Journal) {
         if entryText != previousSelectedJournal?.entryTemplate ?? "" { return }
                 
         guard let template = journal.entryTemplate else {
@@ -166,15 +168,5 @@ extension PublishViewModel {
         if journal.entryTemplateActive || template.isEmpty {
             entryText = template
         }
-    }
-    
-    func maybeSetSelectedJournalId(journals: [Journal]) {
-        // Check if a journal is already selected
-        let selectedJournal = journals.first { $0.id == self.selectedJournal?.id }
-        if selectedJournal != nil { return }
-
-        // Select first journal if none are selected
-        guard let journal = journals.first else { return }
-        self.selectedJournal = journal
     }
 }

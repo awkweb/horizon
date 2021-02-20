@@ -19,11 +19,6 @@ struct PublishView: View {
         self.viewModel = viewModel
         self.parent = parent
     }
-    
-    func onChange(value: Journal?) {
-        guard let journal = value else { return }
-        print("onChange", journal)
-    }
 
     var body: some View {
         VStack(spacing: 15) {
@@ -37,12 +32,10 @@ struct PublishView: View {
                     items: $store.journals,
                     disabled: viewModel.networkActive,
                     getItemTitle: { $0.title.count >= 30 ? "\(String($0.title.prefix(27)))…" : $0.title },
-                    onChange: onChange
+                    onChange: viewModel.onChangeJournal
                 )
                 .frame(width: 220.0)
                 .accessibility(value: Text("Selected journal: \(viewModel.selectedJournal?.title ?? "None")"))
-                .onChange(of: viewModel.selectedJournal, perform: viewModel.maybeSetEntryToTemplate)
-                .onChange(of: store.journals, perform: viewModel.maybeSetSelectedJournalId)
                 .onChange(of: store.token) { _ in store.fetchJournals() }
                 .onAppear(perform: store.fetchJournals)
                 
@@ -97,7 +90,7 @@ struct PublishView: View {
                 .keyboardShortcut(.return, modifiers: [.command])
                 .accessibility(hint: Text("Publish entry to Futureland"))
                 
-                Button(action: viewModel.cancel) {
+                Button(action: viewModel.reset) {
                     Text("Cancel")
                     Text("Esc")
                         .font(.caption)
